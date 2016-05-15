@@ -9,5 +9,9 @@ public class Plate {
 		
 	}
 	
-	
+	public void display(){
+		for(Cube c : cubes){
+			c.display();
+		}
+	}
 }

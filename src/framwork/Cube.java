@@ -1,6 +1,5 @@
 package framwork;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**class for cube hahaha**/
@@ -35,14 +34,14 @@ public class Cube {
 
 	public void display(){
 		this.parent.fill(this.colour);
-		this.parent.ellipse(x, y, 50, 50);	
+		this.parent.rect(x, y, 50, 50);	
 	}
 	
 	
 	public void display(int x, int y){
 		this.x=x; this.y=y;
 		this.parent.fill(this.colour);
-		this.parent.ellipse(x, y, 50, 50);	
+		this.parent.rect(x, y, 50, 50);	
 	}
 	
 
