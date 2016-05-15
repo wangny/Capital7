@@ -9,18 +9,28 @@ import java.util.Map;
 public class Cube {
 	
 	private 
-	Applet parent;
-	public int value;
-	int x,y;
-	int inix,iniy;
-	public int colour;
-	public String name;
-	private boolean activate;
+	myApplet parent;
+	public int state;
+	public int x,y;
+	private int colour;
+	private String name;
 	private Map<Character,Integer> targets;
-	boolean C_rectOver,A_rectOver;
+	private boolean show;
+	
 	
 	public Cube(){
-		
+		this.state = 0;
+		this.colour = 000000;
+		this.name = null;
+		this.show = false;
+	}
+	
+	public Cube(myApplet applet, int state, String name){
+		this.parent = applet;
+		this.state = state;
+		this.colour = 000000;
+		this.name = name;
+		this.show = true;
 	}
 
 	public void display(){
@@ -36,27 +46,6 @@ public class Cube {
 	}
 	
 
-	public boolean isActivated(){
-		return this.activate;
-	}
-	
-	public void changeActivate(){
-		if(this.activate==true) this.activate = false;
-		else this.activate = true;
-		
-		if(this.activate==false){
-			this.x = this.inix;
-			this.y = this.iniy;
-		}
-	}
-	
-	public void setActivate(boolean b){
-		this.activate = b;
-		if(b==false){
-			this.x = this.inix;
-			this.y = this.iniy;
-		}
-	}
 	
 	public void addTarget(Character t, int value){
 		this.targets.put(t,value);
