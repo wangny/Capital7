@@ -2,8 +2,6 @@ package framwork;
 
 import java.util.Map;
 
-import processing.core.PApplet;
-
 /**class for cube hahaha**/
 
 

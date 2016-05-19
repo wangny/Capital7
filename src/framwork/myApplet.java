@@ -1,14 +1,16 @@
 package framwork;
 
 import java.util.ArrayList;
+
+import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 
 @SuppressWarnings("serial")
 public class myApplet extends PApplet{
-	//ArrayList<Cube> cubes;
 	
 	Plate currentp;
 	ProgressBar pbar;
+	Ani ani;
 	public final static int width = 800, height = 800 , cubewidth = 50, cubeheight = 60;
 	
 	public void setup(){
@@ -17,16 +19,15 @@ public class myApplet extends PApplet{
 		background(240);
 		smooth();
 		
+		Ani.init(this);
+		
 		pbar = new ProgressBar(this);
 		Thread t = new Thread(pbar);
 		t.start();
-		
-		
-		
+				
 		currentp = new Plate(this);
 		Thread t2 = new Thread(currentp);
 		t2.start();
-		//addCube();
 		
 	}
 	
@@ -38,23 +39,8 @@ public class myApplet extends PApplet{
 		pbar.display();
 		currentp.display();
 		
-		/*for(Cube c : currentp.cubes){
-			c.display();
-		}*/
 	}
 	
-	
-	
-	/*public void addCube(){		
-		for(Cube c : cubes) c.grow();
 
-		int x = 100;
-		for(int i=0; i<10; i++){
-			Cube c = new Cube(this, 3, "try", x, height-150);
-			cubes.add(c);
-			x = x + cubewidth + 10;
-		}
-	}*/
-	
 	
 }
