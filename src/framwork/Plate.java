@@ -35,14 +35,13 @@ public class Plate implements Runnable{
 		// TODO Auto-generated method stub
 		
 		while(true){
-			System.out.println(parent.pbar.done);
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(parent.pbar.isdone()==true) {
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
 				addCube();
 				parent.pbar.undone();
 			}
