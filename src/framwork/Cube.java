@@ -2,6 +2,8 @@ package framwork;
 
 import java.util.Map;
 
+import processing.core.PApplet;
+
 /**class for cube hahaha**/
 
 
@@ -11,40 +13,47 @@ public class Cube {
 	myApplet parent;
 	public int state;
 	public int x,y;
-	private int colour;
+	//private int colour;
 	private String name;
+	private String[] colour = {"FF004B97","FF007979","FF019858"};
 	private Map<Character,Integer> targets;
 	private boolean show;
 	
 	
 	public Cube(){
 		this.state = 0;
-		this.colour = 000000;
 		this.name = null;
 		this.show = false;
 	}
 	
-	public Cube(myApplet applet, int state, String name){
+	public Cube(myApplet applet, int state, String name, int x, int y){
 		this.parent = applet;
-		this.state = state;
-		this.colour = 000000;
+		this.state = 3;
+		this.x = x;
+		this.y = y;
 		this.name = name;
 		this.show = true;
 	}
 
+
 	public void display(){
-		this.parent.fill(this.colour);
-		this.parent.rect(x, y, 50, 50);	
+		this.parent.fill( myApplet.unhex(this.colour[this.state-1]) );
+		this.parent.rect(x, y, myApplet.cubewidth, myApplet.cubeheight, 5);	
 	}
+	
 	
 	
 	public void display(int x, int y){
 		this.x=x; this.y=y;
-		this.parent.fill(this.colour);
-		this.parent.rect(x, y, 50, 50);	
+		this.parent.fill(myApplet.unhex(this.colour[this.state-1]) );
+		this.parent.rect(x, y, myApplet.cubewidth, myApplet.cubeheight, 5);	
 	}
 	
 
+	public void grow(){
+		this.y = this.y - myApplet.cubeheight-10;
+	}
+	
 	
 	public void addTarget(Character t, int value){
 		this.targets.put(t,value);
