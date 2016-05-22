@@ -3,18 +3,23 @@ package framwork;
 import java.util.ArrayList;
 
 import de.looksgood.ani.Ani;
-import de.looksgood.ani.AniConstants;
 
 public class Plate implements Runnable{
 	ArrayList<Cube> cubes;
 	myApplet parent;
+	ProgressBar pbar;
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
 		cubes = new ArrayList<Cube>();
+		
+		pbar = new ProgressBar(parent);
+		Thread t = new Thread(pbar);
+		t.start();
 	}
 	
 	public void display(){	
+		pbar.display();
 		for(Cube c : cubes){
 			c.display();
 		}
@@ -48,9 +53,9 @@ public class Plate implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(parent.pbar.isdone()==true) {
+			if(pbar.isdone()==true) {
 				addCube();
-				parent.pbar.undone();
+				pbar.undone();
 			}
 		}
 	}
