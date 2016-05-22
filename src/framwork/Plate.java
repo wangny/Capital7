@@ -17,6 +17,7 @@ public class Plate implements Runnable{
 	public Plate(myApplet applet){
 		this.parent = applet;
 		cubes = new ArrayList<Cube>();
+		cubeDB = new ArrayList<Cube>();
 		dragCube = new Cube();
 		
 		addCube();

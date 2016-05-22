@@ -64,18 +64,20 @@ public class myApplet extends PApplet{
 	}
 	
 	public void loadData(){
+		System.out.print("execute");
 		JSONObject data = loadJSONObject("resources/cube.json");
 		JSONArray cubes = data.getJSONArray("cube");
 		for (int i = 0; i < cubes.size(); i++){
 			JSONObject cube = cubes.getJSONObject(i);
 			String name = cube.getString("name");
 			String target = cube.getString("target");
-			//colour String array
-			JSONArray colours = cube.getJSONArray("colour");
+			String colours = cube.getString("colour");
+			//
 			String[] colour = new String[7];
 			for (int j = 0; j < 7; j++){
-				colour[j] = colours.getJSONObject(i).toString();
+				colour[j] = colours.substring(9*j, 9*j+8);
 			}
+			//
 			Cube c = new Cube();	//???
 			currentp.cubeDB.add(c);
 		}

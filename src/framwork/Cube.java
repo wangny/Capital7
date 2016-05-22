@@ -1,5 +1,7 @@
 package framwork;
 
+import java.util.Arrays;
+
 /**class for cube hahaha**/
 
 
@@ -9,7 +11,7 @@ public class Cube {
 	private int state;	//the life of the cube ( 0 means disappear )
 	private int x, y;		//the left-up-most & display position of the cube
 	private String name;	//the text of the cube
-	private String[] colour = {"FF004B97","FF007979","FF019858"};	///save the color of each state
+	private String[] colour;	///save the color of each state
 	private String target;	//the "answer" of the cube
 	private boolean show, drag;
 	
