@@ -74,11 +74,12 @@ public class myApplet extends PApplet{
 			String colours = cube.getString("colour");
 			//
 			String[] colour = new String[7];
-			for (int j = 0; j < 7; j++){
+			colour = colours.split(",");
+			/*for (int j = 0; j < 7; j++){
 				colour[j] = colours.substring(9*j, 9*j+8);
-			}
+			}*/
 			//
-			Cube c = new Cube();	//???
+			Cube c = new Cube(name,target,colour);	//???
 			currentp.cubeDB.add(c);
 		}
 	}

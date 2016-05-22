@@ -1,9 +1,7 @@
 package framwork;
 
 import java.util.ArrayList;
-import java.awt.event.KeyEvent;
-import controlP5.ControlP5;
-import processing.core.PApplet;
+import java.util.Random;
 import de.looksgood.ani.Ani;
 
 public class Plate implements Runnable{
@@ -12,6 +10,7 @@ public class Plate implements Runnable{
 	private myApplet parent;
 	private ProgressBar pbar;
 	private Cube dragCube;
+	private Random random;
 	private final static int inix=100, iniy=myApplet.height-150, finalx=myApplet.width-160 ,finaly=50;
 	
 	public Plate(myApplet applet){
@@ -19,8 +18,9 @@ public class Plate implements Runnable{
 		cubes = new ArrayList<Cube>();
 		cubeDB = new ArrayList<Cube>();
 		dragCube = new Cube();
+		random = new Random();
 		
-		addCube();
+		
 		
 		pbar = new ProgressBar(parent);
 		Thread t = new Thread(pbar);
@@ -45,7 +45,7 @@ public class Plate implements Runnable{
 		
 		int x = 0;
 		for(int i=0; i<10; i++){
-			Cube c = new Cube(parent, 3, "name", "target", inix+x, myApplet.height-150);
+			Cube c = new Cube(parent, 7, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, myApplet.height-150);
 			cubes.add(c);
 			x = x + myApplet.cubewidth + 10;
 		}
@@ -96,10 +96,13 @@ public class Plate implements Runnable{
 		if( (dragCube.getX()-inix)%(myApplet.cubewidth+10) > ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+(tmp+1)*(myApplet.cubewidth+10) );
 		else if(  (dragCube.getX()-inix)%(myApplet.cubewidth+10) <= ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+tmp*(myApplet.cubewidth+10) );
 		
-		int higest = myApplet.height-80;
-		for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube) higest = c.getY();
-		higest = higest - 10 - myApplet.cubeheight;
-		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
+		///adjust to right y position (for all cubes)
+		for (Cube ch: cubes){
+			int higest = myApplet.height-80;
+			for (Cube c: cubes) if(c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
+			higest = higest - 10 - myApplet.cubeheight;
+			Ani.to(ch, (float)0.3, "y", higest, Ani.LINEAR);
+		}
 		
 		dragCube.setDarg(false);
 		dragCube = new Cube();
@@ -108,7 +111,7 @@ public class Plate implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+		addCube();
 		while(true){
 			try {
 				Thread.sleep(10);
@@ -120,6 +123,8 @@ public class Plate implements Runnable{
 				addCube();
 				pbar.undone();
 			}
+			
+			
 
 		}
 	}

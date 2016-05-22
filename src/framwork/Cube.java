@@ -22,6 +22,13 @@ public class Cube {
 		this.show = false;
 	}
 	
+	public Cube(String name, String target, String[] colour){
+		this.name = name;
+		this.target = target;
+		this.colour = colour;
+		this.show = false;
+	}
+	
 	public Cube(myApplet applet, int state, String name, String target, int x, int y){
 		this.parent = applet;
 		this.state = 3;
@@ -29,6 +36,17 @@ public class Cube {
 		this.y = y;
 		this.name = name;
 		this.target = target;
+		this.show = true;
+	}
+
+	public Cube(myApplet parent, int state, Cube cube, int x, int y) {
+		this.parent = parent;
+		this.state = 3;
+		this.x = x;
+		this.y = y;
+		this.name = cube.name;
+		this.target = cube.target;
+		this.colour = cube.colour;
 		this.show = true;
 	}
 
