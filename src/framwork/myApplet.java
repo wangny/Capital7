@@ -2,6 +2,8 @@ package framwork;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
 
 @SuppressWarnings("serial")
 public class myApplet extends PApplet{
@@ -24,6 +26,7 @@ public class myApplet extends PApplet{
 		startwindow = new StartWindow(this);
 		
 		currentp = new Plate(this);
+		loadData();
 		//Thread t2 = new Thread(currentp);
 		//t2.start();
 		
@@ -47,7 +50,6 @@ public class myApplet extends PApplet{
 		}
 	}
 	
-	
 	public void mousePressed(){
 		System.out.println("press press");
 		currentp.mousePressed();
@@ -61,6 +63,24 @@ public class myApplet extends PApplet{
 		currentp.mouseReleased();
 	}
 	
+	public void loadData(){
+		JSONObject data = loadJSONObject("resources/cube.json");
+		JSONArray cubes = data.getJSONArray("cube");
+		for (int i = 0; i < cubes.size(); i++){
+			JSONObject cube = cubes.getJSONObject(i);
+			String name = cube.getString("name");
+			String target = cube.getString("target");
+			//colour String array
+			JSONArray colours = cube.getJSONArray("colour");
+			String[] colour = new String[7];
+			for (int j = 0; j < 7; j++){
+				colour[j] = colours.getJSONObject(i).toString();
+			}
+			Cube c = new Cube();	//???
+			currentp.cubeDB.add(c);
+		}
+	}
+	
 	public void changePhase(int phase){
 		gamePhase = phase;
 	}
@@ -70,7 +90,6 @@ public class myApplet extends PApplet{
 		System.out.println("click one player");
 		Thread t2 = new Thread(currentp);
 		t2.start();
-		
 	}
 
 	

@@ -8,6 +8,7 @@ import de.looksgood.ani.Ani;
 
 public class Plate implements Runnable{
 	private ArrayList<Cube> cubes;
+	public ArrayList<Cube> cubeDB;
 	private myApplet parent;
 	private ProgressBar pbar;
 	private Cube dragCube;
