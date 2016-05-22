@@ -11,7 +11,7 @@ public class Plate implements Runnable{
 	private myApplet parent;
 	private ProgressBar pbar;
 	private Cube dragCube;
-	private final static int inix=100, finaly=100;
+	private final static int inix=100, iniy=myApplet.height-150, finalx=myApplet.width-160 ,finaly=50;
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
@@ -62,11 +62,15 @@ public class Plate implements Runnable{
 		dragCube.setDarg(true);
 		
 		boolean hit = false;
+		int diffx = parent.mouseX-parent.pmouseX;
+		int diffy = parent.mouseY-parent.pmouseY;
 		//
 		for (Cube c: cubes){
+			
 			if (c!=dragCube){
-				//judge if hit
-				if(Math.abs(dragCube.getX()-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()-c.getY())<myApplet.cubeheight){
+				//judge if hit	
+				if(dragCube.getX()+diffx>=finalx || dragCube.getX()+diffx<=inix || dragCube.getY()+diffy>=iniy+10 || dragCube.getY()+diffy<=finaly) hit = true;
+				else if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()+diffy-c.getY())<myApplet.cubeheight){
 					//judge if match
 					if(c.getTarget().equals(dragCube.getName())){
 						/// is match, do merging 
@@ -76,8 +80,8 @@ public class Plate implements Runnable{
 		}
 		
 		if(!hit){
-			dragCube.addX(parent.mouseX-parent.pmouseX);
-			dragCube.addY(parent.mouseY-parent.pmouseY);
+			dragCube.addX(diffx);
+			dragCube.addY(diffy);
 		}
 		
 	}
