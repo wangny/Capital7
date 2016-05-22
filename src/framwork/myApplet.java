@@ -8,7 +8,10 @@ public class myApplet extends PApplet{
 	
 	Plate currentp;
 	Ani ani;
+	StartWindow startwindow;
+	
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
+	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi
 	
 	public void setup(){
 
@@ -18,10 +21,13 @@ public class myApplet extends PApplet{
 		
 		Ani.init(this);
 		
+		startwindow = new StartWindow(this);
+		
 		currentp = new Plate(this);
 		Thread t2 = new Thread(currentp);
 		t2.start();
 		
+		gamePhase = 0;
 	}
 	
 	public void draw(){
@@ -29,7 +35,8 @@ public class myApplet extends PApplet{
 		fill(255);
 		rect(50, 20, width-100, height-80, 15);
 		
-		currentp.display();
+		if(gamePhase==0) startwindow.display();
+		else if(gamePhase==1)currentp.display();
 	}
 	
 	public void mousePressed(){
@@ -43,6 +50,10 @@ public class myApplet extends PApplet{
 	
 	public void mouseReleased(){
 		currentp.mouseReleased();
+	}
+	
+	public void changePhase(int phase){
+		gamePhase = phase;
 	}
 
 	
