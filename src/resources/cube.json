@@ -1,0 +1,84 @@
+{
+  "country": [
+    {
+      "name": "台灣",
+      "target": "台北",
+      "colour": [{ "FF008B8B" },{ "FF5F9EA0" },{ "FF79CDCD" },{ "FF00CDCD" },{ "FF00E5EE" },{ "FF00EEEE" },{ "FF00FFFF" }]
+    },
+	{
+      "name": "台北",
+      "target": "台灣",
+      "colour": [{ "FF008B8B" },{ "FF5F9EA0" },{ "FF79CDCD" },{ "FF00CDCD" },{ "FF00E5EE" },{ "FF00EEEE" },{ "FF00FFFF" }]
+    },
+    {
+      "name": "古巴",
+      "target": "哈瓦那",
+      "colour": [{ "FF458B74" },{ "FF5F9EA0" },{ "FF20B2AA" },{ "FF66CDAA" },{ "FF40E0D0" },{ "FF76EEC6" },{ "FF7FFFD4" }]
+    },
+	{
+      "name": "哈瓦那",
+      "target": "古巴",
+      "colour": [{ "FF458B74" },{ "FF5F9EA0" },{ "FF20B2AA" },{ "FF66CDAA" },{ "FF40E0D0" },{ "FF76EEC6" },{ "FF7FFFD4" }]
+    },
+    {
+      "name": "瑞士",
+      "target": "伯恩",
+      "colour":[{ "FF2E8B57" },{ "FF548B54" },{ "FF3CB371" },{ "FF7CCD7C" },{ "FF90EE90" },{ "FF9AFF9A" },{ "FFF0FFF0" }]
+    },
+	{
+      "name": "伯恩",
+      "target": "瑞士",
+      "colour":[{ "FF2E8B57" },{ "FF548B54" },{ "FF3CB371" },{ "FF7CCD7C" },{ "FF90EE90" },{ "FF9AFF9A" },{ "FFF0FFF0" }]
+    },
+    {
+      "name": "波蘭",
+      "target": "華沙",
+      "colour": [{ "FF8B6914" },{ "FFB8860B" },{ "FFCD950C" },{ "FFEEAD0E" },{ "FFFFB90F" },{ "FFFFD700" },{ "FFFFEC8B" }]
+    },
+	{
+      "name": "華沙",
+      "target": "波蘭",
+      "colour": [{ "FF8B6914" },{ "FFB8860B" },{ "FFCD950C" },{ "FFEEAD0E" },{ "FFFFB90F" },{ "FFFFD700" },{ "FFFFEC8B" }]
+    },
+    {
+      "name": "澳洲",
+      "target": "坎培拉",
+      "colour": [{ "FF8B3A3A" },{ "FFCD5555" },{ "FFEE6363" },{ "FFFF6A6A" },{ "FFFFA07A" },{ "FFFFAEB9" },{ "FFFFE4E1" }]
+    },
+	{
+      "name": "坎培拉",
+      "target": "澳洲",
+      "colour": [{ "FF8B3A3A" },{ "FFCD5555" },{ "FFEE6363" },{ "FFFF6A6A" },{ "FFFFA07A" },{ "FFFFAEB9" },{ "FFFFE4E1" }]
+    },
+    {
+      "name": "祕魯",
+      "target": "利馬",
+      "colour": [{ "FF8B7355" },{ "FFCD853F" },{ "FFCDAA7D" },{ "FFF4A460" },{ "FFEEC591" },{ "FFFFD39B" },{ "FFFFEBCD" }]
+    },
+	{
+      "name": "利馬",
+      "target": "祕魯",
+      "colour": [{ "FF8B7355" },{ "FFCD853F" },{ "FFCDAA7D" },{ "FFF4A460" },{ "FFEEC591" },{ "FFFFD39B" },{ "FFFFEBCD" }]
+    },
+    {
+      "name": "烏克蘭",
+      "target": "基輔",
+      "colour": [{ "FF8B4C39" },{ "FFCD7054" },{ "FFEE8262" },{ "FFFF8C69" },{ "FFEE9572" },{ "FFFFA07A" },{ "FFFFDAB9" }]
+    },
+	{
+      "name": "基輔",
+      "target": "烏克蘭",
+      "colour": [{ "FF8B4C39" },{ "FFCD7054" },{ "FFEE8262" },{ "FFFF8C69" },{ "FFEE9572" },{ "FFFFA07A" },{ "FFFFDAB9" }]
+    },
+    {
+      "name": "越南",
+      "target": "河內",
+      "colour":[{ "FF7D26CD" },{ "FF9B30FF" },{ "FF9F79EE" },{ "FFAB82FF" },{ "FFEEAEEE" },{ "FFDDA0DD" },{ "FFFFE1FF" }]
+    },
+	{
+      "name": "河內",
+      "target": "越南",
+      "colour":[{ "FF7D26CD" },{ "FF9B30FF" },{ "FF9F79EE" },{ "FFAB82FF" },{ "FFEEAEEE" },{ "FFDDA0DD" },{ "FFFFE1FF" }]
+    }
+  ]
+}
