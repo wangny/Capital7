@@ -10,8 +10,7 @@ public class Cube {
 	private 
 	myApplet parent;
 	public int state;
-	public int x,y;
-	//private int colour;
+	public int x, y;
 	private String name;
 	private String[] colour = {"FF004B97","FF007979","FF019858"};
 	private Map<Character,Integer> targets;
