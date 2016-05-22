@@ -9,11 +9,10 @@ public class Cube {
 	
 	private 
 	myApplet parent;
-	public int state;
-	public int x,y;
-	//private int colour;
-	private String name;
-	private String[] colour = {"FF004B97","FF007979","FF019858"};
+	public int state;	///the live of the cube ( 0 means disappear )
+	public int x,y;		/// the position of the cube
+	private String name;	///the text of the cube
+	private String[] colour = {"FF004B97","FF007979","FF019858"};	///save the color of each state
 	private Map<Character,Integer> targets;
 	private boolean show;
 	
@@ -35,7 +34,7 @@ public class Cube {
 
 
 	public void display(){
-		this.parent.fill( myApplet.unhex(this.colour[this.state-1]) );
+		this.parent.fill( myApplet.unhex(this.colour[this.state-1]) );	///fill with the color relative to the state
 		this.parent.rect(x, y, myApplet.cubewidth, myApplet.cubeheight, 5);	
 	}
 	
