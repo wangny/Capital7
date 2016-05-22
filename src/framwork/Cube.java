@@ -1,8 +1,5 @@
 package framwork;
 
-import java.util.Map;
-import processing.core.PApplet;
-
 /**class for cube hahaha**/
 
 
@@ -13,7 +10,7 @@ public class Cube {
 	private int x, y;		//the left-up-most & display position of the cube
 	private String name;	//the text of the cube
 	private String[] colour = {"FF004B97","FF007979","FF019858"};	///save the color of each state
-	private Map<Character,Integer> targets;	
+	private String target;	//the "answer" of the cube
 	private boolean show, drag;
 	
 	
@@ -23,12 +20,13 @@ public class Cube {
 		this.show = false;
 	}
 	
-	public Cube(myApplet applet, int state, String name, int x, int y){
+	public Cube(myApplet applet, int state, String name, String target, int x, int y){
 		this.parent = applet;
 		this.state = 3;
 		this.x = x;
 		this.y = y;
 		this.name = name;
+		this.target = target;
 		this.show = true;
 	}
 
@@ -49,13 +47,14 @@ public class Cube {
 		this.y = this.y - myApplet.cubeheight - 10;
 	}
 	
-	public void addTarget(Character t, int value){
-		this.targets.put(t,value);
+	public String getTarget(){
+		return this.target;
 	}
 	
-	public Map<Character,Integer> getTargets(){
-		return this.targets;
+	public String getName(){
+		return this.name;
 	}
+	
 	//get & set
 	public void setDarg(boolean b){
 		this.drag = b;
@@ -66,16 +65,26 @@ public class Cube {
 	public int getY(){
 		return this.y;
 	}
-	public void setX(int addX){
+	public void addX(int addX){
 		if (drag)
 			this.x = this.x + addX;
 		else
 			this.x = this.x;	//remain the same
 	}
-	public void setY(int addY){
+	public void addY(int addY){
 		if (drag)
 			this.y = this.y + addY;
 		else
 			this.y = this.y;	//remain the same
+	}
+	public void setX(int newX){
+		this.x = newX;
+	}
+	public void setY(int newY){
+		this.y = newY;
+	}
+	
+	public boolean isDragged(){
+		return drag;
 	}
 }

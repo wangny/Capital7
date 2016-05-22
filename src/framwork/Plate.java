@@ -11,14 +11,19 @@ public class Plate implements Runnable{
 	private myApplet parent;
 	private ProgressBar pbar;
 	private Cube dragCube;
+	private final static int inix=100, finaly=100;
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
 		cubes = new ArrayList<Cube>();
+		dragCube = new Cube();
+		
+		addCube();
 		
 		pbar = new ProgressBar(parent);
 		Thread t = new Thread(pbar);
 		t.start();
+		
 	}
 	
 	public void display(){	
@@ -33,12 +38,12 @@ public class Plate implements Runnable{
 		//for(Cube c : cubes) c.grow();
 		for(Cube c : cubes){
 			int tmp = c.getY();
-			Ani.to(c, (float)0.5, "y", tmp-70, Ani.LINEAR);
+			Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
 		}
 		
-		int x = 100;
+		int x = 0;
 		for(int i=0; i<10; i++){
-			Cube c = new Cube(parent, 3, "try", x, myApplet.height-150);
+			Cube c = new Cube(parent, 3, "name", "target", inix+x, myApplet.height-150);
 			cubes.add(c);
 			x = x + myApplet.cubewidth + 10;
 		}
@@ -55,30 +60,43 @@ public class Plate implements Runnable{
 	
 	public void mouseDragged(){
 		dragCube.setDarg(true);
-		dragCube.setX(parent.mouseX-parent.pmouseX);
-		dragCube.setY(parent.mouseY-parent.pmouseY);
+		
+		boolean hit = false;
 		//
 		for (Cube c: cubes){
 			if (c!=dragCube){
 				//judge if hit
-				if (dragCube.getX()+myApplet.cubewidth>c.getX()){	//left hit right
+				if(Math.abs(dragCube.getX()-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()-c.getY())<myApplet.cubeheight){
 					//judge if match
-				}
-				else if (dragCube.getX()<c.getX()+myApplet.cubewidth){	//right hit left
-					//judge if match
-				}
-				else if (dragCube.getY()+myApplet.cubeheight>c.getY()){	//up hit down
-					//judge if match
-				}
-				else if (dragCube.getY()<c.getY()+myApplet.cubeheight){	//down hit up (impossible?!)
-					//judge if match
+					if(c.getTarget().equals(dragCube.getName())){
+						/// is match, do merging 
+					}else hit = true;	///else don't move
 				}
 			}
 		}
+		
+		if(!hit){
+			dragCube.addX(parent.mouseX-parent.pmouseX);
+			dragCube.addY(parent.mouseY-parent.pmouseY);
+		}
+		
 	}
 	
 	public void mouseReleased(){
 		//set dragCube in position
+		
+		///adjust to right x position
+		int tmp = (dragCube.getX()-inix)/(myApplet.cubewidth+10);
+		if( (dragCube.getX()-inix)%(myApplet.cubewidth+10) > ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+(tmp+1)*(myApplet.cubewidth+10) );
+		else if(  (dragCube.getX()-inix)%(myApplet.cubewidth+10) <= ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+tmp*(myApplet.cubewidth+10) );
+		
+		int higest = myApplet.height-80;
+		for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube) higest = c.getY();
+		higest = higest - 10 - myApplet.cubeheight;
+		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
+		
+		dragCube.setDarg(false);
+		dragCube = new Cube();
 	}
 	
 	@Override
@@ -96,6 +114,7 @@ public class Plate implements Runnable{
 				addCube();
 				pbar.undone();
 			}
+
 		}
 	}
 }
