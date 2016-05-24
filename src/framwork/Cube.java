@@ -1,7 +1,5 @@
 package framwork;
 
-import java.util.Arrays;
-
 /**class for cube hahaha**/
 
 
@@ -83,30 +81,40 @@ public class Cube {
 		this.state = s;
 	}
 	
-	public void setDarg(boolean b){
+	public void setDrag(boolean b){
 		this.drag = b;
 	}
+	
+	public boolean isDragged(){
+		return this.drag;
+	}
+	
 	public int getX(){
 		return this.x;
 	}
+	
 	public int getY(){
 		return this.y;
 	}
+	
 	public void addX(int addX){
 		if (drag)
 			this.x = this.x + addX;
 		else
 			this.x = this.x;	//remain the same
 	}
+	
 	public void addY(int addY){
 		if (drag)
 			this.y = this.y + addY;
 		else
 			this.y = this.y;	//remain the same
 	}
+	
 	public void setX(int newX){
 		this.x = newX;
 	}
+	
 	public void setY(int newY){
 		this.y = newY;
 	}

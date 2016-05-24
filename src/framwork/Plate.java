@@ -20,12 +20,7 @@ public class Plate implements Runnable{
 		dragCube = new Cube();
 		random = new Random();
 		
-		
-		
 		pbar = new ProgressBar(parent);
-		Thread t = new Thread(pbar);
-		t.start();
-		
 	}
 	
 	public void display(){	
@@ -61,7 +56,7 @@ public class Plate implements Runnable{
 	}
 	
 	
-	public void merge(Cube a, Cube b){
+	public void merge(Cube a, Cube b){ ///will always remove b
 		//judge which to remain/remove
 		if (a.getState()<b.getState()){
 			//c is lighter
@@ -69,19 +64,18 @@ public class Plate implements Runnable{
 			a.setState(a.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
-			//cubes.remove(dragCube);
+
 		} else {
 			//dragCube is lighter
 			System.out.println(a.getState());
 			a.setState(b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
-			//cubes.remove(dragCube);
 		}
 	}
 	
 	public void mouseDragged(){
-		dragCube.setDarg(true);
+		dragCube.setDrag(true);
 		
 		boolean hit = false;
 		int diffx = parent.mouseX-parent.pmouseX;
@@ -129,7 +123,7 @@ public class Plate implements Runnable{
 			Ani.to(ch, (float)0.3, "y", higest, Ani.LINEAR);
 		}
 		
-		dragCube.setDarg(false);
+		dragCube.setDrag(false);
 		dragCube = new Cube();
 	}
 	
@@ -137,6 +131,9 @@ public class Plate implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		addCube();
+		Thread t = new Thread(pbar);
+		t.start();
+		
 		while(true){
 			try {
 				Thread.sleep(10);
@@ -154,7 +151,8 @@ public class Plate implements Runnable{
 				int higest = myApplet.height-80;
 				for (Cube c: cubes) if(c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
-				if(ch.getY()<higest && ch!=dragCube) ch.addY(-1);
+				while(!ch.isDragged() && ch.getY()<higest)ch.addY(1);
+				//Ani.to(ch, (float)0.3, "y", higest, Ani.LINEAR);
 			}
 
 		}
