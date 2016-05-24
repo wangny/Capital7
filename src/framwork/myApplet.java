@@ -60,14 +60,18 @@ public class myApplet extends PApplet{
 		//plate background and frame
 		image(img,0,0); // 決定要顯現的圖檔與其左上角座標
 		
-		if(gamePhase==0) startwindow.display();
+		if(gamePhase==0){
+			startwindow.display();
+			cp5.getController("Replay").setVisible(false);
+			cp5.getController("Home").setVisible(false);
+		}
 		else if(gamePhase==1){
 			fill(255);
 			rect(50, 20, width-100, height-80, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
-			//this.repaint();
+			this.repaint();
 			currentp.display();
 			
 		}
