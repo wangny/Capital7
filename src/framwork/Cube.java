@@ -31,7 +31,7 @@ public class Cube {
 	
 	public Cube(myApplet applet, int state, String name, String target, int x, int y){  ///old-version, unused
 		this.parent = applet;
-		this.state = 3;
+		this.state = state;
 		this.x = x;
 		this.y = y;
 		this.name = name;

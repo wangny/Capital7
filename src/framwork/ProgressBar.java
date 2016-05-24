@@ -4,9 +4,9 @@ public class ProgressBar implements Runnable{
 	
 	private myApplet parent;
 	boolean done = false;
-	private static int goal = 100; // from 0 to 100
+	private static int goal = 50; // from 0 to 100
 	private int value;
-	
+	private boolean stop;
 	
 	public ProgressBar(myApplet p){
 		parent = p;
@@ -26,6 +26,8 @@ public class ProgressBar implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		stop = false;
+		
 		while(true){
 			value++;
 			if(value>goal) {
@@ -39,6 +41,7 @@ public class ProgressBar implements Runnable{
 				e.printStackTrace();
 			}
 			
+			if(stop) break;
 		}
 	}
 	
@@ -49,5 +52,10 @@ public class ProgressBar implements Runnable{
 	public boolean isdone(){
 		return done;
 	}
+	
+	public void stop(){
+		stop = true;
+	}
+	
 	
 }

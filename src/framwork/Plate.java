@@ -159,10 +159,10 @@ public class Plate implements Runnable{
 				Cube ch = cubes.get(i);
 				int higest = myApplet.height-80;
 				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
-										&& c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
+										&& c.getY()<higest && c!=ch && c.getY()>ch.getY() ) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
 				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
-				else if(ch.getY()>higest)ch.setY(ch.getY()-1);
+				//else if(ch.getY()>higest)ch.setY(ch.getY()-1);
 				
 				if(ch.getY()<finaly) GameOver=true;
 			}
