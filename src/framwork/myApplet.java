@@ -1,5 +1,6 @@
 package framwork;
 
+import controlP5.ControlP5;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -14,7 +15,8 @@ public class myApplet extends PApplet{
 	StartWindow startwindow;
 	PImage img;
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
-	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi
+	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay
+	public ControlP5 cp5;
 	
 	public void setup(){
 		
@@ -31,7 +33,26 @@ public class myApplet extends PApplet{
 		loadData();
 		
 		gamePhase = 0;
+		
 		img = loadImage("g.png"); // ±N¹ÏÀÉ¸ü¤J
+		
+		cp5=new ControlP5(this);
+		cp5.addButton("Replay")
+			.setLabel("R e p l a y")
+			.setPosition(myApplet.width-525, myApplet.height-260)
+			.setSize(250,50);
+		cp5.addButton("Home")
+			.setLabel("H o m e")
+			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setSize(250,50);
+		cp5.getController("Replay")
+	       .getCaptionLabel()
+	       .setSize(22);
+		cp5.getController("Home")
+	       .getCaptionLabel()
+	       .setSize(22);
+		cp5.getController("Replay").setVisible(false);
+		cp5.getController("Home").setVisible(false);
 		
 	}
 	
@@ -46,7 +67,7 @@ public class myApplet extends PApplet{
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
-			this.repaint();
+			//this.repaint();
 			currentp.display();
 			
 		}
@@ -90,18 +111,44 @@ public class myApplet extends PApplet{
 		gamePhase = phase;
 	}
 	
-	public void OnePlayer(){	
-		changePhase(1);
-		System.out.println("click one player");
-		Thread t = new Thread(currentp);
-		t.start();
+	public void OnePlayer(){
+		//if(gamePhase==0){	
+			changePhase(1);
+			System.out.println("click one player");
+			Thread t = new Thread(currentp);
+			t.start();
+			
+		//}
 	}
 	
 	public void returnMenu(){
-		currentp.reset();
-		this.clear();
-		changePhase(0);
+		cp5.getController("Replay").setVisible(true);
+		cp5.getController("Home").setVisible(true);
+		//changePhase(4);
 	}
-
+	
+	
+	public void Replay(){	
+		//if(gamePhase==4){
+			currentp.reset();
+			Thread t = new Thread(currentp);
+			t.start();
+			System.out.println("click Replay");
+			cp5.getController("Replay").setVisible(false);
+			cp5.getController("Home").setVisible(false);
+			changePhase(1);
+		//}
+	}
+	
+	public void Home(){	
+		//if(gamePhase==4){
+			currentp.reset();
+			cp5.getController("Replay").setVisible(false);
+			cp5.getController("Home").setVisible(false);
+			this.clear();	
+			changePhase(0);
+			System.out.println("click home");
+		//}
+	}
 	
 }
