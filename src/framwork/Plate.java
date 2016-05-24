@@ -162,6 +162,9 @@ public class Plate implements Runnable{
 										&& c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
 				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
+				else if(ch.getY()>higest)ch.setY(ch.getY()-1);
+				
+				if(ch.getY()<finaly) GameOver=true;
 			}
 			
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
@@ -177,7 +180,7 @@ public class Plate implements Runnable{
 			}
 			
 			if(GameOver){
-				t.interrupt();	///stop progressBar
+				pbar.stop();;	///stop progressBar
 				break;	
 			}
 			
