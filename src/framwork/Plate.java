@@ -11,6 +11,7 @@ public class Plate implements Runnable{
 	private ProgressBar pbar;
 	private Cube dragCube;
 	private Random random;
+	private boolean GameOver;
 	private final static int inix=100, iniy=myApplet.height-150, finalx=myApplet.width-160 ,finaly=50;
 	
 	public Plate(myApplet applet){
@@ -21,6 +22,8 @@ public class Plate implements Runnable{
 		random = new Random();
 		
 		pbar = new ProgressBar(parent);
+	
+		GameOver = false;
 	}
 	
 	public void display(){	
@@ -35,7 +38,8 @@ public class Plate implements Runnable{
 		System.out.println("add cube");
 		for(Cube c : cubes){
 			int tmp = c.getY();
-			Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
+			if(tmp-myApplet.cubeheight-10 <= finaly ) GameOver=true;
+			else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
 		}
 		
 		int x = 0;
@@ -45,7 +49,7 @@ public class Plate implements Runnable{
 			x = x + myApplet.cubewidth + 10;
 		}
 	}
-	
+
 	public void mousePressed(){
 		//System.out.println("mouse pressed");
 		for (Cube c: cubes){
@@ -130,6 +134,20 @@ public class Plate implements Runnable{
 		dragCube = new Cube();
 	}
 	
+	
+	public void reset(){
+		cubes.clear();
+		dragCube = new Cube();
+		random = new Random();
+		
+		pbar = new ProgressBar(parent);
+	
+		GameOver = false;
+	}
+	
+	
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -139,7 +157,7 @@ public class Plate implements Runnable{
 		
 		while(true){
 			try {
-				Thread.sleep(10);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -152,11 +170,18 @@ public class Plate implements Runnable{
 			for (int i = 0; i < cubes.size(); i++){
 				Cube ch = cubes.get(i);
 				int higest = myApplet.height-80;
-				for (Cube c: cubes) if( c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
+				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
+										&& c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
-				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+2);
+				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
+				//else if(!ch.isDragged() && ch.getY()>higest)ch.setY(ch.getY()-1);
 			}
-
+			
+			if(GameOver){
+				t.stop();
+				break;
+			}
 		}
+		parent.returnMenu();
 	}
 }

@@ -42,7 +42,10 @@ public class StartWindow {
 		}
 		
 		public void display(){	
-			
+			cp5.getController("OnePlayer").setVisible(true);
+			cp5.getController("TwoPlayer").setVisible(true);
+			cp5.getController("MultiPlayer").setVisible(true);
+			this.parent.repaint();
 		}
 		
 		

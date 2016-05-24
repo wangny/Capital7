@@ -29,25 +29,21 @@ public class myApplet extends PApplet{
 		
 		currentp = new Plate(this);
 		loadData();
-		//Thread t2 = new Thread(currentp);
-		//t2.start();
 		
 		gamePhase = 0;
 		img = loadImage("g.png"); // 將圖檔載入
-		image(img,0,0); // 決定要顯現的圖檔與其左上角座標
+		
 	}
 	
 	public void draw(){
 		//plate background and frame
-		/*fill(255);
-		rect(50, 20, width-100, height-80, 15);*/
+		image(img,0,0); // 決定要顯現的圖檔與其左上角座標
 		
 		if(gamePhase==0) startwindow.display();
 		else if(gamePhase==1){
 			fill(255);
 			rect(50, 20, width-100, height-80, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
-			//startwindow.cp5.getController("OnePlayer").setValue(0);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
 			this.repaint();
@@ -99,6 +95,12 @@ public class myApplet extends PApplet{
 		System.out.println("click one player");
 		Thread t = new Thread(currentp);
 		t.start();
+	}
+	
+	public void returnMenu(){
+		currentp.reset();
+		this.clear();
+		changePhase(0);
 	}
 
 	
