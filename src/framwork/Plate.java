@@ -60,38 +60,33 @@ public class Plate implements Runnable{
 		}
 	}
 	
+	
+	public void merge(Cube a, Cube b){
+		//judge which to remain/remove
+		if (a.getState()<b.getState()){
+			//c is lighter
+			System.out.println(a.getState());
+			a.setState(a.getState()+1);
+			System.out.println(a.getState());
+			cubes.remove(b);
+			//cubes.remove(dragCube);
+		} else {
+			//dragCube is lighter
+			System.out.println(a.getState());
+			a.setState(b.getState()+1);
+			System.out.println(a.getState());
+			cubes.remove(b);
+			//cubes.remove(dragCube);
+		}
+	}
+	
 	public void mouseDragged(){
 		dragCube.setDarg(true);
 		
 		boolean hit = false;
 		int diffx = parent.mouseX-parent.pmouseX;
 		int diffy = parent.mouseY-parent.pmouseY;
-		//
-		/*for (Cube c: cubes){
-			if (c!=dragCube){
-				//judge if hit	
-				if(dragCube.getX()+diffx>=finalx || dragCube.getX()+diffx<=inix || dragCube.getY()+diffy>=iniy+10 || dragCube.getY()+diffy<=finaly) hit = true;
-				else if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()+diffy-c.getY())<myApplet.cubeheight){
-					//judge if match
-					if(c.getTarget().equals(dragCube.getName())){
-						System.out.println("match");
-						/// is match, do merging 
-						//animation
-						
-						//judge which to remain/remove
-						if (c.getState()<dragCube.getState()){
-							//c is lighter
-							c.setState(c.getState()+1);
-							//cubes.remove(dragCube);
-						} else {
-							//dragCube is lighter
-							c.setState(dragCube.getState()+1);
-							//cubes.remove(dragCube);
-						}
-					}else hit = true;	///else don't move
-				}
-			}
-		}*/
+		
 		for (int i = 0; i < cubes.size(); i++){
 			Cube c = cubes.get(i);
 			if (c!=dragCube){
@@ -103,23 +98,8 @@ public class Plate implements Runnable{
 						System.out.println("match");
 						/// is match, do merging 
 						//animation
+						merge(c,dragCube);
 						
-						//judge which to remain/remove
-						if (c.getState()<dragCube.getState()){
-							//c is lighter
-							System.out.println(c.getState());
-							c.setState(c.getState()+1);
-							System.out.println(c.getState());
-							cubes.remove(i);
-							//cubes.remove(dragCube);
-						} else {
-							//dragCube is lighter
-							System.out.println(c.getState());
-							c.setState(dragCube.getState()+1);
-							System.out.println(c.getState());
-							cubes.remove(i);
-							//cubes.remove(dragCube);
-						}
 					}else hit = true;	///else don't move
 				}
 			}
@@ -141,7 +121,8 @@ public class Plate implements Runnable{
 		else if(  (dragCube.getX()-inix)%(myApplet.cubewidth+10) <= ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+tmp*(myApplet.cubewidth+10) );
 		
 		///adjust to right y position (for all cubes)
-		for (Cube ch: cubes){
+		for (int i = 0; i < cubes.size(); i++){
+			Cube ch = cubes.get(i);
 			int higest = myApplet.height-80;
 			for (Cube c: cubes) if(c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 			higest = higest - 10 - myApplet.cubeheight;
@@ -167,13 +148,14 @@ public class Plate implements Runnable{
 				addCube();
 				pbar.undone();
 			}
-			/*for (Cube ch: cubes){
+			
+			for (int i = 0; i < cubes.size(); i++){
+				Cube ch = cubes.get(i);
 				int higest = myApplet.height-80;
 				for (Cube c: cubes) if(c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
-				Ani.to(ch, (float)0.3, "y", higest, Ani.LINEAR);
-			}*/
-			
+				if(ch.getY()<higest && ch!=dragCube) ch.addY(-1);
+			}
 
 		}
 	}
