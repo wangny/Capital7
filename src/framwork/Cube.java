@@ -6,22 +6,22 @@ package framwork;
 public class Cube {
 	
 	private myApplet parent;
-	private int state;	//the life of the cube ( 6 means disappear )
-	private int x, y;		//the left-up-most & display position of the cube
-	private String name;	//the text of the cube
+	private int state;			///the life of the cube ( 6 means disappear )
+	private int x, y;			///the left-up-most & display position of the cube
+	private String name;		///the text of the cube
 	private String[] colour;	///save the color of each state
-	private String target;	//the "answer" of the cube
+	private String target;		///the "answer" of the cube
 	private boolean show, drag;
 	
 	
-	public Cube(){
+	public Cube(){				///default constructor
 		this.state = 0;
 		this.name = null;
 		this.show = false;
 		this.drag = false;
 	}
 	
-	public Cube(String name, String target, String[] colour){
+	public Cube(String name, String target, String[] colour){	///for cube data base
 		this.name = name;
 		this.target = target;
 		this.colour = colour;
@@ -29,7 +29,7 @@ public class Cube {
 		this.drag = false;
 	}
 	
-	public Cube(myApplet applet, int state, String name, String target, int x, int y){
+	public Cube(myApplet applet, int state, String name, String target, int x, int y){  ///old-version, unused
 		this.parent = applet;
 		this.state = 3;
 		this.x = x;
@@ -40,9 +40,9 @@ public class Cube {
 		this.drag = false;
 	}
 
-	public Cube(myApplet parent, int state, Cube cube, int x, int y) {
+	public Cube(myApplet parent, int state, Cube cube, int x, int y) { 	///for real cube
 		this.parent = parent;
-		this.state = 0;
+		this.state = state;
 		this.x = x;
 		this.y = y;
 		this.name = cube.name;
@@ -61,16 +61,16 @@ public class Cube {
 		this.parent.text(this.name, this.x+1, this.y+20);
 	}
 	
-	public void display(int x, int y){
+	public void display(int x, int y){	
 		this.x=x; this.y=y;
 		this.parent.fill(myApplet.unhex(this.colour[this.state]) );
 		this.parent.rect(x, y, myApplet.cubewidth, myApplet.cubeheight, 5);	
 	}
 	
 
-	public void grow(){
+	/*public void grow(){  ///unused method
 		this.y = this.y - myApplet.cubeheight - 10;
-	}
+	}*/
 	
 	public String getTarget(){
 		return this.target;
@@ -105,17 +105,11 @@ public class Cube {
 	}
 	
 	public void addX(int addX){
-		if (drag)
-			this.x = this.x + addX;
-		else
-			this.x = this.x;	//remain the same
+		if (drag) this.x = this.x + addX;
 	}
 	
 	public void addY(int addY){
-		if (drag)
-			this.y = this.y + addY;
-		else
-			this.y = this.y;	//remain the same
+		if (drag) this.y = this.y + addY;
 	}
 	
 	public void setX(int newX){

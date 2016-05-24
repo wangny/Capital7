@@ -4,7 +4,7 @@ public class ProgressBar implements Runnable{
 	
 	private myApplet parent;
 	boolean done = false;
-	private static int goal = 10; // from 0 to 100
+	private static int goal = 100; // from 0 to 100
 	private int value;
 	
 	

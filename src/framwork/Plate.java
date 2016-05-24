@@ -38,13 +38,13 @@ public class Plate implements Runnable{
 		System.out.println("add cube");
 		for(Cube c : cubes){
 			int tmp = c.getY();
-			if(tmp-myApplet.cubeheight-10 <= finaly ) GameOver=true;
+			if(tmp-myApplet.cubeheight-10 < finaly ) GameOver=true;
 			else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
 		}
 		
 		int x = 0;
 		for(int i=0; i<10; i++){
-			Cube c = new Cube(parent, 7, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, myApplet.height-150);
+			Cube c = new Cube(parent, 0, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, myApplet.height-150);
 			cubes.add(c);
 			x = x + myApplet.cubewidth + 10;
 		}
@@ -76,11 +76,10 @@ public class Plate implements Runnable{
 					//judge if match
 					if(c.getTarget().equals(dragCube.getName())){
 						System.out.println("match");
-						/// is match, do merging 
-						//animation
+						/// is match, do merging animation
 						merge(c, dragCube);
 						cubes.remove(dragCube);
-						dragCube = c;	//important! not to re-judge
+						dragCube = new Cube();	//important! not to re-judge
 					}else hit = true;	///else don't move
 				}
 			}
@@ -122,24 +121,20 @@ public class Plate implements Runnable{
 		else if(  (dragCube.getX()-inix)%(myApplet.cubewidth+10) <= ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+tmp*(myApplet.cubewidth+10) );
 		
 		///adjust to right y position (for all cubes)
-		//for (int i = 0; i < cubes.size(); i++){
-			//Cube ch = cubes.get(i);
-			int higest = myApplet.height-80;
-			for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube && c.getY()>dragCube.getY()) higest = c.getY();
-			higest = higest - 10 - myApplet.cubeheight;
-			Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
-		//}
+		int higest = myApplet.height-80;
+		for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube && c.getY()>dragCube.getY()) higest = c.getY();
+		higest = higest - 10 - myApplet.cubeheight;
+		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
 		
 		dragCube.setDrag(false);
 		dragCube = new Cube();
 	}
 	
 	
-	public void reset(){
+	public void reset(){	///for restarting the game
 		cubes.clear();
 		dragCube = new Cube();
 		random = new Random();
-		
 		pbar = new ProgressBar(parent);
 	
 		GameOver = false;
@@ -147,12 +142,11 @@ public class Plate implements Runnable{
 	
 	
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		addCube();
-		Thread t = new Thread(pbar);
+		Thread t = new Thread(pbar);	///progressBar start counting
 		t.start();
 		
 		while(true){
@@ -162,26 +156,25 @@ public class Plate implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(pbar.isdone()==true) {
+			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
 				addCube();
 				pbar.undone();
 			}
 			
-			for (int i = 0; i < cubes.size(); i++){
+			for (int i = 0; i < cubes.size(); i++){		///cubes will always been dragged to the lowest position they can
 				Cube ch = cubes.get(i);
 				int higest = myApplet.height-80;
 				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
 										&& c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
 				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
-				//else if(!ch.isDragged() && ch.getY()>higest)ch.setY(ch.getY()-1);
 			}
 			
 			if(GameOver){
-				t.stop();
-				break;
+				t.interrupt();	///stop progressBar
+				break;	
 			}
 		}
-		parent.returnMenu();
+		parent.returnMenu(); ///call reply and home button
 	}
 }
