@@ -2,6 +2,7 @@ package framwork;
 
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 
@@ -11,13 +12,14 @@ public class myApplet extends PApplet{
 	Plate currentp;
 	Ani ani;
 	StartWindow startwindow;
-	
+	PImage img;
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi
 	
 	public void setup(){
-
+		
 		size(width, height);
+		
 		background(240);
 		smooth();
 		
@@ -31,15 +33,19 @@ public class myApplet extends PApplet{
 		//t2.start();
 		
 		gamePhase = 0;
+		img = loadImage("g.png"); // 將圖檔載入
+		image(img,0,0); // 決定要顯現的圖檔與其左上角座標
 	}
 	
 	public void draw(){
 		//plate background and frame
-		fill(255);
-		rect(50, 20, width-100, height-80, 15);
+		/*fill(255);
+		rect(50, 20, width-100, height-80, 15);*/
 		
 		if(gamePhase==0) startwindow.display();
 		else if(gamePhase==1){
+			fill(255);
+			rect(50, 20, width-100, height-80, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
 			//startwindow.cp5.getController("OnePlayer").setValue(0);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
