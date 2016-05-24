@@ -51,7 +51,9 @@ public class Cube {
 	public void display(){
 		//display cube
 		this.parent.fill( myApplet.unhex(this.colour[this.state]) );	///fill with the color relative to the state
-		this.parent.rect(this.x, this.y, myApplet.cubewidth, myApplet.cubeheight, 5);	
+		this.parent.rect(this.x, this.y, myApplet.cubewidth, myApplet.cubeheight, 5);
+		this.parent.fill(0);
+		this.parent.text(this.name, this.x+1, this.y+20);
 	}
 	
 	public void display(int x, int y){
