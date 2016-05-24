@@ -32,7 +32,7 @@ public class Plate implements Runnable{
 
 	
 	public void addCube(){		
-		//for(Cube c : cubes) c.grow();
+		System.out.println("add cube");
 		for(Cube c : cubes){
 			int tmp = c.getY();
 			Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
@@ -55,25 +55,6 @@ public class Plate implements Runnable{
 		}
 	}
 	
-	
-	public void merge(Cube a, Cube b){ ///will always remove b
-		//judge which to remain/remove
-		if (a.getState()<b.getState()){
-			//c is lighter
-			System.out.println(a.getState());
-			a.setState(a.getState()+1);
-			System.out.println(a.getState());
-			cubes.remove(b);
-
-		} else {
-			//dragCube is lighter
-			System.out.println(a.getState());
-			a.setState(b.getState()+1);
-			System.out.println(a.getState());
-			cubes.remove(b);
-		}
-	}
-	
 	public void mouseDragged(){
 		dragCube.setDrag(true);
 		
@@ -84,16 +65,18 @@ public class Plate implements Runnable{
 		for (int i = 0; i < cubes.size(); i++){
 			Cube c = cubes.get(i);
 			if (c!=dragCube){
-				//judge if hit	
+				//out of boundary
 				if(dragCube.getX()+diffx>=finalx || dragCube.getX()+diffx<=inix || dragCube.getY()+diffy>=iniy+10 || dragCube.getY()+diffy<=finaly) hit = true;
+				//judge if hit the match cube
 				else if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()+diffy-c.getY())<myApplet.cubeheight){
 					//judge if match
 					if(c.getTarget().equals(dragCube.getName())){
 						System.out.println("match");
 						/// is match, do merging 
 						//animation
-						merge(c,dragCube);
-						
+						merge(c, dragCube);
+						cubes.remove(dragCube);
+						dragCube = c;		//important! not to re-judge
 					}else hit = true;	///else don't move
 				}
 			}
@@ -104,6 +87,23 @@ public class Plate implements Runnable{
 			dragCube.addY(diffy);
 		}
 		
+	}
+	
+	public void merge(Cube a, Cube b){ ///will always remove b
+		//judge which to remain/remove
+		if (a.getState()>b.getState()){
+			//a is lighter
+			System.out.println(a.getState());
+			a.setState(a.getState()+1);
+			System.out.println(a.getState());
+			//cubes.remove(b);
+		} else {
+			//b is lighter
+			System.out.println(a.getState());
+			a.setState(b.getState()+1);
+			System.out.println(a.getState());
+			//cubes.remove(b);
+		}
 	}
 	
 	public void mouseReleased(){
