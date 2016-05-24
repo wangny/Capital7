@@ -37,9 +37,11 @@ public class Plate implements Runnable{
 	public void addCube(){		
 		System.out.println("add cube");
 		for(Cube c : cubes){
-			int tmp = c.getY();
-			if(tmp-myApplet.cubeheight-10 < finaly ) GameOver=true;
-			else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
+			if(c!=dragCube){
+				int tmp = c.getY();
+				if(tmp-myApplet.cubeheight-10 < finaly ) GameOver=true;
+				else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
+			}
 		}
 		
 		int x = 0;
@@ -62,7 +64,7 @@ public class Plate implements Runnable{
 	public void mouseDragged(){
 		dragCube.setDrag(true);
 		
-		boolean hit = false;
+		boolean hitx = false, hity=false;
 		int diffx = parent.mouseX-parent.pmouseX;
 		int diffy = parent.mouseY-parent.pmouseY;
 		
@@ -70,25 +72,27 @@ public class Plate implements Runnable{
 			Cube c = cubes.get(i);
 			if (c!=dragCube){
 				//out of boundary
-				if(dragCube.getX()+diffx>=finalx || dragCube.getX()+diffx<=inix || dragCube.getY()+diffy>=iniy+10 || dragCube.getY()+diffy<=finaly) hit = true;
+				if(dragCube.getX()+diffx>=finalx || dragCube.getX()+diffx<=inix ) hitx = true;
+				if(dragCube.getY()+diffy>=iniy+10 || dragCube.getY()+diffy<=finaly) hity = true;
 				//judge if hit the match cube
-				else if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()+diffy-c.getY())<myApplet.cubeheight){
+				if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth && Math.abs(dragCube.getY()+diffy-c.getY())<myApplet.cubeheight){
 					//judge if match
-					if(c.getTarget().equals(dragCube.getName())){
+					if(c.getTarget().equals(dragCube.getName())){/// is match, do merging animation
 						System.out.println("match");
-						/// is match, do merging animation
 						merge(c, dragCube);
 						cubes.remove(dragCube);
 						dragCube = new Cube();	//important! not to re-judge
-					}else hit = true;	///else don't move
+					}else{	///else don't move
+						if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth) hitx = true;
+						if(Math.abs(dragCube.getY()+diffy-c.getY())<myApplet.cubeheight) hity = true;
+					}
 				}
 			}
 		}
 		
-		if(!hit){
-			dragCube.addX(diffx);
-			dragCube.addY(diffy);
-		}
+		
+		if(!hitx)dragCube.addX(diffx);
+		if(!hity)dragCube.addY(diffy);
 		
 	}
 	
@@ -150,16 +154,6 @@ public class Plate implements Runnable{
 		t.start();
 		
 		while(true){
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
-				addCube();
-				pbar.undone();
-			}
 			
 			for (int i = 0; i < cubes.size(); i++){		///cubes will always been dragged to the lowest position they can
 				Cube ch = cubes.get(i);
@@ -170,10 +164,23 @@ public class Plate implements Runnable{
 				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
 			}
 			
+			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
+				addCube();
+				pbar.undone();
+			}
+			
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			if(GameOver){
 				t.interrupt();	///stop progressBar
 				break;	
 			}
+			
 		}
 		parent.returnMenu(); ///call reply and home button
 	}
