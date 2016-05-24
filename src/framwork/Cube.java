@@ -18,6 +18,7 @@ public class Cube {
 		this.state = 0;
 		this.name = null;
 		this.show = false;
+		this.drag = false;
 	}
 	
 	public Cube(String name, String target, String[] colour){
@@ -25,6 +26,7 @@ public class Cube {
 		this.target = target;
 		this.colour = colour;
 		this.show = false;
+		this.drag = false;
 	}
 	
 	public Cube(myApplet applet, int state, String name, String target, int x, int y){
@@ -35,6 +37,7 @@ public class Cube {
 		this.name = name;
 		this.target = target;
 		this.show = true;
+		this.drag = false;
 	}
 
 	public Cube(myApplet parent, int state, Cube cube, int x, int y) {
@@ -46,13 +49,15 @@ public class Cube {
 		this.target = cube.target;
 		this.colour = cube.colour;
 		this.show = true;
+		this.drag = false;
 	}
 
 	public void display(){
 		//display cube
 		this.parent.fill( myApplet.unhex(this.colour[this.state]) );	///fill with the color relative to the state
 		this.parent.rect(this.x, this.y, myApplet.cubewidth, myApplet.cubeheight, 5);
-		this.parent.fill(0);
+		this.parent.fill(255);
+		this.parent.textSize(15);
 		this.parent.text(this.name, this.x+1, this.y+20);
 	}
 	

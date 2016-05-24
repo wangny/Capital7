@@ -27,17 +27,18 @@ public class ProgressBar implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		while(true){
+			value++;
+			if(value>goal) {
+				value = 0;
+				done = true;
+			}
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			value++;
-			if(value>goal) {
-				value = 0;
-				done = true;
-			}
+			
 		}
 	}
 	

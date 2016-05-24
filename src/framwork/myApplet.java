@@ -97,8 +97,8 @@ public class myApplet extends PApplet{
 	public void OnePlayer(){	
 		changePhase(1);
 		System.out.println("click one player");
-		Thread t2 = new Thread(currentp);
-		t2.start();
+		Thread t = new Thread(currentp);
+		t.start();
 	}
 
 	

@@ -25,8 +25,8 @@ public class Plate implements Runnable{
 	
 	public void display(){	
 		pbar.display();
-		for(Cube c : cubes){
-			c.display();
+		for(int i=0; i<cubes.size(); i++){
+			cubes.get(i).display();
 		}
 	}
 
@@ -76,7 +76,7 @@ public class Plate implements Runnable{
 						//animation
 						merge(c, dragCube);
 						cubes.remove(dragCube);
-						dragCube = c;		//important! not to re-judge
+						dragCube = c;	//important! not to re-judge
 					}else hit = true;	///else don't move
 				}
 			}
@@ -96,14 +96,17 @@ public class Plate implements Runnable{
 			System.out.println(a.getState());
 			a.setState(a.getState()+1);
 			System.out.println(a.getState());
-			//cubes.remove(b);
+			cubes.remove(b);
 		} else {
 			//b is lighter
 			System.out.println(a.getState());
 			a.setState(b.getState()+1);
 			System.out.println(a.getState());
-			//cubes.remove(b);
+			cubes.remove(b);
 		}
+		
+		if(a.getState()>=7) cubes.remove(a);
+		
 	}
 	
 	public void mouseReleased(){
@@ -115,13 +118,13 @@ public class Plate implements Runnable{
 		else if(  (dragCube.getX()-inix)%(myApplet.cubewidth+10) <= ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+tmp*(myApplet.cubewidth+10) );
 		
 		///adjust to right y position (for all cubes)
-		for (int i = 0; i < cubes.size(); i++){
-			Cube ch = cubes.get(i);
+		//for (int i = 0; i < cubes.size(); i++){
+			//Cube ch = cubes.get(i);
 			int higest = myApplet.height-80;
-			for (Cube c: cubes) if(c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
+			for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube && c.getY()>dragCube.getY()) higest = c.getY();
 			higest = higest - 10 - myApplet.cubeheight;
-			Ani.to(ch, (float)0.3, "y", higest, Ani.LINEAR);
-		}
+			Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
+		//}
 		
 		dragCube.setDrag(false);
 		dragCube = new Cube();
@@ -149,10 +152,9 @@ public class Plate implements Runnable{
 			for (int i = 0; i < cubes.size(); i++){
 				Cube ch = cubes.get(i);
 				int higest = myApplet.height-80;
-				for (Cube c: cubes) if(c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
+				for (Cube c: cubes) if( c.getX()==ch.getX() && c.getY()<higest && c!=ch && c.getY()>ch.getY()) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
-				while(!ch.isDragged() && ch.getY()<higest)ch.addY(1);
-				//Ani.to(ch, (float)0.3, "y", higest, Ani.LINEAR);
+				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+2);
 			}
 
 		}
