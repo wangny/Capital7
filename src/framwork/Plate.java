@@ -1,6 +1,7 @@
 package framwork;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 import de.looksgood.ani.Ani;
 
@@ -131,9 +132,8 @@ public class Plate implements Runnable{
 		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
 		
 		dragCube.setDrag(false);
-		dragCube = new Cube();
+		//dragCube = new Cube();
 	}
-	
 	
 	public void reset(){	///for restarting the game
 		cubes.clear();
@@ -170,6 +170,42 @@ public class Plate implements Runnable{
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
 				addCube();
 				pbar.undone();
+			}
+			
+			//sort cubes
+			cubes.sort(new Comparator<Cube>(){
+				@Override
+				public int compare(Cube c1, Cube c2) {
+					//return c1.getY() - c2.getY();
+					if (c1.getX()>c2.getX()){
+						return 3;
+					} else if (c1.getX()==c2.getX()){
+						if (c1.getY()<c2.getY())
+							return 2;
+						else if (c1.getY()==c2.getY())
+							return 1;
+						else	
+							return 0;
+					} else {
+						return -1;
+					}
+				}
+			});
+			/*for (Cube c : cubes){
+				System.out.println(c.getX()+", "+c.getY()+", "+c.getName());
+			}
+			System.out.println("-----------------");*/
+			//judge if can merge with the lower cube
+			for (int i = 0; i < cubes.size()-1; i++){	//boundary: 0~size-1, since compare with next one(+1)
+				//judge if at same column
+				if (cubes.get(i).getX()==cubes.get(i+1).getX()){
+					if (cubes.get(i).isDragged()||cubes.get(i+1).isDragged())
+						continue;
+					//judge if can merge
+					if(cubes.get(i).getTarget().equals(cubes.get(i+1).getName())){
+						merge(cubes.get(i), cubes.get(i+1));
+					}
+				}
 			}
 			
 			try {
