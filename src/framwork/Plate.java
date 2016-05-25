@@ -47,6 +47,7 @@ public class Plate implements Runnable{
 		
 		int x = 0;
 		for(int i=0; i<10; i++){
+			random.setSeed(random.nextLong());
 			Cube c = new Cube(parent, 0, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, myApplet.height-150);
 			cubes.add(c);
 			x = x + myApplet.cubewidth + 10;
@@ -157,12 +158,28 @@ public class Plate implements Runnable{
 			
 			for (int i = 0; i < cubes.size(); i++){		///cubes will always been dragged to the lowest position they can
 				Cube ch = cubes.get(i);
-				int higest = myApplet.height-80;
+				/*int higest = myApplet.height-80;
 				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
 										&& c.getY()<higest && c!=ch && c.getY()>ch.getY() ) higest = c.getY();
 				higest = higest - 10 - myApplet.cubeheight;
 				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
-				//else if(ch.getY()>higest)ch.setY(ch.getY()-1);
+				else if(ch.getY()>higest && ch==dragCube )ch.setY(ch.getY()-1);*/
+				
+				
+				Cube highest=null;
+				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
+						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>ch.getY() ) highest = c;
+				
+				int high ;
+				if(highest==null) high = myApplet.height-80;
+				else high= highest.getY();
+				high = high - 10 - myApplet.cubeheight;
+				if(!ch.isDragged() && ch.getY()<high)ch.setY(ch.getY()+1);
+				else if(ch.getY()>high && ch==dragCube )ch.setY(ch.getY()-1);
+				
+				
+				if(ch.getY()>=high && highest!=null) if(ch.getTarget().equals(highest.getName())) merge(highest,ch);
+				
 				
 				if(ch.getY()<finaly) GameOver=true;
 			}
@@ -170,10 +187,11 @@ public class Plate implements Runnable{
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
 				addCube();
 				pbar.undone();
+
 			}
 			
 			//sort cubes
-			cubes.sort(new Comparator<Cube>(){
+			/*cubes.sort(new Comparator<Cube>(){
 				@Override
 				public int compare(Cube c1, Cube c2) {
 					//return c1.getY() - c2.getY();
@@ -196,7 +214,7 @@ public class Plate implements Runnable{
 			}
 			System.out.println("-----------------");*/
 			//judge if can merge with the lower cube
-			for (int i = 0; i < cubes.size()-1; i++){	//boundary: 0~size-1, since compare with next one(+1)
+			/*for (int i = 0; i < cubes.size()-1; i++){	//boundary: 0~size-1, since compare with next one(+1)
 				//judge if at same column
 				if (cubes.get(i).getX()==cubes.get(i+1).getX()){
 					if (cubes.get(i).isDragged()||cubes.get(i+1).isDragged())
@@ -206,7 +224,7 @@ public class Plate implements Runnable{
 						merge(cubes.get(i), cubes.get(i+1));
 					}
 				}
-			}
+			}*/
 			
 			try {
 				Thread.sleep(5);
