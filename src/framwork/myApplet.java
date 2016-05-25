@@ -133,7 +133,7 @@ public class myApplet extends PApplet{
 	
 	
 	public void Replay(){	
-		//if(gamePhase==4){
+		if(cp5.getController("Replay").isVisible()){
 			currentp.reset();
 			Thread t = new Thread(currentp);
 			t.start();
@@ -141,7 +141,7 @@ public class myApplet extends PApplet{
 			cp5.getController("Replay").setVisible(false);
 			cp5.getController("Home").setVisible(false);
 			changePhase(1);
-		//}
+		}
 	}
 	
 	public void Home(){	
