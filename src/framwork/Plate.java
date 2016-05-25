@@ -40,7 +40,9 @@ public class Plate implements Runnable{
 		for(Cube c : cubes){
 			if(c!=dragCube){
 				int tmp = c.getY();
-				if(tmp-myApplet.cubeheight-10 < finaly ) GameOver=true;
+				if(tmp-myApplet.cubeheight-10 < finaly) GameOver=true;
+				
+				if(GameOver) Ani.to(c, (float)0.5, "y", tmp-40, Ani.LINEAR);
 				else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
 			}
 		}
@@ -168,7 +170,7 @@ public class Plate implements Runnable{
 				
 				Cube highest=null;
 				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
-						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>ch.getY() ) highest = c;
+						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>=ch.getY() ) highest = c;
 				
 				int high ;
 				if(highest==null) high = myApplet.height-80;
@@ -234,7 +236,13 @@ public class Plate implements Runnable{
 			}
 			
 			if(GameOver){
-				pbar.stop();;	///stop progressBar
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				pbar.stop();	///stop progressBar
 				break;	
 			}
 			
