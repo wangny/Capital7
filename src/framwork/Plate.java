@@ -147,7 +147,28 @@ public class Plate implements Runnable{
 		GameOver = false;
 	}
 	
-	
+	public void sortCubes(){
+		//sort cubes:
+		cubes.sort(new Comparator<Cube>(){
+			@Override
+			public int compare(Cube c1, Cube c2) {
+				if (c1.getX()>c2.getX())
+					return 1;
+				else if (c1.getX()==c2.getX()){
+					if (c1.getY()<c2.getY())
+						return 0;
+					else return -1;
+				}
+				else
+					return -1;
+			}
+		});
+		/*for (Cube c : cubes){
+			System.out.println(c.getX()+", "+c.getY()+", "+c.getName());
+		}
+		System.out.println("-----------------");*/
+		//judge if can merge with the lower cube
+	}
 	
 	@Override
 	public void run() {
@@ -192,41 +213,6 @@ public class Plate implements Runnable{
 
 			}
 			
-			//sort cubes
-			/*cubes.sort(new Comparator<Cube>(){
-				@Override
-				public int compare(Cube c1, Cube c2) {
-					//return c1.getY() - c2.getY();
-					if (c1.getX()>c2.getX()){
-						return 3;
-					} else if (c1.getX()==c2.getX()){
-						if (c1.getY()<c2.getY())
-							return 2;
-						else if (c1.getY()==c2.getY())
-							return 1;
-						else	
-							return 0;
-					} else {
-						return -1;
-					}
-				}
-			});
-			/*for (Cube c : cubes){
-				System.out.println(c.getX()+", "+c.getY()+", "+c.getName());
-			}
-			System.out.println("-----------------");*/
-			//judge if can merge with the lower cube
-			/*for (int i = 0; i < cubes.size()-1; i++){	//boundary: 0~size-1, since compare with next one(+1)
-				//judge if at same column
-				if (cubes.get(i).getX()==cubes.get(i+1).getX()){
-					if (cubes.get(i).isDragged()||cubes.get(i+1).isDragged())
-						continue;
-					//judge if can merge
-					if(cubes.get(i).getTarget().equals(cubes.get(i+1).getName())){
-						merge(cubes.get(i), cubes.get(i+1));
-					}
-				}
-			}*/
 			
 			try {
 				Thread.sleep(5);
@@ -247,7 +233,7 @@ public class Plate implements Runnable{
 			}
 			
 		}
-		parent.returnMenu(); ///call reply and home button
+		parent.returnMenu(); ///call replay and home button
 		parent.cp5.getController("Replay").setVisible(true);
 		parent.cp5.getController("home").setVisible(true);
 	}
