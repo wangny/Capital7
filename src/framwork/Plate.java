@@ -222,5 +222,7 @@ public class Plate implements Runnable{
 			
 		}
 		parent.returnMenu(); ///call reply and home button
+		parent.cp5.getController("Replay").setVisible(true);
+		parent.cp5.getController("home").setVisible(true);
 	}
 }
