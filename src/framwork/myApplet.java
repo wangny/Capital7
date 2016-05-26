@@ -116,13 +116,13 @@ public class myApplet extends PApplet{
 	}
 	
 	public void OnePlayer(){
-		//if(gamePhase==0){	
+		if(startwindow.cp5.getController("OnePlayer").isVisible()){	
 			changePhase(1);
 			System.out.println("click one player");
 			Thread t = new Thread(currentp);
 			t.start();
 			
-		//}
+		}
 	}
 	
 	public void returnMenu(){
