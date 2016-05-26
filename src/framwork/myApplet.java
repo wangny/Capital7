@@ -14,6 +14,7 @@ public class myApplet extends PApplet{
 	Ani ani;
 	StartWindow startwindow;
 	PImage img;
+	PImage img_play;
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay
 	public ControlP5 cp5;
@@ -34,7 +35,8 @@ public class myApplet extends PApplet{
 		
 		gamePhase = 0;
 		
-		img = loadImage("g.png"); // ±N¹ÏÀÉ¸ü¤J
+		img = loadImage("g.png"); // ï¿½Nï¿½ï¿½ï¿½É¸ï¿½ï¿½J
+		img_play = loadImage("g2.png");
 		
 		cp5=new ControlP5(this);
 		cp5.addButton("Replay")
@@ -58,14 +60,16 @@ public class myApplet extends PApplet{
 	
 	public void draw(){
 		//plate background and frame
-		image(img,0,0); // ¨M©w­nÅã²{ªº¹ÏÀÉ»P¨ä¥ª¤W¨¤®y¼Ð
+		//image(img,0,0); // ï¿½Mï¿½wï¿½nï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½É»Pï¿½ä¥ªï¿½Wï¿½ï¿½ï¿½yï¿½ï¿½
 		
 		if(gamePhase==0){
+			image(img,0,0);
 			startwindow.display();
 			cp5.getController("Replay").setVisible(false);
 			cp5.getController("Home").setVisible(false);
 		}
 		else if(gamePhase==1){
+			
 			fill(255);
 			rect(50, 20, width-100, height-80, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
@@ -73,7 +77,7 @@ public class myApplet extends PApplet{
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
 			this.repaint();
 			currentp.display();
-			
+			image(img_play,0,0);
 		}
 	}
 	
