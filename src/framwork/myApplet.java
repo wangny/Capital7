@@ -180,6 +180,13 @@ public class myApplet extends PApplet{
 		}
 	}
 	
+	public void TwoPlayer(){
+		if (startwindow.cp5.getController("TwoPlayer").isVisible()){
+			System.out.println("click two players");
+			this.sendMessage("click two players");
+		}
+	}
+	
 	public void returnMenu(){
 		cp5.getController("Replay").setVisible(true);
 		cp5.getController("Home").setVisible(true);
@@ -265,8 +272,8 @@ public class myApplet extends PApplet{
 		public void run() {
 			while(true) {
 				try {
-					String line;
-					ObjectInputStream objReader;
+					String line = new String(this.reader.readLine());
+					
 					if ( (line = new String(this.reader.readLine()) )!=""){
 						//do something here
 						if (line.equals("one player start")){
@@ -274,14 +281,16 @@ public class myApplet extends PApplet{
 							Thread t = new Thread(currentp);
 							t.start();
 						} else if (line.equals("two players start")){
-							//
+							changePhase(1);
+							Thread t = new Thread(currentp);
+							t.start();
 						} else if (line.equals("multi players start")){
 							//
 						}
-					} else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
+					} /*else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
 						Cube c = (Cube)objReader.readObject();
 						System.out.println(c.getState());
-					}
+					}*/
 					
 				} catch (Exception e){
 					e.printStackTrace();
