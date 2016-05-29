@@ -3,12 +3,12 @@
     {
       "name": "Taiwan",
       "target": "Taipei",
-      "colour": "FF008B8B,FF5F9EA0,FF79CDCD,FF00CDCD,FF00E5EE,FF00EEEE,FF00FFFF"
+      "colour": "FF00008B,FF0000CD,FF0000FF,FF1E90FF,FF00BFFF,FF00FFFF,FF0B0E2FF"
     },
 	{
       "name": "Taipei",
       "target": "Taiwan",
-      "colour": "FF008B8B,FF5F9EA0,FF79CDCD,FF00CDCD,FF00E5EE,FF00EEEE,FF00FFFF"
+      "colour": "FF00008B,FF0000CD,FF0000FF,FF1E90FF,FF00BFFF,FF00FFFF,FFB0E2FF"
     },
     {
       "name": "Cuba",
