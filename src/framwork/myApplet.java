@@ -1,5 +1,14 @@
 package framwork;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
+//myApplet is a client
 import controlP5.ControlP5;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
@@ -17,25 +26,29 @@ public class myApplet extends PApplet{
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay
 	public ControlP5 cp5;
+	//for server communication
+	private String destinationIPAddr = "192.168.12.1";
+	private int destinationPortNum = 8000;
+	private Socket socket;
+	private PrintWriter writer;
+	private BufferedReader reader;
+	private boolean onePlayer, twoPlayer, multiPlayer;
+	//ClientThread connection;
 	
 	public void setup(){
-		
 		size(width, height);
-		
 		background(240);
 		smooth();
-		
 		Ani.init(this);
-		
 		startwindow = new StartWindow(this);
-		
 		currentp = new Plate(this);
 		loadData();
-		
 		gamePhase = 0;
-		
+		onePlayer = false;
+		twoPlayer = false;
+		multiPlayer = false;
+		//
 		img = loadImage("g.png"); // ±N¹ÏÀÉ¸ü¤J
-		
 		cp5=new ControlP5(this);
 		cp5.addButton("Replay")
 			.setLabel("R e p l a y")
@@ -53,7 +66,8 @@ public class myApplet extends PApplet{
 	       .setSize(22);
 		cp5.getController("Replay").setVisible(false);
 		cp5.getController("Home").setVisible(false);
-		
+		//connect to server
+		//this.connect();
 	}
 	
 	public void draw(){
@@ -78,7 +92,7 @@ public class myApplet extends PApplet{
 	}
 	
 	public void mousePressed(){
-		System.out.println("press press");
+		//System.out.println("press press");
 		currentp.mousePressed();
 	}
 	
@@ -91,7 +105,7 @@ public class myApplet extends PApplet{
 	}
 	
 	public void loadData(){
-		System.out.print("execute");
+		//System.out.print("execute");
 		JSONObject data = loadJSONObject("resources/cube.json");
 		JSONArray cubes = data.getJSONArray("cube");
 		for (int i = 0; i < cubes.size(); i++){
@@ -102,11 +116,8 @@ public class myApplet extends PApplet{
 			//
 			String[] colour = new String[7];
 			colour = colours.split(",");
-			/*for (int j = 0; j < 7; j++){
-				colour[j] = colours.substring(9*j, 9*j+8);
-			}*/
 			//
-			Cube c = new Cube(name,target,colour);	//???
+			Cube c = new Cube(name,target,colour);
 			currentp.cubeDB.add(c);
 		}
 	}
@@ -116,13 +127,12 @@ public class myApplet extends PApplet{
 	}
 	
 	public void OnePlayer(){
-		//if(gamePhase==0){	
-			changePhase(1);
-			System.out.println("click one player");
-			Thread t = new Thread(currentp);
-			t.start();
-			
-		//}
+		System.out.println("click one player");
+		//onePlayer = true;
+		this.sendMessage("click one player");
+		/*changePhase(1);
+		Thread t = new Thread(currentp);
+		t.start();*/
 	}
 	
 	public void returnMenu(){
@@ -154,5 +164,57 @@ public class myApplet extends PApplet{
 			System.out.println("click home");
 		//}
 	}
+	//server communication classes
+	public void connect() {
+		// Create socket & thread, remember to start your thread
+		try {
+			//create socket
+			socket = new Socket(this.destinationIPAddr, this.destinationPortNum);
+			//create thread
+			writer = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+			ClientThread connection = new ClientThread(reader);
+			connection.start();
+			/*connection = new ClientThread(reader);
+			connection.start();*/
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (ConnectException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	class ClientThread extends Thread {
+		private BufferedReader reader;
+		public ClientThread(BufferedReader reader) {
+			this.reader = new BufferedReader(reader);
+		}
+		public void run() {
+			while(true) {
+				try {
+					String line = new String(this.reader.readLine());
+					//do something here
+					if (line.equals("one player start")){
+						changePhase(1);
+						Thread t = new Thread(currentp);
+						t.start();
+					} else if (line.equals("two players start")){
+						//
+					} else if (line.equals("multi players start")){
+						//
+					}
+				} catch (IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sendMessage(String message) {
+//		System.out.println(SwingUtilities.isEventDispatchThread());
+		this.writer.println(message);
+		this.writer.flush();
+	}
 }
