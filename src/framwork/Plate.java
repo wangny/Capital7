@@ -158,10 +158,10 @@ public class Plate implements Runnable{
 		cubes.sort(new Comparator<Cube>(){
 			@Override
 			public int compare(Cube c1, Cube c2) {
-				if (c1.getX()>c2.getX())
+				if (c1.getY()<c2.getY())
 					return 1;
-				else if (c1.getX()==c2.getX()){
-					if (c1.getY()<c2.getY())
+				else if (c1.getY()==c2.getY()){
+					if (c1.getX()>c2.getX())
 						return 0;
 					else return -1;
 				}
@@ -173,7 +173,6 @@ public class Plate implements Runnable{
 			System.out.println(c.getX()+", "+c.getY()+", "+c.getName());
 		}
 		System.out.println("-----------------");*/
-		//judge if can merge with the lower cube
 	}
 	
 	@Override
