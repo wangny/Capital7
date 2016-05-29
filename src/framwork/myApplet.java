@@ -1,5 +1,14 @@
 package framwork;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import controlP5.ControlP5;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
@@ -18,7 +27,13 @@ public class myApplet extends PApplet{
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay
 	public ControlP5 cp5;
-	
+	//for server communication
+	private String destinationIPAddr = "192.168.12.1";
+	private int destinationPortNum = 8000;
+	private Socket socket;
+	private PrintWriter writer;
+	private BufferedReader reader;
+
 	public void setup(){
 		
 		size(width, height);
@@ -35,7 +50,7 @@ public class myApplet extends PApplet{
 		
 		gamePhase = 0;
 		
-		img = loadImage("g.png"); // �N���ɸ��J
+		img = loadImage("g.png"); 
 		img_play = loadImage("g2.png");
 		
 		cp5=new ControlP5(this);
@@ -56,33 +71,56 @@ public class myApplet extends PApplet{
 		cp5.getController("Replay").setVisible(false);
 		cp5.getController("Home").setVisible(false);
 		
+		cp5 .addButton("Pause")
+			.setLabel("I I")
+			.setPosition(myApplet.width-65, 10)
+			.setSize(40,40);
+		cp5 .getController("Pause")
+			.getCaptionLabel()
+			.setSize(25);
+		cp5.getController("Pause").setVisible(false);
+		
+		cp5	.addButton("Resume")
+			.setLabel("R e s u m e")//setimages
+			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setSize(250,50);
+		cp5 .getController("Resume")
+			.getCaptionLabel()
+			.setSize(22);
+		cp5.getController("Resume").setVisible(false);	
+		//connect to server
+		this.connect();
+		
 	}
 	
 	public void draw(){
 		//plate background and frame
-		//image(img,0,0); // �M�w�n��{�����ɻP�䥪�W���y��
+		//image(img,0,0); 
 		
 		if(gamePhase==0){
 			image(img,0,0);
 			startwindow.display();
 			cp5.getController("Replay").setVisible(false);
 			cp5.getController("Home").setVisible(false);
+			cp5.getController("Resume").setVisible(false);
+			cp5.getController("Pause").setVisible(false);
 		}
 		else if(gamePhase==1){
 			
 			fill(255);
-			rect(50, 20, width-100, height-80, 15);
+			rect(49, 20, width-101, height-82, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
+			cp5.getController("Resume").setVisible(false);
+			cp5.getController("Pause").setVisible(true);
 			this.repaint();
 			currentp.display();
-			image(img_play,0,0);
+			//image(img_play,0,0);
 		}
 	}
 	
 	public void mousePressed(){
-		System.out.println("press press");
 		currentp.mousePressed();
 	}
 	
@@ -95,7 +133,6 @@ public class myApplet extends PApplet{
 	}
 	
 	public void loadData(){
-		System.out.print("execute");
 		JSONObject data = loadJSONObject("resources/cube.json");
 		JSONArray cubes = data.getJSONArray("cube");
 		for (int i = 0; i < cubes.size(); i++){
@@ -120,13 +157,13 @@ public class myApplet extends PApplet{
 	}
 	
 	public void OnePlayer(){
-		//if(gamePhase==0){	
-			changePhase(1);
+		if(startwindow.cp5.getController("OnePlayer").isVisible()){	
+			//changePhase(1);
 			System.out.println("click one player");
-			Thread t = new Thread(currentp);
-			t.start();
-			
-		//}
+			this.sendMessage("click one player");
+			//Thread t = new Thread(currentp);
+			//t.start();
+		}
 	}
 	
 	public void returnMenu(){
@@ -157,6 +194,74 @@ public class myApplet extends PApplet{
 			changePhase(0);
 			System.out.println("click home");
 		//}
+	}
+	
+	public void Resume(){
+		if(cp5.getController("Resume").isVisible()){
+			
+		}
+	}
+	
+	public void Pause(){
+		if(cp5.getController("Pause").isVisible()){
+			
+			
+		}
+		
+		
+	}
+	//server communication classes
+	public void connect() {
+		// Create socket & thread, remember to start your thread
+		try {
+			//create socket
+			socket = new Socket(this.destinationIPAddr, this.destinationPortNum);
+			//create thread
+			writer = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()));
+			reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+			ClientThread connection = new ClientThread(reader);
+			connection.start();
+			/*connection = new ClientThread(reader);
+			connection.start();*/
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (ConnectException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	class ClientThread extends Thread {
+		private BufferedReader reader;
+		public ClientThread(BufferedReader reader) {
+			this.reader = new BufferedReader(reader);
+		}
+		public void run() {
+			while(true) {
+				try {
+					String line = new String(this.reader.readLine());
+					//do something here
+					if (line.equals("one player start")){
+						changePhase(1);
+						Thread t = new Thread(currentp);
+						t.start();
+					} else if (line.equals("two players start")){
+						//
+					} else if (line.equals("multi players start")){
+						//
+					}
+				} catch (IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sendMessage(String message) {
+//		System.out.println(SwingUtilities.isEventDispatchThread());
+		this.writer.println(message);
+		this.writer.flush();
 	}
 	
 }

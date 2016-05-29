@@ -32,6 +32,11 @@ public class Plate implements Runnable{
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();
 		}
+		parent.stroke(200);
+		parent.strokeWeight(5);
+		parent.noFill();
+		parent.rect(50, 20, myApplet.width-100, myApplet.height-80, 15);
+		parent.noStroke();
 	}
 
 	
@@ -42,7 +47,7 @@ public class Plate implements Runnable{
 				int tmp = c.getY();
 				if(tmp-myApplet.cubeheight-10 < finaly) GameOver=true;
 				
-				if(GameOver) Ani.to(c, (float)0.5, "y", tmp-40, Ani.LINEAR);
+				//if(GameOver) Ani.to(c, (float)0.3, "y", tmp-40, Ani.LINEAR);
 				else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
 			}
 		}
@@ -61,12 +66,13 @@ public class Plate implements Runnable{
 		for (Cube c: cubes){
 			if ( (parent.mouseX>c.getX()&&parent.mouseX<c.getX()+myApplet.cubewidth) && (parent.mouseY>c.getY()&&parent.mouseY<c.getY()+myApplet.cubeheight)){
 				dragCube = c;
+				dragCube.setDrag(true);
 			}
 		}
 	}
 	
 	public void mouseDragged(){
-		dragCube.setDrag(true);
+		
 		
 		boolean hitx = false, hity=false;
 		int diffx = parent.mouseX-parent.pmouseX;
@@ -135,7 +141,7 @@ public class Plate implements Runnable{
 		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
 		
 		dragCube.setDrag(false);
-		//dragCube = new Cube();
+		dragCube = new Cube();
 	}
 	
 	public void reset(){	///for restarting the game
@@ -181,16 +187,9 @@ public class Plate implements Runnable{
 			
 			for (int i = 0; i < cubes.size(); i++){		///cubes will always been dragged to the lowest position they can
 				Cube ch = cubes.get(i);
-				/*int higest = myApplet.height-80;
-				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
-										&& c.getY()<higest && c!=ch && c.getY()>ch.getY() ) higest = c.getY();
-				higest = higest - 10 - myApplet.cubeheight;
-				if(!ch.isDragged() && ch.getY()<higest)ch.setY(ch.getY()+1);
-				else if(ch.getY()>higest && ch==dragCube )ch.setY(ch.getY()-1);*/
-				
 				
 				Cube highest=null;
-				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>=ch.getX())|| (c.getX()<=ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>=ch.getX()+myApplet.cubewidth)) 
+				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>ch.getX())|| (c.getX()<ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>ch.getX()+myApplet.cubewidth)) 
 						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>=ch.getY() ) highest = c;
 				
 				int high ;
@@ -201,7 +200,7 @@ public class Plate implements Runnable{
 				else if(ch.getY()>high && ch==dragCube )ch.setY(ch.getY()-1);
 				
 				
-				if(ch.getY()>=high && highest!=null) if(ch.getTarget().equals(highest.getName())) merge(highest,ch);
+				if(ch.getY()>=high && highest!=null && ch.getX()==highest.getX()) if(ch.getTarget().equals(highest.getName())) merge(highest,ch);
 				
 				
 				if(ch.getY()<finaly) GameOver=true;
@@ -210,7 +209,6 @@ public class Plate implements Runnable{
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
 				addCube();
 				pbar.undone();
-
 			}
 			
 			
@@ -235,6 +233,6 @@ public class Plate implements Runnable{
 		}
 		parent.returnMenu(); ///call replay and home button
 		parent.cp5.getController("Replay").setVisible(true);
-		parent.cp5.getController("home").setVisible(true);
+		parent.cp5.getController("Home").setVisible(true);
 	}
 }
