@@ -17,11 +17,13 @@ public class GameServer {
 	private ServerSocket serverSocket;
 	private List<ConnectionThread> connections = new ArrayList<ConnectionThread>();
 	private final static int port = 8000;
+	private int playerNum;
 	
 	public GameServer(int portNum) {
 		try {
 			this.serverSocket = new ServerSocket(portNum);
 			System.out.printf("Server starts listening on port %d.\n", portNum);
+			playerNum = 0;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,6 +42,33 @@ public class GameServer {
 				connThread.start();
 				// add the connection thread to a ArrayList, so that we can access it afteresrd.
 				this.connections.add(connThread);
+				//
+				while (!connThread.start){
+					for (ConnectionThread conn: connections){
+						//System.out.println("for loop");
+						if (conn.oneP){
+							System.out.println("one player start");
+							conn.sendMessage("one player start");
+							conn.start = true;
+						} else if (conn.twoP) {
+							playerNum++;
+							if (playerNum==2){
+								for (ConnectionThread c: connections){
+									if (!c.start){
+										c.sendMessage("two players start");
+										c.start = true;
+									}
+								}
+								playerNum = 0;
+							}
+							System.out.println("in two player");
+							break;
+						} else {
+							//multi player
+						}
+					}
+				}
+				System.out.println("Server is waiting...");
 			} catch (BindException e){
 				e.printStackTrace();
 			} catch (IOException e){
@@ -52,11 +81,13 @@ public class GameServer {
 		private Socket socket;
 		private BufferedReader reader;
 		private PrintWriter writer;
+		private boolean start, oneP, twoP, multiP;
 		public ConnectionThread(Socket socket) {
 			this.socket = socket;
 			try {
 				this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+				oneP = false; twoP = false; multiP = false;
 			} catch (IOException e){
 				e.printStackTrace();
 			}
@@ -64,23 +95,25 @@ public class GameServer {
 		public void run() {
 			while(true) {
 				try {
-					String line;
-					ObjectInputStream objReader;
-					if ( (line = new String(this.reader.readLine()) )!=""){
+					//ObjectInputStream objReader;
+					String line = new String(this.reader.readLine());
 						//do something here
 						if (line.equals("click one player")){
-							sendMessage("one player start");
+							oneP = true;
+							//sendMessage("one player start");
 						} else if (line.equals("click two players")){
-							sendMessage("two players start");
+							twoP = true;
+							//sendMessage("two players start");
 						} else if (line.equals("click multi players")){
-							sendMessage("multi players start");
+							multiP = true;
+							//sendMessage("multi players start");
 						}
-					} else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
+				} /*else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
 						Cube c = (Cube)objReader.readObject();
 						System.out.println(c.getState());
 						c.setState(3);
-					}
-				} catch (Exception e){
+					}*/
+				 catch (Exception e){
 					e.printStackTrace();
 				}
 			}
@@ -90,14 +123,14 @@ public class GameServer {
 			this.writer.flush();
 		}
 		
-		public void sendObject(Object o){
+		/*public void sendObject(Object o){
 			try {
 				ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
 				writer.writeObject(o);
 			} catch (Exception e){
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	private void broadcast(String message) {
