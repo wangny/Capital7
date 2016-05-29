@@ -35,7 +35,7 @@ public class myApplet extends PApplet{
 		
 		gamePhase = 0;
 		
-		img = loadImage("g.png"); // �N���ɸ��J
+		img = loadImage("g.png"); 
 		img_play = loadImage("g2.png");
 		
 		cp5=new ControlP5(this);
@@ -56,28 +56,50 @@ public class myApplet extends PApplet{
 		cp5.getController("Replay").setVisible(false);
 		cp5.getController("Home").setVisible(false);
 		
+		cp5 .addButton("Pause")
+			.setLabel("I I")
+			.setPosition(myApplet.width-65, 10)
+			.setSize(40,40);
+		cp5 .getController("Pause")
+			.getCaptionLabel()
+			.setSize(25);
+		cp5.getController("Pause").setVisible(false);
+		
+		cp5	.addButton("Resume")
+			.setLabel("R e s u m e")//setimages
+			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setSize(250,50);
+		cp5 .getController("Resume")
+			.getCaptionLabel()
+			.setSize(22);
+		cp5.getController("Resume").setVisible(false);		
+		
 	}
 	
 	public void draw(){
 		//plate background and frame
-		//image(img,0,0); // �M�w�n��{�����ɻP�䥪�W���y��
+		//image(img,0,0); 
 		
 		if(gamePhase==0){
 			image(img,0,0);
 			startwindow.display();
 			cp5.getController("Replay").setVisible(false);
 			cp5.getController("Home").setVisible(false);
+			cp5.getController("Resume").setVisible(false);
+			cp5.getController("Pause").setVisible(false);
 		}
 		else if(gamePhase==1){
 			
 			fill(255);
-			rect(50, 20, width-100, height-80, 15);
+			rect(49, 20, width-101, height-82, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
+			cp5.getController("Resume").setVisible(false);
+			cp5.getController("Pause").setVisible(true);
 			this.repaint();
 			currentp.display();
-			image(img_play,0,0);
+			//image(img_play,0,0);
 		}
 	}
 	
@@ -157,6 +179,21 @@ public class myApplet extends PApplet{
 			changePhase(0);
 			System.out.println("click home");
 		//}
+	}
+	
+	public void Resume(){
+		if(cp5.getController("Resume").isVisible()){
+			
+		}
+	}
+	
+	public void Pause(){
+		if(cp5.getController("Pause").isVisible()){
+			
+			
+		}
+		
+		
 	}
 	
 }
