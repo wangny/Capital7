@@ -1,7 +1,7 @@
 {
   "cube": [
     {
-      "name": "Taiwan",//blue
+      "name": "Taiwan",
       "target": "Taipei",
       "colour": "FF00008B,FF0000CD,FF0000FF,FF1E90FF,FF00BFFF,FF00FFFF,FF0B0E2FF"
     },
@@ -11,7 +11,7 @@
       "colour": "FF00008B,FF0000CD,FF0000FF,FF1E90FF,FF00BFFF,FF00FFFF,FFB0E2FF"
     },
     {
-      "name": "Cuba",//black
+      "name": "Cuba",
       "target": "Havana",
       "colour": "FF1C1C1C,FF363636,FF696969,FF9C9C9C,FFB5B5B5,FFCFCFCF,FFE8E8E8"
     },
@@ -21,7 +21,7 @@
       "colour": "FF1C1C1C,FF363636,FF696969,FF9C9C9C,FFB5B5B5,FFCFCFCF,FFE8E8E8"
     },
     {
-      "name": "Canada",//sea green
+      "name": "Canada",
       "target": "Ottawa",
       "colour": "FF2E8B57,FF548B54,FF3CB371,FF7CCD7C,FF90EE90,FF9AFF9A,FFF0FFF0"
     },
@@ -31,7 +31,7 @@
       "colour": "FF2E8B57,FF548B54,FF3CB371,FF7CCD7C,FF90EE90,FF9AFF9A,FFF0FFF0"
     },
     {
-      "name": "Poland",//golden
+      "name": "Poland",
       "target": "Warsaw",
       "colour": "FF8B6914,FFB8860B,FFCD950C,FFEEAD0E,FFFFB90F,FFFFD700,FFFFEC8B"
     },
@@ -41,7 +41,7 @@
       "colour": "FF8B6914,FFB8860B,FFCD950C,FFEEAD0E,FFFFB90F,FFFFD700,FFFFEC8B"
     },
     {
-      "name": "Egypt",//red
+      "name": "Egypt",
       "target": "Cairo",
       "colour": "FF8B0000,FFCD0000,FFEE0000,FFFF0000,FFFF3030,FFFF69B4,FFFFB6C1"
     },
@@ -51,7 +51,7 @@
       "colour": "FF8B0000,FFCD0000,FFEE0000,FFFF0000,FFFF3030,FFFF69B4,FFFFB6C1"
     },
     {
-      "name": "Peru",//burly wood
+      "name": "Peru",
       "target": "Lima",
       "colour": "FF8B7355,FFCD853F,FFCDAA7D,FFF4A460,FFEEC591,FFFFD39B,FFFFEBCD"
     },
@@ -61,7 +61,7 @@
       "colour": "FF8B7355,FFCD853F,FFCDAA7D,FFF4A460,FFEEC591,FFFFD39B,FFFFEBCD"
     },
     {
-      "name": "Ukraine",//salmon
+      "name": "Ukraine",
       "target": "Kiev",
       "colour": "FF8B4C39,FFCD7054,FFEE8262,FFFF8C69,FFEE9572,FFFFA07A,FFFFDAB9"
     },
@@ -71,7 +71,7 @@
       "colour": "FF8B4C39,FFCD7054,FFEE8262,FFFF8C69,FFEE9572,FFFFA07A,FFFFDAB9"
     },
     {
-      "name": "Vietnam",//purple
+      "name": "Vietnam",
       "target": "Hanoi",
       "colour": "FF7D26CD,FF9B30FF,FF9F79EE,FFAB82FF,FFEEAEEE,FFDDA0DD,FFFFE1FF"
     },
