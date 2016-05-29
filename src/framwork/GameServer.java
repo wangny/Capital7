@@ -3,6 +3,8 @@ package framwork;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.BindException;
@@ -10,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
+//6 plates, 
 public class GameServer {
 	private ServerSocket serverSocket;
 	private List<ConnectionThread> connections = new ArrayList<ConnectionThread>();
@@ -62,15 +64,23 @@ public class GameServer {
 		public void run() {
 			while(true) {
 				try {
-					String line = new String(this.reader.readLine());
-					broadcast(line);
-					System.out.println(line); // line is message from server
-					if (line.equals("click one player")){
-						sendMessage("one player start");
-					} else if (line.equals("click two players")){
-						
+					String line;
+					ObjectInputStream objReader;
+					if ( (line = new String(this.reader.readLine()) )!=""){
+						//do something here
+						if (line.equals("click one player")){
+							sendMessage("one player start");
+						} else if (line.equals("click two players")){
+							sendMessage("two players start");
+						} else if (line.equals("click multi players")){
+							sendMessage("multi players start");
+						}
+					} else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
+						Cube c = (Cube)objReader.readObject();
+						System.out.println(c.getState());
+						c.setState(3);
 					}
-				} catch (IOException e){
+				} catch (Exception e){
 					e.printStackTrace();
 				}
 			}
@@ -78,6 +88,15 @@ public class GameServer {
 		public void sendMessage(String message) {
 			this.writer.println(message);
 			this.writer.flush();
+		}
+		
+		public void sendObject(Object o){
+			try {
+				ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
+				writer.writeObject(o);
+			} catch (Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
