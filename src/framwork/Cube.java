@@ -1,9 +1,11 @@
 package framwork;
 
+import java.io.Serializable;
+
 /**class for cube hahaha**/
 
 
-public class Cube {
+public class Cube implements Serializable{
 	
 	private myApplet parent;
 	private int state;			///the life of the cube ( 6 means disappear )
