@@ -27,7 +27,8 @@ public class myApplet extends PApplet{
 	PImage img;
 	PImage img_play;
 	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
-	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay
+	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
+	
 	public ControlP5 cp5;
 	//for server communication
 	private String destinationIPAddr = "192.168.12.1";
@@ -89,49 +90,60 @@ public class myApplet extends PApplet{
 		cp5 .getController("Resume")
 			.getCaptionLabel()
 			.setSize(22);
-		cp5.getController("Resume").setVisible(false);	
+		//cp5.getController("Resume").setVisible(true);	
 		//connect to server
-		this.connect();
-		this.sendObject(currentp.cubeDB.get(0));
+		//this.connect();
+		//this.sendObject(currentp.cubeDB.get(0));
 	}
 	
 	public void draw(){
 		//plate background and frame
-		//image(img,0,0); 
+		image(img,0,0); 
+		
+		
+		System.out.println(cp5.getController("Pause").isVisible());
 		
 		if(gamePhase==0){
-			image(img,0,0);
+			//image(img,0,0);
 			startwindow.display();
 			cp5.getController("Replay").setVisible(false);
 			cp5.getController("Home").setVisible(false);
 			cp5.getController("Resume").setVisible(false);
 			cp5.getController("Pause").setVisible(false);
 		}
-		else if(gamePhase==1){
+		else /*if(gamePhase==1)*/{
 			
 			fill(255);
 			rect(49, 20, width-101, height-82, 15);
 			startwindow.cp5.getController("OnePlayer").setVisible(false);
 			startwindow.cp5.getController("TwoPlayer").setVisible(false);
 			startwindow.cp5.getController("MultiPlayer").setVisible(false);
-			cp5.getController("Resume").setVisible(false);
-			cp5.getController("Pause").setVisible(true);
-			this.repaint();
+			if(gamePhase<=3){
+				//cp5.getController("Resume").setVisible(false);
+				cp5.getController("Pause").setVisible(true);
+			}
+			if(gamePhase==5){
+				cp5.getController("Resume").setVisible(true);
+				//cp5.getController("Pause").setVisible(false);
+			}
+			//this.redraw();
 			currentp.display();
+			
+			
 			//image(img_play,0,0);
 		}
 	}
 	
 	public void mousePressed(){
-		currentp.mousePressed();
+		if(gamePhase<=3) currentp.mousePressed();
 	}
 	
 	public void mouseDragged(){
-		currentp.mouseDragged();
+		if(gamePhase<=3) currentp.mouseDragged();
 	}
 	
 	public void mouseReleased(){
-		currentp.mouseReleased();
+		if(gamePhase<=3) currentp.mouseReleased();
 	}
 	
 	public void loadData(){
@@ -160,18 +172,18 @@ public class myApplet extends PApplet{
 	
 	public void OnePlayer(){
 		if(startwindow.cp5.getController("OnePlayer").isVisible()){	
-			//changePhase(1);
+			changePhase(1);
 			System.out.println("click one player");
-			this.sendMessage("click one player");
-			//Thread t = new Thread(currentp);
-			//t.start();
+			//this.sendMessage("click one player");
+			Thread t = new Thread(currentp);
+			t.start();
 		}
 	}
 	
 	public void returnMenu(){
 		cp5.getController("Replay").setVisible(true);
 		cp5.getController("Home").setVisible(true);
-		//changePhase(4);
+		changePhase(4);
 	}
 	
 	
@@ -199,19 +211,30 @@ public class myApplet extends PApplet{
 	}
 	
 	public void Resume(){
+		System.out.println("click resume");
 		if(cp5.getController("Resume").isVisible()){
-			
+			cp5.getController("Resume").setVisible(false);
+			//cp5.getController("Pause").setVisible(true);
+			changePhase(1);
+			//redraw();
 		}
+		System.out.println(gamePhase);
+		
 	}
 	
 	public void Pause(){
-		if(cp5.getController("Pause").isVisible()){
-			
-			
-		}
+		System.out.println("click pause");
 		
+		if(cp5.getController("Pause").isVisible()){
+			//cp5.getController("Resume").setVisible(true);
+			//cp5.getController("Pause").setVisible(false);
+			changePhase(5);
+			//redraw();
+		}
+		//System.out.println(gamePhase);
 		
 	}
+	
 	//server communication classes
 	public void connect() {
 		// Create socket & thread, remember to start your thread

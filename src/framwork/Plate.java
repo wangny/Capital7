@@ -111,13 +111,13 @@ public class Plate implements Runnable{
 		if (a.getState()>b.getState()){
 			//a is lighter
 			System.out.println(a.getState());
-			a.setState(a.getState()+1);
+			a.setState(a.getState()+b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
 		} else {
 			//b is lighter
 			System.out.println(a.getState());
-			a.setState(b.getState()+1);
+			a.setState(b.getState()+b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
 		}
@@ -184,6 +184,9 @@ public class Plate implements Runnable{
 		t.start();
 		
 		while(true){
+			
+			System.out.print("");
+			if(parent.gamePhase==5) continue;
 			
 			for (int i = 0; i < cubes.size(); i++){		///cubes will always been dragged to the lowest position they can
 				Cube ch = cubes.get(i);
