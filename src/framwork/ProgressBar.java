@@ -15,7 +15,7 @@ public class ProgressBar implements Runnable{
 	
 	public void display(){
 		int progressX = 100;
-	    int progressY = 10;
+	    int progressY = 100;
 	    int progressHeight = 8;
 	    parent.fill (0);
 	    parent.rect(progressX, progressY, goal*5, progressHeight);
@@ -29,6 +29,9 @@ public class ProgressBar implements Runnable{
 		stop = false;
 		
 		while(true){
+			System.out.print("");
+			if(parent.gamePhase==5) continue;
+			
 			value++;
 			if(value>goal) {
 				value = 0;

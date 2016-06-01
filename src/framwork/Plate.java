@@ -13,7 +13,7 @@ public class Plate implements Runnable{
 	private Cube dragCube;
 	private Random random;
 	private boolean GameOver;
-	private final static int inix=100, iniy=myApplet.height-150, finalx=myApplet.width-160 ,finaly=50;
+	private final static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180;
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
@@ -28,14 +28,16 @@ public class Plate implements Runnable{
 	}
 	
 	public void display(){	
-		pbar.display();
+		
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();
 		}
+		parent.image(parent.img_play,0,0);
+		pbar.display();
 		parent.stroke(200);
 		parent.strokeWeight(5);
 		parent.noFill();
-		parent.rect(50, 20, myApplet.width-100, myApplet.height-80, 15);
+		parent.rect(80, 150, myApplet.width-260, myApplet.height-220, 15);//(50, 20, myApplet.width-100, myApplet.height-80, 15);
 		parent.noStroke();
 	}
 
@@ -173,6 +175,7 @@ public class Plate implements Runnable{
 			System.out.println(c.getX()+", "+c.getY()+", "+c.getName());
 		}
 		System.out.println("-----------------");*/
+		//judge if can merge with the lower cube
 	}
 	
 	@Override
@@ -181,6 +184,7 @@ public class Plate implements Runnable{
 		addCube();
 		Thread t = new Thread(pbar);	///progressBar start counting
 		t.start();
+		
 		
 		while(true){
 			

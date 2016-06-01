@@ -26,7 +26,7 @@ public class myApplet extends PApplet{
 	StartWindow startwindow;
 	PImage img;
 	PImage img_play;
-	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
+	public final static int width = 960, height = 840 , cubewidth = 50, cubeheight = 60;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
 	
 	public ControlP5 cp5;
@@ -59,11 +59,11 @@ public class myApplet extends PApplet{
 		cp5=new ControlP5(this);
 		cp5.addButton("Replay")
 			.setLabel("R e p l a y")
-			.setPosition(myApplet.width-525, myApplet.height-260)
+			.setPosition( (myApplet.width-250)/2, myApplet.height-260)
 			.setSize(250,50);
 		cp5.addButton("Home")
 			.setLabel("H o m e")
-			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setPosition( (myApplet.width-250)/2, myApplet.height-190)
 			.setSize(250,50);
 		cp5.getController("Replay")
 	       .getCaptionLabel()
@@ -76,16 +76,16 @@ public class myApplet extends PApplet{
 		
 		cp5 .addButton("Pause")
 			.setLabel("I I")
-			.setPosition(myApplet.width-65, 10)
+			.setPosition(900, 10)
 			.setSize(40,40);
 		cp5 .getController("Pause")
 			.getCaptionLabel()
 			.setSize(25);
-		cp5.getController("Pause").setVisible(false);
+		//cp5.getController("Pause").setVisible(false);
 		
 		cp5	.addButton("Resume")
 			.setLabel("R e s u m e")//setimages
-			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setPosition( (myApplet.width-250)/2, 300)
 			.setSize(250,50);
 		cp5 .getController("Resume")
 			.getCaptionLabel()
@@ -98,33 +98,38 @@ public class myApplet extends PApplet{
 	
 	public void draw(){
 		//plate background and frame
-		image(img,0,0); 
+		//image(img,0,0); 
+	
 		
 		
-		System.out.println(cp5.getController("Pause").isVisible());
+		//System.out.println(cp5.getController("Pause").isVisible());
 		
 		if(gamePhase==0){
-			//image(img,0,0);
+			image(img,0,0);
 			startwindow.display();
-			cp5.getController("Replay").setVisible(false);
-			cp5.getController("Home").setVisible(false);
-			cp5.getController("Resume").setVisible(false);
-			cp5.getController("Pause").setVisible(false);
+			cp5.getController("Replay").hide();
+			cp5.getController("Home").hide();
+			cp5.getController("Resume").hide();
+			cp5.getController("Pause").hide();
+			
 		}
 		else /*if(gamePhase==1)*/{
 			
 			fill(255);
-			rect(49, 20, width-101, height-82, 15);
-			startwindow.cp5.getController("OnePlayer").setVisible(false);
-			startwindow.cp5.getController("TwoPlayer").setVisible(false);
-			startwindow.cp5.getController("MultiPlayer").setVisible(false);
+			rect(80, 150, width-260, height-220, 15);//(49, 20, width-101, height-82, 15);
+			startwindow.cp5.getController("OnePlayer").hide();
+			startwindow.cp5.getController("TwoPlayer").hide();
+			startwindow.cp5.getController("MultiPlayer").hide();
+			
 			if(gamePhase<=3){
-				//cp5.getController("Resume").setVisible(false);
-				cp5.getController("Pause").setVisible(true);
+				cp5.getController("Resume").hide();
+				cp5.getController("Pause").show();
+				cp5.getController("Replay").hide();
+				
 			}
 			if(gamePhase==5){
 				cp5.getController("Resume").setVisible(true);
-				//cp5.getController("Pause").setVisible(false);
+				//cp5.getController("Pause").getValueLabel().setVisible(false);
 			}
 			//this.redraw();
 			currentp.display();
@@ -184,12 +189,13 @@ public class myApplet extends PApplet{
 		if (startwindow.cp5.getController("TwoPlayer").isVisible()){
 			System.out.println("click two players");
 			this.sendMessage("click two players");
+			//this.sendMessage("click two players");
 		}
 	}
 	
 	public void returnMenu(){
-		cp5.getController("Replay").setVisible(true);
-		cp5.getController("Home").setVisible(true);
+		cp5.getController("Replay").show();
+		cp5.getController("Home").show();
 		changePhase(4);
 	}
 	
@@ -200,18 +206,20 @@ public class myApplet extends PApplet{
 			Thread t = new Thread(currentp);
 			t.start();
 			System.out.println("click Replay");
-			cp5.getController("Replay").setVisible(false);
-			cp5.getController("Home").setVisible(false);
+			//cp5.getController("Replay").getValueLabel().hide();
+			cp5.getController("Home").hide();
+			this.clear();
 			changePhase(1);
+			System.out.println( cp5.getController("Pause").getInfo() );
 		}
 	}
 	
 	public void Home(){	
 		//if(gamePhase==4){
 			currentp.reset();
-			cp5.getController("Replay").setVisible(false);
-			cp5.getController("Home").setVisible(false);
-			this.clear();	
+			cp5.getController("Replay").hide();
+			cp5.getController("Home").hide();
+			this.clear();
 			changePhase(0);
 			System.out.println("click home");
 		//}
@@ -220,10 +228,9 @@ public class myApplet extends PApplet{
 	public void Resume(){
 		System.out.println("click resume");
 		if(cp5.getController("Resume").isVisible()){
-			cp5.getController("Resume").setVisible(false);
-			//cp5.getController("Pause").setVisible(true);
+			cp5.getController("Resume").getValueLabel().hide();
+
 			changePhase(1);
-			//redraw();
 		}
 		System.out.println(gamePhase);
 		
@@ -232,13 +239,12 @@ public class myApplet extends PApplet{
 	public void Pause(){
 		System.out.println("click pause");
 		
-		if(cp5.getController("Pause").isVisible()){
-			//cp5.getController("Resume").setVisible(true);
-			//cp5.getController("Pause").setVisible(false);
+		if(cp5.getController("Pause").getValueLabel().isVisible()){
+			cp5.getController("Resume").show();
+			cp5.getController("Pause").hide();
+			
 			changePhase(5);
-			//redraw();
 		}
-		//System.out.println(gamePhase);
 		
 	}
 	
@@ -272,8 +278,8 @@ public class myApplet extends PApplet{
 		public void run() {
 			while(true) {
 				try {
-					String line = new String(this.reader.readLine());
-					
+					String line;
+					ObjectInputStream objReader;
 					if ( (line = new String(this.reader.readLine()) )!=""){
 						//do something here
 						if (line.equals("one player start")){
@@ -281,16 +287,17 @@ public class myApplet extends PApplet{
 							Thread t = new Thread(currentp);
 							t.start();
 						} else if (line.equals("two players start")){
+							
 							changePhase(1);
 							Thread t = new Thread(currentp);
 							t.start();
 						} else if (line.equals("multi players start")){
 							//
 						}
-					} /*else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
+					} else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
 						Cube c = (Cube)objReader.readObject();
 						System.out.println(c.getState());
-					}*/
+					}
 					
 				} catch (Exception e){
 					e.printStackTrace();
