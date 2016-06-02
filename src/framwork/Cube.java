@@ -61,7 +61,7 @@ public class Cube implements Serializable{
 		
 		if(this.state > 4) this.parent.fill(myApplet.unhex(this.colour[0]));
 		else this.parent.fill(255);
-		this.parent.textSize(16);
+		this.parent.textSize(17);
 		this.parent.text(this.name, this.x+1, this.y+20);
 	}
 	

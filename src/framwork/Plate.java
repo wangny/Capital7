@@ -52,7 +52,7 @@ public class Plate implements Runnable{
 		font = parent.createFont("Cooper Black",40);
 		parent.textFont(font);
 		parent.text(((Integer)score).toString() , 700 , 100);
-		font = parent.createFont("Franklin Gothic Medium Cond", 15);
+		font = parent.createFont("Franklin Gothic Medium Cond", 18);
 		parent.textFont(font);
 	}
 
@@ -211,7 +211,13 @@ public class Plate implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		addCube();
+		int x=0;
+		for(int i=0; i<10; i++){
+			//random.setSeed(random.nextLong());
+			Cube c = new Cube(parent, 0, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, iniy);
+			cubes.add(c);
+			x = x + myApplet.cubewidth + 10;
+		}
 		Thread t = new Thread(pbar);	///progressBar start counting
 		t.start();
 		
