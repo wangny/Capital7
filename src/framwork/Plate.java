@@ -17,7 +17,7 @@ public class Plate implements Runnable{
 	private boolean GameOver;
 	private int score;
 	boolean addbound;
-	private final static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180;
+	private static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
@@ -39,14 +39,19 @@ public class Plate implements Runnable{
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();
 		}
-		parent.image(parent.img_play,0,0);
-		pbar.display();
+		
+		for(int i=0; i<bounds.size(); i++) bounds.get(i).display();
+		
+		parent.image(parent.img_play,0,0);	///background
 		parent.stroke(200);
 		parent.strokeWeight(5);
 		parent.noFill();
 		parent.rect(80, 150, myApplet.width-260, myApplet.height-220, 15);//(50, 20, myApplet.width-100, myApplet.height-80, 15);
 		parent.noStroke();
-		parent.fill(myApplet.unhex("FF0000CD"));
+		
+		pbar.display();	
+		
+		parent.fill(myApplet.unhex("FF0000CD"));	///score
 		parent.textSize(30);
 		PFont font;
 		font = parent.createFont("Cooper Black",40);
@@ -178,11 +183,22 @@ public class Plate implements Runnable{
 		GameOver = false;
 		addbound = false;
 		score = 0;
+		iniy=myApplet.height-150;
 	}
 	
 	private void addBound(){
-		Bound  b = new Bound(parent,inix,iniy-bounds.size());
+		
+		Bound  b = new Bound(parent,inix-50, iniy+10);
 		bounds.add(b);
+		
+		iniy -= 70;
+		
+		for(Cube c : cubes){
+			if(c!=dragCube){
+				c.setY(c.getY()-70);
+			}
+		}
+		
 	}
 	
 	public void sortCubes(){
@@ -235,7 +251,7 @@ public class Plate implements Runnable{
 						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>=ch.getY() ) highest = c;
 				
 				int high ;
-				if(highest==null) high = myApplet.height-80;
+				if(highest==null) high = iniy;
 				else high= highest.getY();
 				high = high - 10 - myApplet.cubeheight;
 				if(!ch.isDragged() && ch.getY()<high)ch.setY(ch.getY()+1);
@@ -251,6 +267,9 @@ public class Plate implements Runnable{
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
 				addCube();
 				pbar.undone();
+			}else if(addbound==true){
+				addBound();
+				addbound = false;
 			}
 			
 			
