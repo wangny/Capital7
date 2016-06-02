@@ -9,27 +9,29 @@ import processing.core.PFont;
 public class Plate implements Runnable{
 	private ArrayList<Cube> cubes;
 	public ArrayList<Cube> cubeDB;
+	private ArrayList<Bound> bounds;
 	private myApplet parent;
 	private ProgressBar pbar;
 	private Cube dragCube;
 	private Random random;
 	private boolean GameOver;
 	private int score;
+	boolean addbound;
 	private final static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180;
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
 		cubes = new ArrayList<Cube>();
 		cubeDB = new ArrayList<Cube>();
+		bounds = new ArrayList<Bound>();
 		dragCube = new Cube();
 		random = new Random();
 		
 		pbar = new ProgressBar(parent);
 	
 		GameOver = false;
+		addbound = false;
 		score = 0;
-		String[] fontList = PFont.list();
-		for(String s:fontList)System.out.println(s);
 	}
 	
 	public void display(){	
@@ -46,32 +48,36 @@ public class Plate implements Runnable{
 		parent.noStroke();
 		parent.fill(myApplet.unhex("FF0000CD"));
 		parent.textSize(30);
-		/*PFont font;
-		font = creatFont("BroadWay",40);
-		parent.textFont(font);*/
+		PFont font;
+		font = parent.createFont("Cooper Black",40);
+		parent.textFont(font);
 		parent.text(((Integer)score).toString() , 700 , 100);
+		font = parent.createFont("Franklin Gothic Medium Cond", 15);
+		parent.textFont(font);
 	}
 
 	
-	public void addCube(){		
+	private void addCube(){		
 		System.out.println("add cube");
-		for(Cube c : cubes){
-			if(c!=dragCube){
-				int tmp = c.getY();
-				if(tmp-myApplet.cubeheight-10 < finaly) GameOver=true;
-				
-				//if(GameOver) Ani.to(c, (float)0.3, "y", tmp-40, Ani.LINEAR);
-				else Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
-			}
-		}
 		
 		int x = 0;
 		for(int i=0; i<10; i++){
-			random.setSeed(random.nextLong());
-			Cube c = new Cube(parent, 0, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, myApplet.height-150);
+			//random.setSeed(random.nextLong());
+			Cube c = new Cube(parent, 0, cubeDB.get(random.nextInt(cubeDB.size())), inix+x, iniy+70);
 			cubes.add(c);
 			x = x + myApplet.cubewidth + 10;
 		}
+		
+		for(Cube c : cubes){
+			if(c!=dragCube){
+				int tmp = c.getY();
+				
+				//if(GameOver) Ani.to(c, (float)0.3, "y", tmp-40, Ani.LINEAR);
+				Ani.to(c, (float)0.5, "y", tmp-myApplet.cubeheight-10, Ani.LINEAR);
+				//if(tmp-myApplet.cubeheight-10 < finaly) GameOver=true;
+			}
+		}
+		
 	}
 
 	public void mousePressed(){
@@ -119,7 +125,7 @@ public class Plate implements Runnable{
 		
 	}
 	
-	public void merge(Cube a, Cube b){ ///will always remove b
+	private void merge(Cube a, Cube b){ ///will always remove b
 		//judge which to remain/remove
 		if (a.getState()>b.getState()){
 			//a is lighter
@@ -139,6 +145,7 @@ public class Plate implements Runnable{
 			cubes.remove(a);
 			score++;
 			System.out.println(score);
+			//parent.sendMessage("attack");
 		}
 		
 	}
@@ -163,12 +170,19 @@ public class Plate implements Runnable{
 	
 	public void reset(){	///for restarting the game
 		cubes.clear();
+		bounds.clear();
 		dragCube = new Cube();
 		random = new Random();
 		pbar = new ProgressBar(parent);
 	
 		GameOver = false;
+		addbound = false;
 		score = 0;
+	}
+	
+	private void addBound(){
+		Bound  b = new Bound(parent,inix,iniy-bounds.size());
+		bounds.add(b);
 	}
 	
 	public void sortCubes(){
