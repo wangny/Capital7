@@ -26,8 +26,9 @@ public class myApplet extends PApplet{
 	StartWindow startwindow;
 	PImage img;
 	PImage img_play;
-	public final static int width = 800, height = 700 , cubewidth = 50, cubeheight = 60;
-	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay
+	public final static int width = 960, height = 840 , cubewidth = 50, cubeheight = 60;
+	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
+	
 	public ControlP5 cp5;
 	//for server communication
 	private String destinationIPAddr = "192.168.12.1";
@@ -58,11 +59,11 @@ public class myApplet extends PApplet{
 		cp5=new ControlP5(this);
 		cp5.addButton("Replay")
 			.setLabel("R e p l a y")
-			.setPosition(myApplet.width-525, myApplet.height-260)
+			.setPosition( (myApplet.width-250)/2, myApplet.height-260)
 			.setSize(250,50);
 		cp5.addButton("Home")
 			.setLabel("H o m e")
-			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setPosition( (myApplet.width-250)/2, myApplet.height-190)
 			.setSize(250,50);
 		cp5.getController("Replay")
 	       .getCaptionLabel()
@@ -75,63 +76,79 @@ public class myApplet extends PApplet{
 		
 		cp5 .addButton("Pause")
 			.setLabel("I I")
-			.setPosition(myApplet.width-65, 10)
+			.setPosition(900, 10)
 			.setSize(40,40);
 		cp5 .getController("Pause")
 			.getCaptionLabel()
 			.setSize(25);
-		cp5.getController("Pause").setVisible(false);
+		//cp5.getController("Pause").setVisible(false);
 		
 		cp5	.addButton("Resume")
 			.setLabel("R e s u m e")//setimages
-			.setPosition(myApplet.width-525, myApplet.height-190)
+			.setPosition( (myApplet.width-250)/2, 300)
 			.setSize(250,50);
 		cp5 .getController("Resume")
 			.getCaptionLabel()
 			.setSize(22);
-		cp5.getController("Resume").setVisible(false);	
+		//cp5.getController("Resume").setVisible(true);	
 		//connect to server
-		this.connect();
-		this.sendObject(currentp.cubeDB.get(0));
+		//this.connect();
+		//this.sendObject(currentp.cubeDB.get(0));
 	}
 	
 	public void draw(){
 		//plate background and frame
 		//image(img,0,0); 
+	
+		
+		
+		//System.out.println(cp5.getController("Pause").isVisible());
 		
 		if(gamePhase==0){
 			image(img,0,0);
 			startwindow.display();
-			cp5.getController("Replay").setVisible(false);
-			cp5.getController("Home").setVisible(false);
-			cp5.getController("Resume").setVisible(false);
-			cp5.getController("Pause").setVisible(false);
+			cp5.getController("Replay").hide();
+			cp5.getController("Home").hide();
+			cp5.getController("Resume").hide();
+			cp5.getController("Pause").hide();
+			
 		}
-		else if(gamePhase==1){
+		else /*if(gamePhase==1)*/{
 			
 			fill(255);
-			rect(49, 20, width-101, height-82, 15);
-			startwindow.cp5.getController("OnePlayer").setVisible(false);
-			startwindow.cp5.getController("TwoPlayer").setVisible(false);
-			startwindow.cp5.getController("MultiPlayer").setVisible(false);
-			cp5.getController("Resume").setVisible(false);
-			cp5.getController("Pause").setVisible(true);
-			this.repaint();
+			rect(80, 150, width-260, height-220, 15);//(49, 20, width-101, height-82, 15);
+			startwindow.cp5.getController("OnePlayer").hide();
+			startwindow.cp5.getController("TwoPlayer").hide();
+			startwindow.cp5.getController("MultiPlayer").hide();
+			
+			if(gamePhase<=3){
+				cp5.getController("Resume").hide();
+				cp5.getController("Pause").show();
+				cp5.getController("Replay").hide();
+				
+			}
+			if(gamePhase==5){
+				cp5.getController("Resume").setVisible(true);
+				//cp5.getController("Pause").getValueLabel().setVisible(false);
+			}
+			//this.redraw();
 			currentp.display();
+			
+			
 			//image(img_play,0,0);
 		}
 	}
 	
 	public void mousePressed(){
-		currentp.mousePressed();
+		if(gamePhase<=3) currentp.mousePressed();
 	}
 	
 	public void mouseDragged(){
-		currentp.mouseDragged();
+		if(gamePhase<=3) currentp.mouseDragged();
 	}
 	
 	public void mouseReleased(){
-		currentp.mouseReleased();
+		if(gamePhase<=3) currentp.mouseReleased();
 	}
 	
 	public void loadData(){
@@ -160,18 +177,26 @@ public class myApplet extends PApplet{
 	
 	public void OnePlayer(){
 		if(startwindow.cp5.getController("OnePlayer").isVisible()){	
-			//changePhase(1);
+			changePhase(1);
 			System.out.println("click one player");
-			this.sendMessage("click one player");
-			//Thread t = new Thread(currentp);
-			//t.start();
+			//this.sendMessage("click one player");
+			Thread t = new Thread(currentp);
+			t.start();
+		}
+	}
+	
+	public void TwoPlayer(){
+		if (startwindow.cp5.getController("TwoPlayer").isVisible()){
+			System.out.println("click two players");
+			this.sendMessage("click two players");
+			//this.sendMessage("click two players");
 		}
 	}
 	
 	public void returnMenu(){
-		cp5.getController("Replay").setVisible(true);
-		cp5.getController("Home").setVisible(true);
-		//changePhase(4);
+		cp5.getController("Replay").show();
+		cp5.getController("Home").show();
+		changePhase(4);
 	}
 	
 	
@@ -181,37 +206,48 @@ public class myApplet extends PApplet{
 			Thread t = new Thread(currentp);
 			t.start();
 			System.out.println("click Replay");
-			cp5.getController("Replay").setVisible(false);
-			cp5.getController("Home").setVisible(false);
+			//cp5.getController("Replay").getValueLabel().hide();
+			cp5.getController("Home").hide();
+			this.clear();
 			changePhase(1);
+			System.out.println( cp5.getController("Pause").getInfo() );
 		}
 	}
 	
 	public void Home(){	
 		//if(gamePhase==4){
 			currentp.reset();
-			cp5.getController("Replay").setVisible(false);
-			cp5.getController("Home").setVisible(false);
-			this.clear();	
+			cp5.getController("Replay").hide();
+			cp5.getController("Home").hide();
+			this.clear();
 			changePhase(0);
 			System.out.println("click home");
 		//}
 	}
 	
 	public void Resume(){
+		System.out.println("click resume");
 		if(cp5.getController("Resume").isVisible()){
-			
+			cp5.getController("Resume").getValueLabel().hide();
+
+			changePhase(1);
 		}
+		System.out.println(gamePhase);
+		
 	}
 	
 	public void Pause(){
-		if(cp5.getController("Pause").isVisible()){
+		System.out.println("click pause");
+		
+		if(cp5.getController("Pause").getValueLabel().isVisible()){
+			cp5.getController("Resume").show();
+			cp5.getController("Pause").hide();
 			
-			
+			changePhase(5);
 		}
 		
-		
 	}
+	
 	//server communication classes
 	public void connect() {
 		// Create socket & thread, remember to start your thread
@@ -251,7 +287,10 @@ public class myApplet extends PApplet{
 							Thread t = new Thread(currentp);
 							t.start();
 						} else if (line.equals("two players start")){
-							//
+							
+							changePhase(1);
+							Thread t = new Thread(currentp);
+							t.start();
 						} else if (line.equals("multi players start")){
 							//
 						}

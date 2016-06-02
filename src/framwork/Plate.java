@@ -13,7 +13,7 @@ public class Plate implements Runnable{
 	private Cube dragCube;
 	private Random random;
 	private boolean GameOver;
-	private final static int inix=100, iniy=myApplet.height-150, finalx=myApplet.width-160 ,finaly=50;
+	private final static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180;
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
@@ -28,14 +28,16 @@ public class Plate implements Runnable{
 	}
 	
 	public void display(){	
-		pbar.display();
+		
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();
 		}
+		parent.image(parent.img_play,0,0);
+		pbar.display();
 		parent.stroke(200);
 		parent.strokeWeight(5);
 		parent.noFill();
-		parent.rect(50, 20, myApplet.width-100, myApplet.height-80, 15);
+		parent.rect(80, 150, myApplet.width-260, myApplet.height-220, 15);//(50, 20, myApplet.width-100, myApplet.height-80, 15);
 		parent.noStroke();
 	}
 
@@ -111,13 +113,13 @@ public class Plate implements Runnable{
 		if (a.getState()>b.getState()){
 			//a is lighter
 			System.out.println(a.getState());
-			a.setState(a.getState()+1);
+			a.setState(a.getState()+b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
 		} else {
 			//b is lighter
 			System.out.println(a.getState());
-			a.setState(b.getState()+1);
+			a.setState(b.getState()+b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
 		}
@@ -158,10 +160,10 @@ public class Plate implements Runnable{
 		cubes.sort(new Comparator<Cube>(){
 			@Override
 			public int compare(Cube c1, Cube c2) {
-				if (c1.getX()>c2.getX())
+				if (c1.getY()<c2.getY())
 					return 1;
-				else if (c1.getX()==c2.getX()){
-					if (c1.getY()<c2.getY())
+				else if (c1.getY()==c2.getY()){
+					if (c1.getX()>c2.getX())
 						return 0;
 					else return -1;
 				}
@@ -183,7 +185,11 @@ public class Plate implements Runnable{
 		Thread t = new Thread(pbar);	///progressBar start counting
 		t.start();
 		
+		
 		while(true){
+			
+			System.out.print("");
+			if(parent.gamePhase==5) continue;
 			
 			for (int i = 0; i < cubes.size(); i++){		///cubes will always been dragged to the lowest position they can
 				Cube ch = cubes.get(i);
