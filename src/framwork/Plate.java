@@ -74,7 +74,7 @@ public class Plate implements Runnable{
 		}
 		
 		for(Cube c : cubes){
-			if(c!=dragCube){
+			if(!c.isDragged()){
 				int tmp = c.getY();
 				
 				//if(GameOver) Ani.to(c, (float)0.3, "y", tmp-40, Ani.LINEAR);
@@ -114,7 +114,7 @@ public class Plate implements Runnable{
 					if(c.getTarget().equals(dragCube.getName())){/// is match, do merging animation
 						System.out.println("match");
 						merge(c, dragCube);
-						cubes.remove(dragCube);
+						cubes.remove(dragCube);  
 						dragCube = new Cube();	//important! not to re-judge
 					}else{	///else don't move
 						if(Math.abs(dragCube.getX()+diffx-c.getX())<myApplet.cubewidth) hitx = true;
@@ -170,7 +170,7 @@ public class Plate implements Runnable{
 		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
 		
 		dragCube.setDrag(false);
-		dragCube = new Cube();
+		//dragCube = new Cube();
 	}
 	
 	public void reset(){	///for restarting the game
@@ -247,15 +247,18 @@ public class Plate implements Runnable{
 				Cube ch = cubes.get(i);
 				
 				Cube highest=null;
-				for (Cube c: cubes) if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>ch.getX())|| (c.getX()<ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>ch.getX()+myApplet.cubewidth)) 
+				for (int j=0; j<cubes.size(); j++){
+					Cube c = cubes.get(j);
+					if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>ch.getX())|| (c.getX()<ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>ch.getX()+myApplet.cubewidth)) 
 						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>=ch.getY() ) highest = c;
+				}
 				
 				int high ;
-				if(highest==null) high = iniy;
+				if(highest==null) high = iniy+70;
 				else high= highest.getY();
 				high = high - 10 - myApplet.cubeheight;
 				if(!ch.isDragged() && ch.getY()<high)ch.setY(ch.getY()+1);
-				else if(ch.getY()>high && ch==dragCube )ch.setY(ch.getY()-1);
+				else if(ch.getY()>high && (highest==null||highest.isDragged()==false)/*&& ch==dragCube*/ )ch.setY(ch.getY()-1);
 				
 				
 				if(ch.getY()>=high && highest!=null && ch.getX()==highest.getX()) if(ch.getTarget().equals(highest.getName())) merge(highest,ch);
@@ -268,7 +271,7 @@ public class Plate implements Runnable{
 				addCube();
 				pbar.undone();
 			}else if(addbound==true){
-				addBound();
+				//addBound();
 				addbound = false;
 			}
 			
