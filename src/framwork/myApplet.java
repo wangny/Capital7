@@ -162,9 +162,6 @@ public class myApplet extends PApplet{
 			//
 			String[] colour = new String[7];
 			colour = colours.split(",");
-			/*for (int j = 0; j < 7; j++){
-				colour[j] = colours.substring(9*j, 9*j+8);
-			}*/
 			//
 			Cube c = new Cube(name,target,colour);	//???
 			currentp.cubeDB.add(c);
@@ -177,11 +174,11 @@ public class myApplet extends PApplet{
 	
 	public void OnePlayer(){
 		if(startwindow.cp5.getController("OnePlayer").isVisible()){	
-			changePhase(1);
+			//changePhase(1);
 			System.out.println("click one player");
-			//this.sendMessage("click one player");
-			Thread t = new Thread(currentp);
-			t.start();
+			this.sendMessage("click one player");
+			/*Thread t = new Thread(currentp);
+			t.start();*/
 		}
 	}
 	
@@ -189,7 +186,6 @@ public class myApplet extends PApplet{
 		if (startwindow.cp5.getController("TwoPlayer").isVisible()){
 			System.out.println("click two players");
 			this.sendMessage("click two players");
-			//this.sendMessage("click two players");
 		}
 	}
 	
@@ -259,8 +255,6 @@ public class myApplet extends PApplet{
 			reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 			ClientThread connection = new ClientThread(reader);
 			connection.start();
-			/*connection = new ClientThread(reader);
-			connection.start();*/
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (ConnectException e) {
