@@ -16,11 +16,11 @@ public class ProgressBar implements Runnable{
 	public void display(){
 		int progressX = 100;
 	    int progressY = 100;
-	    int progressHeight = 8;
-	    parent.fill (0);
-	    parent.rect(progressX, progressY, goal*5, progressHeight);
-	    parent.fill (255);
-	    parent.rect(progressX, progressY, value*5, progressHeight);
+	    int progressHeight = 10;
+	    parent.fill ( 240 );
+	    parent.rect(progressX-5, progressY-5, goal*5+10, progressHeight+10,8);
+	    parent.fill (myApplet.unhex("FFCD950C"));
+	    parent.rect(progressX, progressY, (goal-value)*5, progressHeight,5);
 	}
 
 	@Override

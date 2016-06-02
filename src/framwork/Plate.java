@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 import de.looksgood.ani.Ani;
+import processing.core.PFont;
 
 public class Plate implements Runnable{
 	private ArrayList<Cube> cubes;
@@ -13,6 +14,7 @@ public class Plate implements Runnable{
 	private Cube dragCube;
 	private Random random;
 	private boolean GameOver;
+	private int score;
 	private final static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180;
 	
 	public Plate(myApplet applet){
@@ -25,6 +27,9 @@ public class Plate implements Runnable{
 		pbar = new ProgressBar(parent);
 	
 		GameOver = false;
+		score = 0;
+		String[] fontList = PFont.list();
+		for(String s:fontList)System.out.println(s);
 	}
 	
 	public void display(){	
@@ -39,6 +44,12 @@ public class Plate implements Runnable{
 		parent.noFill();
 		parent.rect(80, 150, myApplet.width-260, myApplet.height-220, 15);//(50, 20, myApplet.width-100, myApplet.height-80, 15);
 		parent.noStroke();
+		parent.fill(myApplet.unhex("FF0000CD"));
+		parent.textSize(30);
+		/*PFont font;
+		font = creatFont("BroadWay",40);
+		parent.textFont(font);*/
+		parent.text(((Integer)score).toString() , 700 , 100);
 	}
 
 	
@@ -124,7 +135,11 @@ public class Plate implements Runnable{
 			cubes.remove(b);
 		}
 		
-		if(a.getState()>=7) cubes.remove(a);
+		if(a.getState()>=7){
+			cubes.remove(a);
+			score++;
+			System.out.println(score);
+		}
 		
 	}
 	
@@ -153,6 +168,7 @@ public class Plate implements Runnable{
 		pbar = new ProgressBar(parent);
 	
 		GameOver = false;
+		score = 0;
 	}
 	
 	public void sortCubes(){
