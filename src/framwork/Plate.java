@@ -36,6 +36,16 @@ public class Plate implements Runnable{
 	
 	public void display(){	
 		
+		if((myApplet.playBgM.position()==myApplet.playBgM.length()) && GameOver==false){
+			myApplet.playBgM.rewind();
+			myApplet.playBgM.play();
+		}else if(GameOver==false){
+			myApplet.dieM.pause();
+		}else if(GameOver==true){
+			myApplet.playBgM.pause();
+		}
+		
+		
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();
 		}
@@ -138,12 +148,16 @@ public class Plate implements Runnable{
 			a.setState(a.getState()+b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
+			myApplet.mixM.rewind();
+			myApplet.mixM.play();
 		} else {
 			//b is lighter
 			System.out.println(a.getState());
 			a.setState(b.getState()+b.getState()+1);
 			System.out.println(a.getState());
 			cubes.remove(b);
+			myApplet.mixM.rewind();
+			myApplet.mixM.play();
 		}
 		
 		if(a.getState()>=7){
@@ -151,7 +165,11 @@ public class Plate implements Runnable{
 			score++;
 			System.out.println(score);
 			//parent.sendMessage("attack");
+			myApplet.disappearM.rewind();
+			myApplet.disappearM.play();
 		}
+		//myApplet.mixM.pause();
+		//myApplet.disappearM.pause();
 		
 	}
 	
@@ -184,6 +202,8 @@ public class Plate implements Runnable{
 		addbound = false;
 		score = 0;
 		iniy=myApplet.height-150;
+		
+		if(GameOver==false) myApplet.dieM.cue(0);
 	}
 	
 	private void addBound(){
@@ -288,6 +308,7 @@ public class Plate implements Runnable{
 					e.printStackTrace();
 				}
 				pbar.stop();	///stop progressBar
+				myApplet.dieM.play();
 				break;	
 			}
 			
@@ -295,5 +316,9 @@ public class Plate implements Runnable{
 		parent.returnMenu(); ///call replay and home button
 		parent.cp5.getController("Replay").setVisible(true);
 		parent.cp5.getController("Home").setVisible(true);
+	}
+	
+	public boolean getGameCondition(){
+		return GameOver;
 	}
 }

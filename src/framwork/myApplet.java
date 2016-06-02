@@ -12,6 +12,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import controlP5.ControlP5;
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -36,10 +38,28 @@ public class myApplet extends PApplet{
 	private Socket socket;
 	private PrintWriter writer;
 	private BufferedReader reader;
+	
+	Minim minim;
+	static AudioPlayer homeBgM,playBgM,dieM,disappearM,mixM,replayM,throwLineM,btnSelectM;
+	static AudioPlayer oneBtnM,twoBtnM,pauseBtnM,resumeBtnM;
 
 	public void setup(){
 		
 		size(width, height);
+		
+		//music
+		minim = new Minim(this);
+		homeBgM = minim.loadFile("bg1.wav");
+		playBgM = minim.loadFile("bg2.wav",2048);
+		dieM = minim.loadFile("die.wav");
+		disappearM = minim.loadFile("disappear.wav");
+		mixM = minim.loadFile("mix.wav");
+		replayM = minim.loadFile("replay.wav");
+		throwLineM = minim.loadFile("throwline.wav");
+		resumeBtnM = minim.loadFile("btnselect.wav");
+		oneBtnM = minim.loadFile("btnselect1.wav");
+		twoBtnM = minim.loadFile("btnselect2.wav");
+		pauseBtnM = minim.loadFile("btnselect3.wav");
 		
 		background(240);
 		smooth();
@@ -53,7 +73,7 @@ public class myApplet extends PApplet{
 		
 		gamePhase = 0;
 		
-		img = loadImage("g.png"); 
+		img = loadImage("g1.png"); 
 		img_play = loadImage("g2.png");
 		
 		cp5=new ControlP5(this);
@@ -106,6 +126,9 @@ public class myApplet extends PApplet{
 		
 		if(gamePhase==0){
 			image(img,0,0);
+			playBgM.pause();
+			playBgM.rewind();
+			homeBgM.play();
 			startwindow.display();
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
@@ -117,6 +140,11 @@ public class myApplet extends PApplet{
 			
 			fill(255);
 			rect(80, 150, width-260, height-220, 15);//(49, 20, width-101, height-82, 15);
+			
+			homeBgM.pause();homeBgM.rewind();
+			if(currentp.getGameCondition()) playBgM.pause();
+			else playBgM.play();
+
 			startwindow.cp5.getController("OnePlayer").hide();
 			startwindow.cp5.getController("TwoPlayer").hide();
 			startwindow.cp5.getController("MultiPlayer").hide();
@@ -173,17 +201,31 @@ public class myApplet extends PApplet{
 	}
 	
 	public void OnePlayer(){
-		if(startwindow.cp5.getController("OnePlayer").isVisible()){	
-			//changePhase(1);
+		if(startwindow.cp5.getController("OnePlayer").isVisible()){
+			if(replayM.position()==replayM.length()){
+				replayM.rewind();
+				replayM.play();
+			}else{
+				replayM.play();
+			}
+			
+			changePhase(1);
 			System.out.println("click one player");
-			this.sendMessage("click one player");
-			/*Thread t = new Thread(currentp);
-			t.start();*/
+			//this.sendMessage("click one player");
+			Thread t = new Thread(currentp);
+			t.start();
 		}
 	}
 	
 	public void TwoPlayer(){
 		if (startwindow.cp5.getController("TwoPlayer").isVisible()){
+			if(replayM.position()==replayM.length()){
+				replayM.rewind();
+				replayM.play();
+			}else{
+				replayM.play();
+			}
+			
 			System.out.println("click two players");
 			this.sendMessage("click two players");
 		}
@@ -198,6 +240,14 @@ public class myApplet extends PApplet{
 	
 	public void Replay(){	
 		if(cp5.getController("Replay").isVisible()){
+			if(replayM.position()==replayM.length()){
+				replayM.rewind();
+				replayM.play();
+			}else{
+				replayM.play();
+			}
+			
+			
 			currentp.reset();
 			Thread t = new Thread(currentp);
 			t.start();
@@ -213,6 +263,12 @@ public class myApplet extends PApplet{
 	public void Home(){	
 		//if(gamePhase==4){
 			currentp.reset();
+			if(replayM.position()==replayM.length()){
+				replayM.rewind();
+				replayM.play();
+			}else{
+				replayM.play();
+			}
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
 			this.clear();
@@ -223,6 +279,12 @@ public class myApplet extends PApplet{
 	
 	public void Resume(){
 		System.out.println("click resume");
+		if(replayM.position()==replayM.length()){
+			replayM.rewind();
+			replayM.play();
+		}else{
+			replayM.play();
+		}
 		if(cp5.getController("Resume").isVisible()){
 			cp5.getController("Resume").getValueLabel().hide();
 
@@ -233,7 +295,9 @@ public class myApplet extends PApplet{
 	}
 	
 	public void Pause(){
-		System.out.println("click pause");
+		System.out.println("click pause");		
+		pauseBtnM.rewind();
+		pauseBtnM.play();
 		
 		if(cp5.getController("Pause").getValueLabel().isVisible()){
 			cp5.getController("Resume").show();
