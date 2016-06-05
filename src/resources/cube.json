@@ -33,12 +33,12 @@
     {
       "name": "Poland",
       "target": "Warsaw",
-      "colour": "FF8B6914,FFB8860B,FFCD950C,FFEEAD0E,FFFFB90F,FFFFD700,FFFFEC8B"
+      "colour": "FF8B6914,FFCD9B1D,FFEEB422,FFFFC125,FFFFD700,FFFFFF00,FFFAFAD2"
     },
 	{
       "name": "Warsaw",
       "target": "Poland",
-      "colour": "FF8B6914,FFB8860B,FFCD950C,FFEEAD0E,FFFFB90F,FFFFD700,FFFFEC8B"
+      "colour": "FF8B6914,FFCD9B1D,FFEEB422,FFFFC125,FFFFD700,FFFFFF00,FFFAFAD2"
     },
     {
       "name": "Egypt",
@@ -53,22 +53,22 @@
     {
       "name": "Peru",
       "target": "Lima",
-      "colour": "FF8B7355,FFCD853F,FFCDAA7D,FFF4A460,FFEEC591,FFFFD39B,FFFFEBCD"
+      "colour": "FF458B74,FF528B8B,FF008B8B,FF00868B,FF20B2AA,FF79CDCD,FFBFEFFF"
     },
 	{
       "name": "Lima",
       "target": "Peru",
-      "colour": "FF8B7355,FFCD853F,FFCDAA7D,FFF4A460,FFEEC591,FFFFD39B,FFFFEBCD"
+      "colour": "FF458B74,FF528B8B,FF008B8B,FF00868B,FF20B2AA,FF79CDCD,FFBFEFFF"
     },
     {
       "name": "Ukraine",
       "target": "Kiev",
-      "colour": "FF8B4C39,FFCD7054,FFEE8262,FFFF8C69,FFEE9572,FFFFA07A,FFFFDAB9"
+      "colour": "FF8B4500,FFCD6600,FFEE7600,FFFF7F00,FFFF7F24,FFFF8C00,FFFFA500"
     },
 	{
       "name": "Kiev",
       "target": "Ukraine",
-      "colour": "FF8B4C39,FFCD7054,FFEE8262,FFFF8C69,FFEE9572,FFFFA07A,FFFFDAB9"
+      "colour": "FF8B4500,FFCD6600,FFEE7600,FFFF7F00,FFFF7F24,FFFF8C00,FFFFA500"
     },
     {
       "name": "Vietnam",

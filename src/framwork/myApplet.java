@@ -1,5 +1,7 @@
 package framwork;
 
+import java.awt.Component;
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,6 +45,8 @@ public class myApplet extends PApplet{
 	
 	Minim minim;
 	static AudioPlayer homeBgM,playBgM,dieM,disappearM,mixM,bigBtnM,throwLineM,littleBtnM;
+	
+	private boolean readmeDisplay=false;
 
 	public void setup(){
 		
@@ -134,6 +138,11 @@ public class myApplet extends PApplet{
 			playBgM.rewind();
 			homeBgM.play();
 			startwindow.display();
+			if(readmeDisplay){
+				//this.image(explan, 20, 30);
+				//Ani.to(explan, (float)0.5, "readmeY", 50, Ani.LINEAR);
+				
+			}
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
 			cp5.getController("Resume").hide();
@@ -260,7 +269,8 @@ public class myApplet extends PApplet{
 			}else{
 				bigBtnM.play();
 			}
-			//Ani.to(explan, 500000, "readmeY", Ani.SINE_IN);
+			
+			readmeDisplay = true;
 		}
 	}
 	
