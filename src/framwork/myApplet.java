@@ -28,8 +28,9 @@ public class myApplet extends PApplet{
 	StartWindow startwindow;
 	PImage img;
 	PImage img_play;
-	PImage onePlayer,twoPlayer;
+	PImage explan;
 	public final static int width = 960, height = 840 , cubewidth = 50, cubeheight = 60;
+	int readmeX=20,readY=30;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
 	
 	public ControlP5 cp5;
@@ -72,18 +73,22 @@ public class myApplet extends PApplet{
 		
 		img = loadImage("g1.png"); 
 		img_play = loadImage("g2.png");
-		onePlayer = loadImage("oneplayer.png");
+		explan = loadImage("explantation.png");
 		
 		
 		cp5=new ControlP5(this);
 		cp5.addButton("Replay")
 			.setLabel("R e p l a y")
-			.setPosition( (myApplet.width-250)/2, myApplet.height-260)
-			.setSize(250,50);
+			.setPosition( (myApplet.width-300)/2, 300)
+			.setImage(loadImage("replay.png"))
+			.updateSize();
+			//.setSize(250,50);
 		cp5.addButton("Home")
 			.setLabel("H o m e")
-			.setPosition( (myApplet.width-250)/2, myApplet.height-190)
-			.setSize(250,50);
+			.setPosition( (myApplet.width-300)/2, 400)
+			.setImage(loadImage("homebtn.png"))
+			.updateSize();
+			//.setSize(250,50);
 		
 		cp5.getController("Replay").setVisible(false);
 		cp5.getController("Home").setVisible(false);
@@ -243,6 +248,19 @@ public class myApplet extends PApplet{
 			
 			System.out.println("click two players");
 			this.sendMessage("click two players");
+		}
+	}
+	
+	public void ReadMe() {
+		if(startwindow.cp5.getController("ReadMe").isVisible()){
+			System.out.println("click read me");
+			if(bigBtnM.position()==bigBtnM.length()){
+				bigBtnM.rewind();
+				bigBtnM.play();
+			}else{
+				bigBtnM.play();
+			}
+			//Ani.to(explan, 500000, "readmeY", Ani.SINE_IN);
 		}
 	}
 	
