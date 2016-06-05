@@ -28,6 +28,7 @@ public class myApplet extends PApplet{
 	StartWindow startwindow;
 	PImage img;
 	PImage img_play;
+	PImage onePlayer,twoPlayer;
 	public final static int width = 960, height = 840 , cubewidth = 50, cubeheight = 60;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
 	
@@ -40,8 +41,7 @@ public class myApplet extends PApplet{
 	private BufferedReader reader;
 	
 	Minim minim;
-	static AudioPlayer homeBgM,playBgM,dieM,disappearM,mixM,replayM,throwLineM,btnSelectM;
-	static AudioPlayer oneBtnM,twoBtnM,pauseBtnM,resumeBtnM;
+	static AudioPlayer homeBgM,playBgM,dieM,disappearM,mixM,bigBtnM,throwLineM,littleBtnM;
 
 	public void setup(){
 		
@@ -54,12 +54,9 @@ public class myApplet extends PApplet{
 		dieM = minim.loadFile("die.wav");
 		disappearM = minim.loadFile("disappear.wav");
 		mixM = minim.loadFile("mix.wav");
-		replayM = minim.loadFile("replay.wav");
+		bigBtnM = minim.loadFile("replay.wav");
 		throwLineM = minim.loadFile("throwline.wav");
-		resumeBtnM = minim.loadFile("btnselect.wav");
-		oneBtnM = minim.loadFile("btnselect1.wav");
-		twoBtnM = minim.loadFile("btnselect2.wav");
-		pauseBtnM = minim.loadFile("btnselect3.wav");
+		littleBtnM = minim.loadFile("btnselect3.wav");
 		
 		background(240);
 		smooth();
@@ -75,6 +72,8 @@ public class myApplet extends PApplet{
 		
 		img = loadImage("g1.png"); 
 		img_play = loadImage("g2.png");
+		onePlayer = loadImage("oneplayer.png");
+		
 		
 		cp5=new ControlP5(this);
 		cp5.addButton("Replay")
@@ -85,31 +84,31 @@ public class myApplet extends PApplet{
 			.setLabel("H o m e")
 			.setPosition( (myApplet.width-250)/2, myApplet.height-190)
 			.setSize(250,50);
-		cp5.getController("Replay")
-	       .getCaptionLabel()
-	       .setSize(22);
-		cp5.getController("Home")
-	       .getCaptionLabel()
-	       .setSize(22);
+		
 		cp5.getController("Replay").setVisible(false);
 		cp5.getController("Home").setVisible(false);
 		
 		cp5 .addButton("Pause")
-			.setLabel("I I")
-			.setPosition(900, 10)
-			.setSize(40,40);
-		cp5 .getController("Pause")
-			.getCaptionLabel()
-			.setSize(25);
-		//cp5.getController("Pause").setVisible(false);
+			.setPosition(830, 150)
+			.setImage(loadImage("pauseBtn.png"))
+			.updateSize();
+			
 		
 		cp5	.addButton("Resume")
-			.setLabel("R e s u m e")//setimages
-			.setPosition( (myApplet.width-250)/2, 300)
-			.setSize(250,50);
-		cp5 .getController("Resume")
-			.getCaptionLabel()
-			.setSize(22);
+			.setPosition( (myApplet.width-300)/2, 300)
+			.setImage(loadImage("resumeBtn.png"))
+			.updateSize();
+			
+		
+		cp5 .addButton("playMusic")
+			.setPosition(830,230)
+			.setImage(loadImage("musicBtn.png"))
+			.updateSize();
+		
+		cp5 .addButton("mute")
+			.setPosition(830,230)
+			.setImage(loadImage("muteBtn.png"))
+			.updateSize();
 		//cp5.getController("Resume").setVisible(true);	
 		//connect to server
 		//this.connect();
@@ -134,7 +133,8 @@ public class myApplet extends PApplet{
 			cp5.getController("Home").hide();
 			cp5.getController("Resume").hide();
 			cp5.getController("Pause").hide();
-			
+			cp5.getController("playMusic").hide();
+			cp5.getController("mute").hide();
 		}
 		else /*if(gamePhase==1)*/{
 			
@@ -143,20 +143,35 @@ public class myApplet extends PApplet{
 			
 			homeBgM.pause();homeBgM.rewind();
 			if(currentp.getGameCondition()) playBgM.pause();
+			else if(currentp.getMusicMute()) playBgM.pause();
+			else if(currentp.getMusicPlay()) playBgM.play();
 			else playBgM.play();
-
+			
 			startwindow.cp5.getController("OnePlayer").hide();
 			startwindow.cp5.getController("TwoPlayer").hide();
-			startwindow.cp5.getController("MultiPlayer").hide();
+			startwindow.cp5.getController("ReadMe").hide();
 			
 			if(gamePhase<=3){
 				cp5.getController("Resume").hide();
 				cp5.getController("Pause").show();
-				cp5.getController("Replay").hide();
+				if(currentp.getMusicPlay() && !currentp.getMusicMute()){
+					cp5.getController("playMusic").setVisible(false);
+					cp5.getController("mute").setVisible(true);
+				}else if(currentp.getMusicMute() && !currentp.getMusicPlay()){
+					cp5.getController("playMusic").setVisible(true);
+					cp5.getController("mute").setVisible(false);
+				}
 				
 			}
 			if(gamePhase==5){
 				cp5.getController("Resume").setVisible(true);
+				if(currentp.getMusicPlay() && !currentp.getMusicMute()){
+					cp5.getController("playMusic").setVisible(false);
+					cp5.getController("mute").setVisible(true);
+				}else if(currentp.getMusicMute() && !currentp.getMusicPlay()){
+					cp5.getController("playMusic").setVisible(true);
+					cp5.getController("mute").setVisible(false);
+				}
 				//cp5.getController("Pause").getValueLabel().setVisible(false);
 			}
 			//this.redraw();
@@ -202,11 +217,11 @@ public class myApplet extends PApplet{
 	
 	public void OnePlayer(){
 		if(startwindow.cp5.getController("OnePlayer").isVisible()){
-			if(replayM.position()==replayM.length()){
-				replayM.rewind();
-				replayM.play();
+			if(bigBtnM.position()==bigBtnM.length()){
+				bigBtnM.rewind();
+				bigBtnM.play();
 			}else{
-				replayM.play();
+				bigBtnM.play();
 			}
 			
 			changePhase(1);
@@ -219,11 +234,11 @@ public class myApplet extends PApplet{
 	
 	public void TwoPlayer(){
 		if (startwindow.cp5.getController("TwoPlayer").isVisible()){
-			if(replayM.position()==replayM.length()){
-				replayM.rewind();
-				replayM.play();
+			if(bigBtnM.position()==bigBtnM.length()){
+				bigBtnM.rewind();
+				bigBtnM.play();
 			}else{
-				replayM.play();
+				bigBtnM.play();
 			}
 			
 			System.out.println("click two players");
@@ -240,11 +255,11 @@ public class myApplet extends PApplet{
 	
 	public void Replay(){	
 		if(cp5.getController("Replay").isVisible()){
-			if(replayM.position()==replayM.length()){
-				replayM.rewind();
-				replayM.play();
+			if(bigBtnM.position()==bigBtnM.length()){
+				bigBtnM.rewind();
+				bigBtnM.play();
 			}else{
-				replayM.play();
+				bigBtnM.play();
 			}
 			
 			
@@ -263,11 +278,11 @@ public class myApplet extends PApplet{
 	public void Home(){	
 		//if(gamePhase==4){
 			currentp.reset();
-			if(replayM.position()==replayM.length()){
-				replayM.rewind();
-				replayM.play();
+			if(bigBtnM.position()==bigBtnM.length()){
+				bigBtnM.rewind();
+				bigBtnM.play();
 			}else{
-				replayM.play();
+				bigBtnM.play();
 			}
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
@@ -279,11 +294,11 @@ public class myApplet extends PApplet{
 	
 	public void Resume(){
 		System.out.println("click resume");
-		if(replayM.position()==replayM.length()){
-			replayM.rewind();
-			replayM.play();
+		if(bigBtnM.position()==bigBtnM.length()){
+			bigBtnM.rewind();
+			bigBtnM.play();
 		}else{
-			replayM.play();
+			bigBtnM.play();
 		}
 		if(cp5.getController("Resume").isVisible()){
 			cp5.getController("Resume").getValueLabel().hide();
@@ -296,14 +311,40 @@ public class myApplet extends PApplet{
 	
 	public void Pause(){
 		System.out.println("click pause");		
-		pauseBtnM.rewind();
-		pauseBtnM.play();
+		littleBtnM.rewind();
+		littleBtnM.play();
 		
 		if(cp5.getController("Pause").getValueLabel().isVisible()){
 			cp5.getController("Resume").show();
 			cp5.getController("Pause").hide();
 			
 			changePhase(5);
+		}
+		
+	}
+	
+	public void playMusic() {
+		System.out.println("click playMusic");
+		littleBtnM.rewind();
+		littleBtnM.play();
+		
+		if(cp5.getController("playMusic").isVisible()){
+			currentp.setMusicPlay();
+		}else if(cp5.getController("mute").isVisible()){
+			currentp.setMusicMute();
+		}
+		
+	}
+	
+	public void mute() {
+		System.out.println("click mute");
+		littleBtnM.rewind();
+		littleBtnM.play();
+		
+		if(cp5.getController("playMusic").isVisible()){
+			currentp.setMusicPlay();
+		}else if(cp5.getController("mute").isVisible()){
+			currentp.setMusicMute();
 		}
 		
 	}

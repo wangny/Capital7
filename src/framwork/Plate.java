@@ -15,6 +15,8 @@ public class Plate implements Runnable{
 	private Cube dragCube;
 	private Random random;
 	private boolean GameOver;
+	private boolean mute=false;
+	private boolean playBgMusic=true;
 	private int score;
 	boolean addbound;
 	private static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
@@ -36,9 +38,11 @@ public class Plate implements Runnable{
 	
 	public void display(){	
 		
-		if((myApplet.playBgM.position()==myApplet.playBgM.length()) && GameOver==false){
+		if((myApplet.playBgM.position()==myApplet.playBgM.length()) && GameOver==false && !mute && playBgMusic){
 			myApplet.playBgM.rewind();
 			myApplet.playBgM.play();
+		}else if(mute && GameOver==false){
+			myApplet.playBgM.pause();
 		}else if(GameOver==false){
 			myApplet.dieM.pause();
 		}else if(GameOver==true){
@@ -323,5 +327,23 @@ public class Plate implements Runnable{
 	
 	public boolean getGameCondition(){
 		return GameOver;
+	}
+	
+	public void setMusicMute() {
+		mute = true;
+		playBgMusic = false;
+	}
+	
+	public boolean getMusicMute() {
+		return mute;
+	}
+	
+	public void setMusicPlay() {
+		playBgMusic = true;
+		mute = false;
+	}
+	
+	public boolean getMusicPlay() {
+		return playBgMusic;
 	}
 }
