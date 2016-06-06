@@ -56,8 +56,10 @@ public class Cube implements Serializable{
 
 	public void display(){
 		//display cube
-		this.parent.fill( myApplet.unhex(this.colour[this.state]) );	///fill with the color relative to the state
-		this.parent.rect(this.x, this.y, myApplet.cubewidth, myApplet.cubeheight, 5);
+		if(this!=null){
+			this.parent.fill( myApplet.unhex(this.colour[this.state]) );	///fill with the color relative to the state
+			this.parent.rect(this.x, this.y, myApplet.cubewidth, myApplet.cubeheight, 5);
+		}
 		
 		if(this.state > 4) this.parent.fill(myApplet.unhex(this.colour[0]));
 		else this.parent.fill(255);

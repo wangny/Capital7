@@ -193,7 +193,13 @@ public class Plate implements Runnable{
 		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
 		
 		if(higest==iniy-10-myApplet.cubeheight){
-			
+			for(int j=0; j<bounds.size(); j++){
+				Bound b = bounds.get(j);
+				if(b.breakpoint==dragCube.getX() && b.y==(iniy+20) ){
+					bounds.remove(j);
+					iniy +=70;
+				}
+			}
 		}
 		
 		

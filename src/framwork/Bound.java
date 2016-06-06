@@ -18,13 +18,14 @@ public class Bound {
 		height = 70;
 		width = 700;
 		breakpoint = new Random().nextInt(10);
+		breakpoint = x+breakpoint*70;
 		image = parent.loadImage("wall"+ ((Integer)(new Random().nextInt(4)+1)).toString() + ".jpg");
 		b_point = parent.loadImage("bling.png");
 	}
 	
 	public void display(){
 		parent.image(image, x, y, width, height);
-		parent.image(b_point, x+breakpoint*70, y, 50, 50);
+		parent.image(b_point, breakpoint, y, 50, 50);
 	}
 	
 	
