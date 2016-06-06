@@ -93,7 +93,7 @@ public class myApplet extends PApplet{
 			//.setSize(250,50);
 		cp5.addButton("Home")
 			.setLabel("H o m e")
-			.setPosition( (myApplet.width-300)/2, 400)
+			.setPosition( (myApplet.width-300)/2, 600)
 			.setImage(loadImage("homebtn.png"))
 			.updateSize();
 			//.setSize(250,50);
