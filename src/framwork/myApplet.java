@@ -120,7 +120,7 @@ public class myApplet extends PApplet{
 			.updateSize();
 		//cp5.getController("Resume").setVisible(true);	
 		//connect to server
-		//this.connect();
+		this.connect();
 		//this.sendObject(currentp.cubeDB.get(0));
 	}
 	
@@ -181,7 +181,10 @@ public class myApplet extends PApplet{
 				
 			}
 			if(gamePhase==5){
-				cp5.getController("Resume").setVisible(true);
+				cp5.getController("Resume").hide();
+				cp5.getController("Pause").hide();
+				cp5.getController("Replay").show();
+				cp5.getController("Home").show();
 				if(currentp.getMusicPlay() && !currentp.getMusicMute()){
 					cp5.getController("playMusic").setVisible(false);
 					cp5.getController("mute").setVisible(true);
@@ -241,11 +244,11 @@ public class myApplet extends PApplet{
 				bigBtnM.play();
 			}
 			
-			changePhase(1);
+			//changePhase(1);
 			System.out.println("click one player");
-			//this.sendMessage("click one player");
-			Thread t = new Thread(currentp);
-			t.start();
+			this.sendMessage("click one player");
+			//Thread t = new Thread(currentp);
+			//t.start();
 		}
 	}
 	
@@ -301,6 +304,7 @@ public class myApplet extends PApplet{
 			//cp5.getController("Replay").getValueLabel().hide();
 			cp5.getController("Home").hide();
 			this.clear();
+			cp5.getController("Replay").hide();
 			changePhase(1);
 			System.out.println( cp5.getController("Pause").getInfo() );
 		}
