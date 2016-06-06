@@ -1,0 +1,100 @@
+{
+  "cubeObject": [
+    {
+      "name": "Taiwan",
+      "target": "Taipei",
+    },
+    {
+      "name": "Japan",
+      "target": "Tokyo",
+    },
+    {
+      "name": "Iran",
+      "target": "Tehran",
+    },
+    {
+      "name": "Peru",
+      "target": "Lima",
+    },
+    {
+      "name": "Latvia",
+      "target": "Riga",
+    },
+    {
+      "name": "Qatar",
+      "target": "Doha",
+    },
+    {
+      "name": "Rwanda",
+      "target": "Kigali",
+    },
+    {
+      "name": "Jordan",
+      "target": "Amman",
+    },
+    {
+      "name": "U.S.A",
+      "target": "D.C.",
+    },
+    {
+      "name": "U.K.",
+      "target": "London",
+    },
+    {
+      "name": "Canada",
+      "target": "Ottawa",
+    },
+    {
+      "name": "Egypt",
+      "target": "Cairo",
+    },
+    {
+      "name": "Vietnam",
+      "target": "Hanoi",
+    },
+    {
+      "name": "French",
+      "target": "Paris",
+    },
+    {
+      "name": "Spain",
+      "target": "Madrid",
+    },
+    {
+      "name": "Kuwait",
+      "target": "Kuwait",
+    },
+    {
+      "name": "Turkey",
+      "target": "Ankara",
+    },
+    {
+      "name": "Norway",
+      "target": "Oslo",
+    },
+    {
+      "name": "Korea",
+      "target": "Seoul",
+    },
+    {
+      "name": "Cuba",
+      "target": "Havana",
+    },
+    {
+      "name": "Poland",
+      "target": "Warsaw",
+    },
+    {
+      "name": "Ukraine",
+      "target": "Kiev",
+    },
+    {
+      "name": "Yemen",
+      "target": "Sanaa",
+    },
+    {
+      "name": "Italy",
+      "target": "Rome",
+    }
+  ]
+}
