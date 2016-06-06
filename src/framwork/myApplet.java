@@ -181,10 +181,8 @@ public class myApplet extends PApplet{
 				
 			}
 			if(gamePhase==5){
-				cp5.getController("Resume").hide();
+				cp5.getController("Resume").show();
 				cp5.getController("Pause").hide();
-				cp5.getController("Replay").show();
-				cp5.getController("Home").show();
 				if(currentp.getMusicPlay() && !currentp.getMusicMute()){
 					cp5.getController("playMusic").setVisible(false);
 					cp5.getController("mute").setVisible(true);
@@ -431,11 +429,15 @@ public class myApplet extends PApplet{
 							if(gamePhase==2){
 								currentp.addbound = true;
 							}
+						} else if (line.equals("youwin")){
+							if(gamePhase==2){
+								currentp.iswin = true;
+							}
 						}
-					} else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
+					} /*else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
 						Cube c = (Cube)objReader.readObject();
 						System.out.println(c.getState());
-					}
+					}*/
 					
 				} catch (Exception e){
 					e.printStackTrace();

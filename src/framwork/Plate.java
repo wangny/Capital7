@@ -18,7 +18,7 @@ public class Plate implements Runnable{
 	private boolean mute=false;
 	private boolean playBgMusic=true;
 	private int score;
-	boolean addbound;
+	boolean addbound, iswin;
 	private static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
 	
 	public Plate(myApplet applet){
@@ -33,6 +33,7 @@ public class Plate implements Runnable{
 	
 		GameOver = false;
 		addbound = false;
+		iswin = false;
 		score = 0;
 	}
 	
@@ -186,10 +187,15 @@ public class Plate implements Runnable{
 		else if(  (dragCube.getX()-inix)%(myApplet.cubewidth+10) <= ((myApplet.cubewidth+10))/2 ) dragCube.setX(inix+tmp*(myApplet.cubewidth+10) );
 		
 		///adjust to right y position (for all cubes)
-		int higest = myApplet.height-80;
+		int higest = iniy+70;
 		for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube && c.getY()>dragCube.getY()) higest = c.getY();
 		higest = higest - 10 - myApplet.cubeheight;
 		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
+		
+		if(higest==iniy-10-myApplet.cubeheight){
+			
+		}
+		
 		
 		dragCube.setDrag(false);
 		//dragCube = new Cube();
@@ -204,6 +210,7 @@ public class Plate implements Runnable{
 	
 		GameOver = false;
 		addbound = false;
+		iswin = false;
 		score = 0;
 		iniy=myApplet.height-150;
 		
@@ -213,16 +220,13 @@ public class Plate implements Runnable{
 	private void addBound(){
 		
 		Bound  b = new Bound(parent,inix-50, iniy+10);
-		bounds.add(b);
-		
-		iniy -= 70;
-		
+		bounds.add(b);		
+		iniy -= 70;		
 		for(Cube c : cubes){
 			if(c!=dragCube){
 				c.setY(c.getY()-70);
 			}
 		}
-		
 	}
 	
 	public void sortCubes(){
@@ -307,7 +311,21 @@ public class Plate implements Runnable{
 				e.printStackTrace();
 			}
 			
+			
+			if(iswin){
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				pbar.stop();	///stop progressBar
+				myApplet.dieM.play();
+				break;
+			}
+			
 			if(GameOver){
+				parent.sendMessage("Gameover");
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
