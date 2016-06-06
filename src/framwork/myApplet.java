@@ -45,7 +45,7 @@ public class myApplet extends PApplet{
 	Minim minim;
 	static AudioPlayer homeBgM,playBgM,dieM,disappearM,mixM,bigBtnM,throwLineM,littleBtnM;
 	
-	private boolean readmeDisplay=false;
+	public boolean readmeDisplay=false;
     
     Random ran = new Random();
 
@@ -145,6 +145,7 @@ public class myApplet extends PApplet{
 			cp5.getController("Pause").hide();
 			cp5.getController("playMusic").hide();
 			cp5.getController("mute").hide();
+
 		}
 		else /*if(gamePhase==1)*/{
 			
@@ -286,8 +287,14 @@ public class myApplet extends PApplet{
 			
 			readmeDisplay = !readmeDisplay;
 			
-			if(readmeDisplay)Ani.to(howtoplay, (float)0.5, "y", 20, Ani.LINEAR);
-			else if(!readmeDisplay) Ani.to(howtoplay, (float)0.5, "y", height+10, Ani.LINEAR);
+			if(readmeDisplay){
+				Ani.to(howtoplay, (float)0.5, "y", 20, Ani.LINEAR);
+				cp5.getController("OnePlayer").hide();
+				cp5.getController("TwoPlayer").hide();
+			}
+			else if(!readmeDisplay){
+				Ani.to(howtoplay, (float)0.5, "y", height+10, Ani.LINEAR);
+			}
 		}
 	}
 	

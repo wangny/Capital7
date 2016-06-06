@@ -51,9 +51,15 @@ public class StartWindow {
 	
 
 	public void display(){	
-		cp5.getController("OnePlayer").show();
-		cp5.getController("TwoPlayer").show();
-		cp5.getController("ReadMe").show();
+		if(!parent.readmeDisplay){
+			cp5.getController("OnePlayer").show();
+			cp5.getController("TwoPlayer").show();
+			cp5.getController("ReadMe").show();
+		}else{
+			cp5.getController("OnePlayer").hide();
+			cp5.getController("TwoPlayer").hide();
+			cp5.getController("ReadMe").hide();
+		}
 		this.parent.redraw();
 	}
 		
