@@ -93,7 +93,7 @@ public class myApplet extends PApplet{
 			//.setSize(250,50);
 		cp5.addButton("Home")
 			.setLabel("H o m e")
-			.setPosition( (myApplet.width-300)/2, 400)
+			.setPosition( (myApplet.width-300)/2, 600)
 			.setImage(loadImage("homebtn.png"))
 			.updateSize();
 			//.setSize(250,50);
@@ -168,11 +168,11 @@ public class myApplet extends PApplet{
 			startwindow.cp5.getController("TwoPlayer").hide();
 			startwindow.cp5.getController("ReadMe").hide();
 			if(currentp.getMusicPlay() && !currentp.getMusicMute()){
-				cp5.getController("playMusic").setVisible(false);
-				cp5.getController("mute").setVisible(true);
+				cp5.getController("playMusic").hide();
+				cp5.getController("mute").show();
 			}else if(currentp.getMusicMute() && !currentp.getMusicPlay()){
-				cp5.getController("playMusic").setVisible(true);
-				cp5.getController("mute").setVisible(false);
+				cp5.getController("playMusic").show();
+				cp5.getController("mute").hide();
 			}
 			
 			if(gamePhase==1){
@@ -305,7 +305,7 @@ public class myApplet extends PApplet{
 	
 	
 	public void Replay(){	
-		if(cp5.getController("Replay").isVisible()){
+		//if(cp5.getController("Replay").isVisible()){
 			if(bigBtnM.position()==bigBtnM.length()){
 				bigBtnM.rewind();
 				bigBtnM.play();
@@ -324,7 +324,7 @@ public class myApplet extends PApplet{
 			cp5.getController("Replay").hide();
 			changePhase(1);
 			System.out.println( cp5.getController("Pause").getInfo() );
-		}
+		//}
 	}
 	
 	public void Home(){	
@@ -435,16 +435,16 @@ public class myApplet extends PApplet{
 					if ( (line = new String(this.reader.readLine()) )!=""){
 						System.out.println(line);
 						//do something here
-						if (line.equals("one player start")){
+						if (line.equals("one player start") && gamePhase==0 ){
 							changePhase(1);
 							Thread t = new Thread(currentp);
 							t.start();
-						} else if (line.equals("two players start")){
+						} else if (line.equals("two players start")  && gamePhase==0 ){
 							
 							changePhase(2);
 							Thread t = new Thread(currentp);
 							t.start();
-						} else if (line.equals("multi players start")){
+						} else if (line.equals("multi players start")  && gamePhase==0 ){
 							//
 						} else if (line.equals("attack")){
 							if(gamePhase==2){
