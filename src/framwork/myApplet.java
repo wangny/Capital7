@@ -211,7 +211,7 @@ public class myApplet extends PApplet{
         JSONArray cubes1 = dataOb.getJSONArray("cubeObject");
         
         int record[] = new int[24];
-        int n = ran.nextInt(23);
+        int n = ran.nextInt(22);
         record[n]++;
         
         for (int i = 0; i < cubes.size(); i++){
@@ -224,7 +224,7 @@ public class myApplet extends PApplet{
                 record[n]++;
             }else{
                 for(int j=0;;j++){
-                    n = ran.nextInt(23);
+                    n = ran.nextInt(22);
                     if(record[n]!=2){
                         break;
                     }
