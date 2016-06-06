@@ -29,7 +29,7 @@ public class StartWindow {
 			//.setSize(250,50);
 		cp5.addButton("ReadMe")
 			//.setLabel("R e a d  M e")
-			.setPosition( (myApplet.width-250)/2, myApplet.height-200)
+			.setPosition( (myApplet.width-300)/2, myApplet.height-200)
 			.setImage(parent.loadImage("readme.png"))
 			.updateSize();
 			//.setSize(250,50);
