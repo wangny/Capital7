@@ -21,6 +21,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
+import java.util.Random;
+
 
 @SuppressWarnings("serial")
 public class myApplet extends PApplet{
@@ -47,6 +49,8 @@ public class myApplet extends PApplet{
 	static AudioPlayer homeBgM,playBgM,dieM,disappearM,mixM,bigBtnM,throwLineM,littleBtnM;
 	
 	private boolean readmeDisplay=false;
+    
+    Random ran = new Random();
 
 	public void setup(){
 		
@@ -201,19 +205,42 @@ public class myApplet extends PApplet{
 	}
 	
 	public void loadData(){
-		JSONObject data = loadJSONObject("resources/cube.json");
-		JSONArray cubes = data.getJSONArray("cube");
-		for (int i = 0; i < cubes.size(); i++){
-			JSONObject cube = cubes.getJSONObject(i);
-			String name = cube.getString("name");
-			String target = cube.getString("target");
-			String colours = cube.getString("colour");
-			//
-			String[] colour = new String[7];
-			colour = colours.split(",");
-			//
-			Cube c = new Cube(name,target,colour);	//???
-			currentp.cubeDB.add(c);
+        JSONObject dataCo = loadJSONObject("resources/cubeColor.json");
+        JSONObject dataOb = loadJSONObject("resources/cubeObject.json");
+        JSONArray cubes = dataCo.getJSONArray("cubeColor");
+        JSONArray cubes1 = dataOb.getJSONArray("cubeObject");
+        
+        int record[] = new int[24];
+        int n = ran.nextInt(23);
+        record[n]++;
+        
+        for (int i = 0; i < cubes.size(); i++){
+            
+            JSONObject cubeO = cubes1.getJSONObject(n);
+            String name = cubeO.getString("name");
+            String target = cubeO.getString("target");
+            if(record[n]==1){
+                n++;
+                record[n]++;
+            }else{
+                for(int j=0;;j++){
+                    n = ran.nextInt(23);
+                    if(record[n]!=2){
+                        break;
+                    }
+                }
+            }
+            
+            
+            JSONObject cube = cubes.getJSONObject(i);
+            String colours = cube.getString("colour");
+            //
+            String[] colour = new String[7];
+            colour = colours.split(",");
+            //
+            Cube c = new Cube(name,target,colour);	//???
+            currentp.cubeDB.add(c);
+
 		}
 	}
 	
