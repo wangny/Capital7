@@ -315,8 +315,7 @@ public class Plate implements Runnable{
 			}
 			
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
-				//addCube();
-				addBound();
+				addCube();
 				pbar.undone();
 			}else if(addbound==true){
 				addBound();
