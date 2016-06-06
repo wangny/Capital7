@@ -166,6 +166,7 @@ public class Plate implements Runnable{
 		}
 		
 		if(a.getState()>=7){
+			a.setState(6);
 			cubes.remove(a);
 			score++;
 			System.out.println(score);
