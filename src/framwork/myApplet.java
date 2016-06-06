@@ -306,6 +306,7 @@ public class myApplet extends PApplet{
 			}else{
 				bigBtnM.play();
 			}
+			sendMessage("return home");
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
 			this.clear();
