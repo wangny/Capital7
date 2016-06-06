@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Random;
 import de.looksgood.ani.Ani;
 import processing.core.PFont;
+import processing.core.PImage;
 
 public class Plate implements Runnable{
 	private ArrayList<Cube> cubes;
@@ -18,7 +19,8 @@ public class Plate implements Runnable{
 	private boolean mute=false;
 	private boolean playBgMusic=true;
 	private int score;
-	boolean addbound, iswin;
+	boolean addbound, iswin, islose;
+	private PImage win,lose;
 	public static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
 	
 	public Plate(myApplet applet){
@@ -33,8 +35,10 @@ public class Plate implements Runnable{
 	
 		GameOver = false;
 		addbound = false;
-		iswin = false;
+		iswin = islose = false;
 		score = 0;
+		lose = this.parent.loadImage("lose.png");
+		win = this.parent.loadImage("win.png");
 	}
 	
 	public void display(){	
@@ -56,6 +60,10 @@ public class Plate implements Runnable{
 		}
 		
 		for(int i=0; i<bounds.size(); i++) bounds.get(i).display();
+		
+		if(islose&&!iswin)parent.image(lose,0,0);
+		else if(!islose&&iswin)parent.image(win,0,0);
+		
 		
 		parent.image(parent.img_play,0,0);	///background
 		parent.stroke(200);
@@ -217,7 +225,7 @@ public class Plate implements Runnable{
 	
 		GameOver = false;
 		addbound = false;
-		iswin = false;
+		iswin = islose = false;
 		score = 0;
 		iniy=myApplet.height-150;
 		
@@ -328,11 +336,13 @@ public class Plate implements Runnable{
 				}
 				pbar.stop();	///stop progressBar
 				myApplet.dieM.play();
+				
 				break;
 			}
 			
 			if(GameOver){
 				parent.sendMessage("Gameover");
+				if(parent.gamePhase==2) islose = true;
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
