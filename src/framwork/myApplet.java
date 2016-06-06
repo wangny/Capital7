@@ -210,26 +210,26 @@ public class myApplet extends PApplet{
         JSONArray cubes = dataCo.getJSONArray("cubeColor");
         JSONArray cubes1 = dataOb.getJSONArray("cubeObject");
         
-        int record[] = new int[24];
-        int n = ran.nextInt(22);
-        record[n]++;
+        int record[] = new int[8];
         
-        for (int i = 0; i < cubes.size(); i++){
-            
+        
+        
+        for (int i = 0; i < 8; i++){
+            //System.out.println("n:"+n);
+        	int n = ran.nextInt(24);
+        	boolean repeat=true;
+        	while(repeat){
+        		repeat=false;
+        		for(int j=0;j<i;j++){
+        			if(record[j]==n){
+            			repeat=true;
+            		}
+        		}
+        	}
+        	record[i] = n;
             JSONObject cubeO = cubes1.getJSONObject(n);
             String name = cubeO.getString("name");
             String target = cubeO.getString("target");
-            if(record[n]==1){
-                n++;
-                record[n]++;
-            }else{
-                for(int j=0;;j++){
-                    n = ran.nextInt(22);
-                    if(record[n]!=2){
-                        break;
-                    }
-                }
-            }
             
             
             JSONObject cube = cubes.getJSONObject(i);
@@ -238,8 +238,11 @@ public class myApplet extends PApplet{
             String[] colour = new String[7];
             colour = colours.split(",");
             //
-            Cube c = new Cube(name,target,colour);	//???
-            currentp.cubeDB.add(c);
+            Cube c1 = new Cube(name,target,colour);	//???
+            currentp.cubeDB.add(c1);
+            
+            Cube c2 = new Cube(target,name,colour);	//???
+            currentp.cubeDB.add(c2);
 
 		}
 	}
