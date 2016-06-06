@@ -32,7 +32,7 @@ public class myApplet extends PApplet{
 	PImage img_play;
 	PImage explan;
 	public final static int width = 960, height = 840 , cubewidth = 50, cubeheight = 60;
-	int readmeX=20,readY=30;
+	int readmeX=20,readmeY=30;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
 	
 	public ControlP5 cp5;
@@ -138,11 +138,14 @@ public class myApplet extends PApplet{
 			playBgM.rewind();
 			homeBgM.play();
 			startwindow.display();
+			
 			if(readmeDisplay){
-				//this.image(explan, 20, 30);
-				//Ani.to(explan, (float)0.5, "readmeY", 50, Ani.LINEAR);
+				image(explan, 30, 20);
+				Ani.to(explan, (float)0.5, "readmeX", 20, Ani.LINEAR);
+				Ani.to(explan, (float)0.5, "readmeY", 50, Ani.LINEAR);
 				
 			}
+			
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
 			cp5.getController("Resume").hide();
