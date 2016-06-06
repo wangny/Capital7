@@ -413,6 +413,7 @@ public class myApplet extends PApplet{
 					String line;
 					ObjectInputStream objReader;
 					if ( (line = new String(this.reader.readLine()) )!=""){
+						System.out.println(line);
 						//do something here
 						if (line.equals("one player start")){
 							changePhase(1);
