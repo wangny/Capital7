@@ -168,7 +168,7 @@ public class Plate implements Runnable{
 			cubes.remove(a);
 			score++;
 			System.out.println(score);
-			//parent.sendMessage("attack");
+			parent.sendMessage("attack");
 			myApplet.disappearM.rewind();
 			myApplet.disappearM.play();
 		}
@@ -295,7 +295,7 @@ public class Plate implements Runnable{
 				addCube();
 				pbar.undone();
 			}else if(addbound==true){
-				//addBound();
+				addBound();
 				addbound = false;
 			}
 			

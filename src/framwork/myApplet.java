@@ -422,11 +422,15 @@ public class myApplet extends PApplet{
 							t.start();
 						} else if (line.equals("two players start")){
 							
-							changePhase(1);
+							changePhase(2);
 							Thread t = new Thread(currentp);
 							t.start();
 						} else if (line.equals("multi players start")){
 							//
+						} else if (line.equals("attack")){
+							if(gamePhase==2){
+								currentp.addbound = true;
+							}
 						}
 					} else if ( (objReader = new ObjectInputStream(socket.getInputStream())) != null ){
 						Cube c = (Cube)objReader.readObject();
