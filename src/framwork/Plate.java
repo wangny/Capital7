@@ -283,7 +283,7 @@ public class Plate implements Runnable{
 				Cube highest=null;
 				for (int j=0; j<cubes.size(); j++){
 					Cube c = cubes.get(j);
-					if( ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>ch.getX())|| (c.getX()<ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>ch.getX()+myApplet.cubewidth)) 
+					if(c!=null&& ((c.getX()<=ch.getX() && c.getX()+myApplet.cubewidth>ch.getX())|| (c.getX()<ch.getX()+myApplet.cubewidth && c.getX()+myApplet.cubewidth>ch.getX()+myApplet.cubewidth)) 
 						&& (highest==null||c.getY()<highest.getY()) && c!=ch && c.getY()>=ch.getY() ) highest = c;
 				}
 				
