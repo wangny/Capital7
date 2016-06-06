@@ -1,11 +1,8 @@
 package framwork;
 
-import java.awt.Component;
-import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -55,7 +52,7 @@ public class myApplet extends PApplet{
 	public void setup(){
 		
 		size(width, height);
-		
+
 		//music
 		minim = new Minim(this);
 		homeBgM = minim.loadFile("bg1.wav");
@@ -66,18 +63,15 @@ public class myApplet extends PApplet{
 		bigBtnM = minim.loadFile("replay.wav");
 		throwLineM = minim.loadFile("throwline.wav");
 		littleBtnM = minim.loadFile("btnselect3.wav");
-		
+
 		background(240);
 		smooth();
 		
 		Ani.init(this);
-		
 		startwindow = new StartWindow(this);
 		howtoplay = new HowToPlay(this);
 		currentp = new Plate(this);
 		loadData();
-		
-		
 		
 		gamePhase = 0;
 		
@@ -125,6 +119,7 @@ public class myApplet extends PApplet{
 		//connect to server
 		this.connect();
 		//this.sendObject(currentp.cubeDB.get(0));
+		
 	}
 	
 	
@@ -191,15 +186,15 @@ public class myApplet extends PApplet{
 	}
 	
 	public void mousePressed(){
-		if(gamePhase<=3) currentp.mousePressed();
+		if(gamePhase==1 || gamePhase==2) currentp.mousePressed();
 	}
 	
 	public void mouseDragged(){
-		if(gamePhase<=3) currentp.mouseDragged();
+		if(gamePhase==1 || gamePhase==2) currentp.mouseDragged();
 	}
 	
 	public void mouseReleased(){
-		if(gamePhase<=3) currentp.mouseReleased();
+		if(gamePhase==1 || gamePhase==2) currentp.mouseReleased();
 	}
 	
 	public void loadData(){
@@ -210,13 +205,12 @@ public class myApplet extends PApplet{
         
         int record[] = new int[8];
         
-        
-        
         for (int i = 0; i < 8; i++){
             //System.out.println("n:"+n);
-        	int n = ran.nextInt(24);
+        	int n = 0;
         	boolean repeat=true;
         	while(repeat){
+        		n = ran.nextInt(24);
         		repeat=false;
         		for(int j=0;j<i;j++){
         			if(record[j]==n){

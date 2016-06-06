@@ -200,18 +200,7 @@ public class Plate implements Runnable{
 		for (Cube c: cubes) if(c.getX()==dragCube.getX() && c.getY()<higest && c!=dragCube && c.getY()>dragCube.getY()) higest = c.getY();
 		higest = higest - 10 - myApplet.cubeheight;
 		Ani.to(dragCube, (float)0.3, "y", higest, Ani.LINEAR);
-		
-		if(higest==iniy-10-myApplet.cubeheight){
-			for(int j=0; j<bounds.size(); j++){
-				Bound b = bounds.get(j);
-				if(b.breakpoint==dragCube.getX() /*&& b.y==(iniy+20)*/ ){
-					bounds.remove(j);
-					iniy +=70;
-				}
-			}
-		}
-		
-		
+
 		dragCube.setDrag(false);
 		//dragCube = new Cube();
 	}
@@ -304,6 +293,21 @@ public class Plate implements Runnable{
 				else if(ch.getY()>high && (highest==null||highest.isDragged()==false)/*&& ch==dragCube*/ )ch.setY(ch.getY()-1);
 				
 				
+				if(ch==dragCube){
+					if(high==iniy){
+						for(int j=0; j<bounds.size(); j++){
+							Bound b = bounds.get(j);
+							if(b.breakpoint==dragCube.getX() && b.y==(iniy+80) && ch.getY()==iniy){
+								System.out.println("remove");
+								bounds.remove(j);
+								iniy +=70;
+							}
+						}
+					}
+					
+				}
+				
+				
 				if(ch.getY()>=high && highest!=null && ch.getX()==highest.getX()) if(ch.getTarget().equals(highest.getName())) merge(highest,ch);
 				
 				
@@ -311,7 +315,8 @@ public class Plate implements Runnable{
 			}
 			
 			if(pbar.isdone()==true) {	///add a new line of cubes if progressBar achieve it's goal
-				addCube();
+				//addCube();
+				addBound();
 				pbar.undone();
 			}else if(addbound==true){
 				addBound();
