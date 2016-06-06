@@ -30,9 +30,9 @@ public class myApplet extends PApplet{
 	Plate currentp;
 	Ani ani;
 	StartWindow startwindow;
+	HowToPlay howtoplay;
 	PImage img;
 	PImage img_play;
-	PImage explan;
 	public final static int width = 960, height = 840 , cubewidth = 50, cubeheight = 60;
 	int readmeX=20,readmeY=30;
 	int gamePhase ; /// 0 : startwindow, 1 : single, 2 : two player, 3 : multi , 4 :replay; 5:pause
@@ -73,15 +73,16 @@ public class myApplet extends PApplet{
 		Ani.init(this);
 		
 		startwindow = new StartWindow(this);
-		
+		howtoplay = new HowToPlay(this);
 		currentp = new Plate(this);
 		loadData();
+		
+		
 		
 		gamePhase = 0;
 		
 		img = loadImage("g1.png"); 
 		img_play = loadImage("g2.png");
-		explan = loadImage("explantation.png");
 		
 		
 		cp5=new ControlP5(this);
@@ -140,11 +141,8 @@ public class myApplet extends PApplet{
 			homeBgM.play();
 			startwindow.display();
 			
-			if(readmeDisplay){
-				image(explan, 30, 20);
-				Ani.to(explan, (float)0.5, "readmeX", 20, Ani.LINEAR);
-				Ani.to(explan, (float)0.5, "readmeY", 50, Ani.LINEAR);
-			}
+			
+			howtoplay.display();
 			
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
@@ -292,7 +290,10 @@ public class myApplet extends PApplet{
 				bigBtnM.play();
 			}
 			
-			readmeDisplay = true;
+			readmeDisplay = !readmeDisplay;
+			
+			if(readmeDisplay)Ani.to(howtoplay, (float)0.5, "y", 20, Ani.LINEAR);
+			else if(!readmeDisplay) Ani.to(howtoplay, (float)0.5, "y", height+10, Ani.LINEAR);
 		}
 	}
 	
