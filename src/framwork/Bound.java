@@ -18,7 +18,7 @@ public class Bound {
 		height = 70;
 		width = 700;
 		breakpoint = new Random().nextInt(10);
-		breakpoint = x+breakpoint*70;
+		breakpoint = Plate.inix+breakpoint*60;
 		image = parent.loadImage("wall"+ ((Integer)(new Random().nextInt(4)+1)).toString() + ".jpg");
 		b_point = parent.loadImage("bling.png");
 	}
