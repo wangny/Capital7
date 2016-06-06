@@ -19,7 +19,7 @@ public class Plate implements Runnable{
 	private boolean playBgMusic=true;
 	private int score;
 	boolean addbound, iswin;
-	private static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
+	public static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
 	
 	public Plate(myApplet applet){
 		this.parent = applet;
@@ -196,7 +196,7 @@ public class Plate implements Runnable{
 		if(higest==iniy-10-myApplet.cubeheight){
 			for(int j=0; j<bounds.size(); j++){
 				Bound b = bounds.get(j);
-				if(b.breakpoint==dragCube.getX() && b.y==(iniy+20) ){
+				if(b.breakpoint==dragCube.getX() /*&& b.y==(iniy+20)*/ ){
 					bounds.remove(j);
 					iniy +=70;
 				}
