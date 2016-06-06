@@ -339,8 +339,8 @@ public class Plate implements Runnable{
 			
 		}
 		parent.returnMenu(); ///call replay and home button
-		parent.cp5.getController("Replay").setVisible(true);
-		parent.cp5.getController("Home").setVisible(true);
+		//parent.cp5.getController("Replay").setVisible(true);
+		//parent.cp5.getController("Home").setVisible(true);
 	}
 	
 	public boolean getGameCondition(){
