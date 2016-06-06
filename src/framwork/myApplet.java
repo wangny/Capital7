@@ -94,7 +94,7 @@ public class myApplet extends PApplet{
 			.updateSize();
 			//.setSize(250,50);
 		
-		cp5.getController("Replay").setVisible(false);
+		cp5.getController("Replay").hide();
 		cp5.getController("Home").setVisible(false);
 		
 		cp5 .addButton("Pause")
@@ -102,13 +102,11 @@ public class myApplet extends PApplet{
 			.setImage(loadImage("pauseBtn.png"))
 			.updateSize();
 			
-		
 		cp5	.addButton("Resume")
 			.setPosition( (myApplet.width-300)/2, 300)
 			.setImage(loadImage("resumeBtn.png"))
 			.updateSize();
 			
-		
 		cp5 .addButton("playMusic")
 			.setPosition(830,230)
 			.setImage(loadImage("musicBtn.png"))
@@ -124,12 +122,11 @@ public class myApplet extends PApplet{
 		//this.sendObject(currentp.cubeDB.get(0));
 	}
 	
+	
 	public void draw(){
 		//plate background and frame
 		//image(img,0,0); 
 	
-		
-		
 		//System.out.println(cp5.getController("Pause").isVisible());
 		
 		if(gamePhase==0){
@@ -143,7 +140,6 @@ public class myApplet extends PApplet{
 				image(explan, 30, 20);
 				Ani.to(explan, (float)0.5, "readmeX", 20, Ani.LINEAR);
 				Ani.to(explan, (float)0.5, "readmeY", 50, Ani.LINEAR);
-				
 			}
 			
 			cp5.getController("Replay").hide();
@@ -167,30 +163,22 @@ public class myApplet extends PApplet{
 			startwindow.cp5.getController("OnePlayer").hide();
 			startwindow.cp5.getController("TwoPlayer").hide();
 			startwindow.cp5.getController("ReadMe").hide();
+			if(currentp.getMusicPlay() && !currentp.getMusicMute()){
+				cp5.getController("playMusic").setVisible(false);
+				cp5.getController("mute").setVisible(true);
+			}else if(currentp.getMusicMute() && !currentp.getMusicPlay()){
+				cp5.getController("playMusic").setVisible(true);
+				cp5.getController("mute").setVisible(false);
+			}
 			
-			if(gamePhase<=3){
+			if(gamePhase==1){
 				cp5.getController("Resume").hide();
 				cp5.getController("Pause").show();
-				if(currentp.getMusicPlay() && !currentp.getMusicMute()){
-					cp5.getController("playMusic").setVisible(false);
-					cp5.getController("mute").setVisible(true);
-				}else if(currentp.getMusicMute() && !currentp.getMusicPlay()){
-					cp5.getController("playMusic").setVisible(true);
-					cp5.getController("mute").setVisible(false);
-				}
 				
 			}
 			if(gamePhase==5){
 				cp5.getController("Resume").show();
 				cp5.getController("Pause").hide();
-				if(currentp.getMusicPlay() && !currentp.getMusicMute()){
-					cp5.getController("playMusic").setVisible(false);
-					cp5.getController("mute").setVisible(true);
-				}else if(currentp.getMusicMute() && !currentp.getMusicPlay()){
-					cp5.getController("playMusic").setVisible(true);
-					cp5.getController("mute").setVisible(false);
-				}
-				//cp5.getController("Pause").getValueLabel().setVisible(false);
 			}
 			//this.redraw();
 			currentp.display();
@@ -279,7 +267,8 @@ public class myApplet extends PApplet{
 	}
 	
 	public void returnMenu(){
-		cp5.getController("Replay").show();
+		if(gamePhase==1) cp5.getController("Replay").show();
+		else cp5.getController("Replay").hide();
 		cp5.getController("Home").show();
 		changePhase(4);
 	}
@@ -317,6 +306,7 @@ public class myApplet extends PApplet{
 			}else{
 				bigBtnM.play();
 			}
+			sendMessage("return home");
 			cp5.getController("Replay").hide();
 			cp5.getController("Home").hide();
 			this.clear();
@@ -338,14 +328,14 @@ public class myApplet extends PApplet{
 
 			changePhase(1);
 		}
-		System.out.println(gamePhase);
-		
+		System.out.println(gamePhase);	
 	}
 	
 	public void Pause(){
 		System.out.println("click pause");		
 		littleBtnM.rewind();
 		littleBtnM.play();
+		
 		
 		if(cp5.getController("Pause").getValueLabel().isVisible()){
 			cp5.getController("Resume").show();
@@ -411,7 +401,7 @@ public class myApplet extends PApplet{
 			while(true) {
 				try {
 					String line;
-					ObjectInputStream objReader;
+					//ObjectInputStream objReader;
 					if ( (line = new String(this.reader.readLine()) )!=""){
 						System.out.println(line);
 						//do something here
