@@ -291,9 +291,37 @@ public class myApplet extends PApplet{
 				Ani.to(howtoplay, (float)0.5, "y", 20, Ani.LINEAR);
 				cp5.getController("OnePlayer").hide();
 				cp5.getController("TwoPlayer").hide();
+				cp5.getController("ok").show();
 			}
 			else if(!readmeDisplay){
 				Ani.to(howtoplay, (float)0.5, "y", height+10, Ani.LINEAR);
+				cp5.getController("ok").hide();
+			}
+		}
+	}
+	
+	public void Ok() {
+		if(startwindow.cp5.getController("Ok").isVisible()){
+			System.out.println("click ok");
+			if(bigBtnM.position()==bigBtnM.length()){
+				bigBtnM.rewind();
+				bigBtnM.play();
+			}else{
+				bigBtnM.play();
+			}
+			
+			readmeDisplay = !readmeDisplay;
+			
+			if(readmeDisplay){
+				Ani.to(howtoplay, (float)0.5, "y", 20, Ani.LINEAR);
+				cp5.getController("OnePlayer").hide();
+				cp5.getController("TwoPlayer").hide();
+				cp5.getController("ReadMe").hide();
+				cp5.getController("ok").show();
+			}
+			else if(!readmeDisplay){
+				Ani.to(howtoplay, (float)0.5, "y", height+10, Ani.LINEAR);
+				cp5.getController("ok").hide();
 			}
 		}
 	}

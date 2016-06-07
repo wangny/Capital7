@@ -21,6 +21,7 @@ public class Plate implements Runnable{
 	private int score;
 	boolean addbound, iswin, islose;
 	private PImage win,lose;
+	private PImage scoreImg;
 	public static int inix=130, iniy=myApplet.height-150, finalx=inix+540 ,finaly=180; 
 	
 	public Plate(myApplet applet){
@@ -39,6 +40,7 @@ public class Plate implements Runnable{
 		score = 0;
 		lose = this.parent.loadImage("lose.png");
 		win = this.parent.loadImage("win.png");
+		scoreImg = this.parent.loadImage("score.png");
 	}
 	
 	public void display(){	
@@ -54,6 +56,7 @@ public class Plate implements Runnable{
 			myApplet.playBgM.pause();
 		}
 		
+		parent.image(scoreImg,300,300);
 		
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();

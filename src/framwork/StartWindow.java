@@ -31,6 +31,12 @@ public class StartWindow {
 			.setImage(parent.loadImage("readme.png"))
 			.updateSize();
 			//.setSize(250,50);
+		cp5.addButton("Ok")
+		//.setLabel("R e a d  M e")
+		.setPosition( myApplet.width-150, 10)
+		.setImage(parent.loadImage("ok.png"))
+		.updateSize();
+		//.setSize(250,50);
 		
 		
 		/*cp5.getController("OnePlayer")
@@ -53,10 +59,12 @@ public class StartWindow {
 			cp5.getController("OnePlayer").show();
 			cp5.getController("TwoPlayer").show();
 			cp5.getController("ReadMe").show();
+			cp5.getController("Ok").hide();
 		}else{
 			cp5.getController("OnePlayer").hide();
 			cp5.getController("TwoPlayer").hide();
 			cp5.getController("ReadMe").hide();
+			cp5.getController("Ok").show();
 		}
 		this.parent.redraw();
 	}
