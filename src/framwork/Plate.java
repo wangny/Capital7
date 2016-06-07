@@ -56,7 +56,7 @@ public class Plate implements Runnable{
 			myApplet.playBgM.pause();
 		}
 		
-		parent.image(scoreImg,300,300);
+		//parent.image(scoreImg,300,300);
 		
 		for(int i=0; i<cubes.size(); i++){
 			cubes.get(i).display();
