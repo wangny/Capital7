@@ -16,20 +16,18 @@ public class StartWindow {
 		if(this.parent.gamePhase==0){
 		cp5=new ControlP5(this.parent);
 		cp5.addButton("OnePlayer")
-			//.setLabel("O n e  P l a y e r")
-			.setPosition( (myApplet.width-250)/2, myApplet.height-450)
+			.setPosition( (myApplet.width-300)/2, myApplet.height-450)
 			.setImage(parent.loadImage("oneplayer.png"))
 			.updateSize();
 			//.setSize(250,50);
 		cp5.addButton("TwoPlayer")
-			//.setLabel("T w o  P l a y e r")
-			.setPosition( (myApplet.width-250)/2, myApplet.height-350)
+			.setPosition( (myApplet.width-300)/2, myApplet.height-345)
 			.setImage(parent.loadImage("twoplayer.png"))
 			.updateSize();
 			//.setSize(250,50);
 		cp5.addButton("ReadMe")
 			//.setLabel("R e a d  M e")
-			.setPosition( (myApplet.width-300)/2, myApplet.height-200)
+			.setPosition( (myApplet.width-350)/2, myApplet.height-200)
 			.setImage(parent.loadImage("readme.png"))
 			.updateSize();
 			//.setSize(250,50);

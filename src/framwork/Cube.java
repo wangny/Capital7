@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**class for cube hahaha**/
 
 
+@SuppressWarnings("serial")
 public class Cube implements Serializable{
 	
 	private myApplet parent;
@@ -13,13 +14,12 @@ public class Cube implements Serializable{
 	private String name;		///the text of the cube
 	private String[] colour;	///save the color of each state
 	private String target;		///the "answer" of the cube
-	private boolean show, drag;
+	private boolean drag;
 	
 	
 	public Cube(){				///default constructor
 		this.state = 0;
 		this.name = null;
-		this.show = false;
 		this.drag = false;
 	}
 	
@@ -27,7 +27,6 @@ public class Cube implements Serializable{
 		this.name = name;
 		this.target = target;
 		this.colour = colour;
-		this.show = false;
 		this.drag = false;
 	}
 	
@@ -38,7 +37,6 @@ public class Cube implements Serializable{
 		this.y = y;
 		this.name = name;
 		this.target = target;
-		this.show = true;
 		this.drag = false;
 	}
 
@@ -50,7 +48,6 @@ public class Cube implements Serializable{
 		this.name = cube.name;
 		this.target = cube.target;
 		this.colour = cube.colour;
-		this.show = true;
 		this.drag = false;
 	}
 
